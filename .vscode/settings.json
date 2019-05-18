@@ -1,0 +1,16 @@
+{
+  // フォーマットはeslint.autoFixOnSave(Prettier)に任せるため、エディタ標準のフォーマットは不要
+  "editor.formatOnSave": false,
+  "editor.formatOnType": false,
+  /**
+   * Extensions
+   */
+  /** dbaeumer.vscode-eslint */
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true },
+  ],
+}
