@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+        - /feature\/.*/
     docker:
       - image: circleci/node:12.2.0
     steps:
