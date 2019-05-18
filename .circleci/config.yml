@@ -22,9 +22,10 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: lint
+          name: Check eslint
           command: |
-            mkdir -p /tmp/test-reports/eslint
-            npm run lint
-      - store_test_results:
-          path: /tmp/test-reports
+            npm run lint:eslint-dry
+      - run:
+          name: Check type
+          command: |
+            npm run lint:tsc
