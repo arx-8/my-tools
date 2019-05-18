@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "react-scripts build",
+    "lint": "tsc --project . --noEmit",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
