@@ -8,10 +8,22 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:jest/recommended",
+    /** @see https://github.com/prettier/eslint-config-prettier#installation */
+    "prettier/react",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
     "react-app",
   ],
   rules: {
     "no-console": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        arrowParens: "always",
+        semi: false,
+        trailingComma: "es5",
+      },
+    ],
 
     // constructor のショートハンド（メンバーの省略記法）を使いたいため
     "@typescript-eslint/explicit-member-accessibility": "off",
