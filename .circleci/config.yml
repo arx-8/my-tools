@@ -25,6 +25,6 @@ jobs:
           name: lint
           command: |
             mkdir -p /tmp/test-reports/eslint
-            node_modules/.bin/eslint . --format junit --output-file /tmp/test-reports/eslint/results.xml
+            npm run lint
       - store_test_results:
           path: /tmp/test-reports
