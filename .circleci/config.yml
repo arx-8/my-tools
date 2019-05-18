@@ -22,10 +22,6 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: Check eslint
+          name: lint
           command: |
-            npm run lint:eslint-dry
-      - run:
-          name: Check type
-          command: |
-            npm run lint:tsc
+            npm run lint-dry
