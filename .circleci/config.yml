@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+        - /feature\/.*/
     docker:
       - image: circleci/node:12.2.0
     steps:
@@ -24,7 +27,4 @@ jobs:
       - run:
           name: lint
           command: |
-            mkdir -p /tmp/test-reports/eslint
-            node_modules/.bin/eslint . --format junit --output-file /tmp/test-reports/eslint/results.xml
-      - store_test_results:
-          path: /tmp/test-reports
+            npm run lint-dry
