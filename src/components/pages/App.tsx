@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import React from "react"
-import logo from "../../assets/logo.svg"
+import logo from "assets/logo.svg"
 import { css, jsx } from "@emotion/core"
 
 const App: React.FC = () => {
