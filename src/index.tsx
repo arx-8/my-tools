@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import App from "./App"
+import App from "./components/pages/App"
 import * as serviceWorker from "./serviceWorker"
 import { Global, css } from "@emotion/core"
 import emotionNormalize from "emotion-normalize"
