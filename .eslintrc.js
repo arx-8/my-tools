@@ -7,6 +7,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
     /** @see https://github.com/prettier/eslint-config-prettier#installation */
     "prettier/react",
