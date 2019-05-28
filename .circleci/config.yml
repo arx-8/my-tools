@@ -1,9 +1,9 @@
 version: 2
+
 jobs:
-  build:
-    branches:
-      only:
-        - /feature\/.*/
+
+  # Check code (UnitTest, Lint)
+  check_code:
     docker:
       - image: circleci/node:12.2.0
     steps:
@@ -32,3 +32,29 @@ jobs:
           name: test
           command: |
             npm run test
+
+  # Deploy (dummy)
+  deploy:
+    docker:
+      - image: circleci/node:12.2.0
+    steps:
+      - run:
+          name: Dummy deploy
+          command: echo Deploy!
+
+workflows:
+  version: 2
+  feature-ci:
+    jobs:
+      - check_code:
+          filters:
+            branches:
+              only:
+                - /feature\/.*/
+  master-ci:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
