@@ -9,14 +9,33 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
+    /** @see https://github.com/prettier/eslint-config-prettier#installation */
+    "prettier/react",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
     "react-app",
   ],
   plugins: [],
   rules: {
     "import/no-default-export": "error",
     "no-console": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        arrowParens: "always",
+        semi: false,
+        trailingComma: "es5",
+      },
+    ],
     "react/no-array-index-key": "error",
     "react/prop-types": "off",
+    "react/self-closing-comp": [
+      "error",
+      {
+        // empty な html が必要なケースはほとんどないため
+        html: false,
+      },
+    ],
 
     // constructor のショートハンド（メンバーの省略記法）を使いたいため
     "@typescript-eslint/explicit-member-accessibility": "off",
