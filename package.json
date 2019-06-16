@@ -11,12 +11,19 @@
     "@types/node": "12.0.8",
     "@types/react": "16.8.20",
     "@types/react-dom": "16.8.4",
+    "eslint-plugin-jest": "22.6.4",
+    "npm-run-all": "4.1.5",
     "react-scripts": "3.0.1",
     "typescript": "3.5.2"
   },
   "scripts": {
     "build": "react-scripts build",
-    "lint": "tsc --noEmit",
+    "eslint-print-config": "eslint --print-config src/index.tsx > eslint-print-config.json",
+    "lint-dry": "npm-run-all --parallel lint:eslint-dry lint:tsc",
+    "lint:eslint-dry": "eslint -c .eslintrc.js --ext .ts,.tsx src",
+    "lint:eslint": "eslint -c .eslintrc.js --fix --ext .ts,.tsx src",
+    "lint:tsc": "tsc --noEmit",
+    "lint": "npm-run-all --parallel lint:eslint lint:tsc",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
