@@ -1,0 +1,44 @@
+version: 2
+
+jobs:
+
+  # Check code (UnitTest, Lint)
+  check_code:
+    docker:
+      - image: circleci/node:12.2.0
+    steps:
+      - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+      - checkout
+      - save_cache:
+          key: source-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .git
+      - restore_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: lint
+          command: |
+            npm run lint-dry
+      - run:
+          name: test
+          command: |
+            npm run test
+
+workflows:
+  version: 2
+  feature-ci:
+    jobs:
+      - check_code:
+          filters:
+            branches:
+              only:
+                - /feature\/.*/
