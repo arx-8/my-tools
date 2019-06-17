@@ -1,8 +1,17 @@
+import { Root } from "components/pages/Root"
+import { GlobalStyles } from "components/styles/GlobalStyles"
 import React from "react"
 import ReactDOM from "react-dom"
-import "./index.css"
-import { App } from "components/pages/App"
 import * as serviceWorker from "./serviceWorker"
+
+const App: React.FC = () => {
+  return (
+    <>
+      <GlobalStyles />
+      <Root />
+    </>
+  )
+}
 
 ReactDOM.render(<App />, document.getElementById("root"))
 
