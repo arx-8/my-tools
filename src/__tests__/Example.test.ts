@@ -55,6 +55,7 @@ describe("Comparison of `toStrictEqual`, `toBe` and `toEqual`", () => {
 
     // Object
     expect({ v1: 1, v2: 2 }).not.toBe({ v1: 1, v2: 2 })
+    // eslint-disable-next-line sort-keys-fix/sort-keys-fix
     expect({ v1: 1, v2: 2 }).not.toBe({ v2: 2, v1: 1 })
     const objInstance = { v1: 1, v2: 2 }
     expect(objInstance).toBe(objInstance)
@@ -80,6 +81,7 @@ describe("Comparison of `toStrictEqual`, `toBe` and `toEqual`", () => {
 
     // Object
     expect({ v1: 1, v2: 2 }).toEqual({ v1: 1, v2: 2 })
+    // eslint-disable-next-line sort-keys-fix/sort-keys-fix
     expect({ v1: 1, v2: 2 }).toEqual({ v2: 2, v1: 1 })
     const objInstance = { v1: 1, v2: 2 }
     expect(objInstance).toEqual(objInstance)
@@ -125,6 +127,6 @@ describe("Exception test", () => {
     expect.hasAssertions()
     expect(() => {
       throwable()
-    }).toThrowErrorMatchingInlineSnapshot(`"Lorem ipsum dolor sit amet"`)
+    }).toThrowErrorMatchingInlineSnapshot('"Lorem ipsum dolor sit amet"')
   })
 })
