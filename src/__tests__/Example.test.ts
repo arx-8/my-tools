@@ -11,8 +11,8 @@ export {}
  * UTの書き方のメモ代わり
  * @see https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#writing-tests
  */
-describe("Example", () => {
-  it("testable", () => {
+describe('Example', () => {
+  it('testable', () => {
     expect.hasAssertions()
     // ## Arrange ##
     const list: readonly number[] = [...[1, 2, 3, 4, 5]]
@@ -32,19 +32,19 @@ describe("Example", () => {
  * 違いは、オブジェクトの比較
  * 迷ったら toStrictEqual を使う
  */
-describe("Comparison of `toStrictEqual`, `toBe` and `toEqual`", () => {
+describe('Comparison of `toStrictEqual`, `toBe` and `toEqual`', () => {
   class Human {
-    constructor(private readonly name: string, private readonly age: number) {}
+    constructor (private readonly name: string, private readonly age: number) {}
 
-    public getGreet(): string {
+    public getGreet (): string {
       return `My name is ${this.name}. ${this.age} years old`
     }
   }
 
-  it("`toBe` = `===`", () => {
+  it('`toBe` = `===`', () => {
     expect.hasAssertions()
     // Literal
-    expect(2).not.toBe("2")
+    expect(2).not.toBe('2')
     expect(2).not.toBe(true)
     expect(0).not.toBe(false)
     expect(false).toBe(false)
@@ -60,16 +60,16 @@ describe("Comparison of `toStrictEqual`, `toBe` and `toEqual`", () => {
     expect(objInstance).toBe(objInstance)
 
     // class
-    expect(new Human("taro", 20)).not.toBe(new Human("taro", 20))
-    const classInstance = new Human("taro", 20)
+    expect(new Human('taro', 20)).not.toBe(new Human('taro', 20))
+    const classInstance = new Human('taro', 20)
     expect(classInstance).toBe(classInstance)
   })
 
-  it("`toEqual` = deepEqual", () => {
+  it('`toEqual` = deepEqual', () => {
     /* eslint-disable jest/prefer-strict-equal */
     expect.hasAssertions()
     // Literal
-    expect(2).not.toEqual("2")
+    expect(2).not.toEqual('2')
     expect(2).not.toEqual(true)
     expect(0).not.toEqual(false)
     expect(false).toEqual(false)
@@ -85,8 +85,8 @@ describe("Comparison of `toStrictEqual`, `toBe` and `toEqual`", () => {
     expect(objInstance).toEqual(objInstance)
 
     // class
-    expect(new Human("taro", 20)).toEqual(new Human("taro", 20))
-    const classInstance = new Human("taro", 20)
+    expect(new Human('taro', 20)).toEqual(new Human('taro', 20))
+    const classInstance = new Human('taro', 20)
     expect(classInstance).toEqual(classInstance)
     /* eslint-enable */
   })
@@ -94,20 +94,20 @@ describe("Comparison of `toStrictEqual`, `toBe` and `toEqual`", () => {
   /**
    * @see https://jestjs.io/docs/en/expect#tostrictequalvalue
    */
-  describe("`toStrictEqual` is more strict", () => {
+  describe('`toStrictEqual` is more strict', () => {
     class LaCroix {
       flavor: string
 
-      constructor(flavor: string) {
+      constructor (flavor: string) {
         this.flavor = flavor
       }
     }
 
-    it("no semantically the same", () => {
+    it('no semantically the same', () => {
       /* eslint-disable jest/prefer-strict-equal */
       expect.hasAssertions()
-      expect(new LaCroix("lemon")).toEqual({ flavor: "lemon" })
-      expect(new LaCroix("lemon")).not.toStrictEqual({ flavor: "lemon" })
+      expect(new LaCroix('lemon')).toEqual({ flavor: 'lemon' })
+      expect(new LaCroix('lemon')).not.toStrictEqual({ flavor: 'lemon' })
       /* eslint-enable */
     })
   })
@@ -116,15 +116,15 @@ describe("Comparison of `toStrictEqual`, `toBe` and `toEqual`", () => {
 /**
  * @see https://jestjs.io/docs/en/expect#tostrictequalvalue
  */
-describe("Exception test", () => {
+describe('Exception test', () => {
   const throwable = (): never => {
-    throw new Error("Lorem ipsum dolor sit amet")
+    throw new Error('Lorem ipsum dolor sit amet')
   }
 
-  it("assert exception message", () => {
+  it('assert exception message', () => {
     expect.hasAssertions()
     expect(() => {
       throwable()
-    }).toThrowErrorMatchingInlineSnapshot(`"Lorem ipsum dolor sit amet"`)
+    }).toThrowErrorMatchingInlineSnapshot('"Lorem ipsum dolor sit amet"')
   })
 })
