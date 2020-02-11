@@ -1,6 +1,7 @@
+import "src/App.css"
+
 import React from "react"
 import logo from "src/logo.svg"
-import "src/App.css"
 
 export const App: React.FC = () => {
   return (
