@@ -1,0 +1,38 @@
+{
+  "files.eol": "\n",
+  "files.encoding": "utf8",
+
+  // パスが相対的に近い場合に相対パスが優先されてしまうため、絶対パスで統一する
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // To prevent misdetection of indent size
+  "[typescript]": {
+    "editor.tabSize": 2
+  },
+  "[typescriptreact]": {
+    "editor.tabSize": 2
+  },
+
+  /**
+   * Extensions
+   */
+  /** dbaeumer.vscode-eslint */
+  "editor.codeActionsOnSaveTimeout": 2000,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  /** streetsidesoftware.code-spell-checker */
+  "cSpell.ignoreRegExpList": ["[０-９Ａ-Ｚａ-ｚぁ-んァ-ヶ亜-熙纊-黑]+"],
+  "cSpell.words": [
+    "Interop",
+    "browserslist",
+    "esnext"
+  ]
+}
