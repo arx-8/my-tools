@@ -17,7 +17,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "react-app",
   ],
-  plugins: ["typescript-sort-keys"],
+  plugins: ["typescript-sort-keys", "sort-keys-fix"],
   rules: {
     "import/no-default-export": "error",
     "no-restricted-syntax": [
@@ -45,6 +45,7 @@ module.exports = {
       },
     ],
     "react/void-dom-elements-no-children": "error",
+    "sort-keys-fix/sort-keys-fix": "error",
 
     // prettier
     "prettier/prettier": [
