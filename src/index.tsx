@@ -1,7 +1,7 @@
 import React, { Fragment } from "react"
 import ReactDOM from "react-dom"
-import { App as Root } from "src/App"
-import { GlobalStyles } from "src/GlobalStyles"
+import { Root } from "src/components/pages/Root"
+import { GlobalStyles } from "src/components/styles/GlobalStyles"
 import * as serviceWorker from "src/serviceWorker"
 
 const App: React.FC = () => {
