@@ -17,7 +17,12 @@ module.exports = {
     "plugin:prettier/recommended",
     "react-app",
   ],
-  plugins: ["typescript-sort-keys", "sort-keys-fix"],
+  plugins: [
+    // CI で warn も検知可能にするため、全て error にする
+    "only-error",
+    "typescript-sort-keys",
+    "sort-keys-fix",
+  ],
   rules: {
     "import/no-default-export": "error",
     "no-restricted-syntax": [
