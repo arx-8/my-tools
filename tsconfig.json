@@ -17,7 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": "."
   },
   "include": ["src"]
 }
