@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import React, { Fragment } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
+import { Layout } from "src/components/templates/Layout"
 import { RoutePath } from "src/constants/path"
 
 type OwnProps = {
@@ -10,7 +11,7 @@ type OwnProps = {
 
 export const NotFound: React.FC<OwnProps> = () => {
   return (
-    <Fragment>
+    <Layout>
       <div css={root}>
         <div css={header}>
           <p>Page not found.</p>
@@ -19,7 +20,7 @@ export const NotFound: React.FC<OwnProps> = () => {
           </Link>
         </div>
       </div>
-    </Fragment>
+    </Layout>
   )
 }
 
