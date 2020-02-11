@@ -1,5 +1,6 @@
 import React from "react"
 import { HashRouter, Route, Switch } from "react-router-dom"
+import { Diff } from "src/components/pages/Diff"
 import { NotFound } from "src/components/pages/NotFound"
 import { Root } from "src/components/pages/Root"
 import { RoutePath } from "src/constants/path"
@@ -13,6 +14,7 @@ export const Routes: React.FC<OwnProps> = () => {
     <HashRouter>
       <Switch>
         <Route exact path={RoutePath.Root} component={Root} />
+        <Route exact path={RoutePath.Diff} component={Diff} />
 
         {/* No route */}
         <Route path={RoutePath.NotFound} component={NotFound} />

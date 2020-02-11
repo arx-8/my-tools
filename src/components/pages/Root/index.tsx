@@ -4,7 +4,11 @@ import React from "react"
 import logo from "src/assets/logo.svg"
 import { Layout } from "src/components/templates/Layout"
 
-export const Root: React.FC = () => {
+type OwnProps = {
+  children?: never
+}
+
+export const Root: React.FC<OwnProps> = () => {
   return (
     <Layout>
       <div css={root}>

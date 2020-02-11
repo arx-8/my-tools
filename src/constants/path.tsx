@@ -4,6 +4,7 @@ import { Brand, CastAny, ValueOf } from "src/types/utils"
  * react-router用のパスの定義
  */
 const _RoutePath = {
+  Diff: "/diff",
   NotFound: "/notfound",
   Root: "/",
 } as const
