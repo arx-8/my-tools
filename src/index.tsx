@@ -1,9 +1,17 @@
-import "src/index.css"
-
-import React from "react"
+import React, { Fragment } from "react"
 import ReactDOM from "react-dom"
-import { App } from "src/App"
+import { App as Root } from "src/App"
+import { GlobalStyles } from "src/GlobalStyles"
 import * as serviceWorker from "src/serviceWorker"
+
+const App: React.FC = () => {
+  return (
+    <Fragment>
+      <GlobalStyles />
+      <Root />
+    </Fragment>
+  )
+}
 
 ReactDOM.render(<App />, document.getElementById("root"))
 
