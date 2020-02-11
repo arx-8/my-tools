@@ -1,6 +1,6 @@
 import React, { Fragment } from "react"
 import ReactDOM from "react-dom"
-import { Root } from "src/components/pages/Root"
+import { Routes } from "src/components/helpers/Routes"
 import { GlobalStyles } from "src/components/styles/GlobalStyles"
 import * as serviceWorker from "src/serviceWorker"
 
@@ -8,7 +8,7 @@ const App: React.FC = () => {
   return (
     <Fragment>
       <GlobalStyles />
-      <Root />
+      <Routes />
     </Fragment>
   )
 }

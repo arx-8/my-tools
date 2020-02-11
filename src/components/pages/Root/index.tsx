@@ -2,25 +2,32 @@
 import { css, jsx } from "@emotion/core"
 import React from "react"
 import logo from "src/assets/logo.svg"
+import { Layout } from "src/components/templates/Layout"
 
-export const Root: React.FC = () => {
+type OwnProps = {
+  children?: never
+}
+
+export const Root: React.FC<OwnProps> = () => {
   return (
-    <div css={root}>
-      <header css={header}>
-        <img src={logo} css={logoCss} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          css={link}
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <div css={root}>
+        <header css={header}>
+          <img src={logo} css={logoCss} alt="logo" />
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          <a
+            css={link}
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
+      </div>
+    </Layout>
   )
 }
 
