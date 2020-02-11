@@ -1,15 +1,24 @@
 import { Global, css } from "@emotion/core"
+import { ThemeProvider, createMuiTheme } from "@material-ui/core"
 import emotionNormalize from "emotion-normalize"
-import React from "react"
+import React, { ReactNode } from "react"
 
 type OwnProps = {
-  children?: never
+  children: ReactNode
 }
 
-export const GlobalStyles: React.FC<OwnProps> = () => {
-  return <Global styles={globalStyles} />
+export const GlobalStyles: React.FC<OwnProps> = ({ children }) => {
+  return (
+    <ThemeProvider theme={muiTheme}>
+      <Global styles={globalStyles} />
+      {children}
+    </ThemeProvider>
+  )
 }
 
+/**
+ * for emotion
+ */
 const globalStyles = css`
   ${emotionNormalize}
 
@@ -27,3 +36,15 @@ const globalStyles = css`
       monospace;
   }
 `
+
+/**
+ * for material-ui
+ */
+
+const muiTheme = createMuiTheme({
+  typography: {
+    button: {
+      textTransform: "none",
+    },
+  },
+})
