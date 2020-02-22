@@ -31,8 +31,15 @@
   /** streetsidesoftware.code-spell-checker */
   "cSpell.ignoreRegExpList": ["[０-９Ａ-Ｚａ-ｚぁ-んァ-ヶ亜-熙纊-黑]+"],
   "cSpell.words": [
+    "Bookmarkable",
     "Interop",
     "browserslist",
-    "esnext"
+    "compressedencoded",
+    "esnext",
+    "immer",
+    "jsonurl",
+    "lzma",
+    "lzstring",
+    "rawencoded"
   ]
 }

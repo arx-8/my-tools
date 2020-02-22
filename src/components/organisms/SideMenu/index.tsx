@@ -7,26 +7,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import React from "react"
 import { useHistory } from "react-router-dom"
-import { DiffIcon } from "src/components/atoms/DiffIcon"
-import { RoutePath } from "src/constants/path"
+import { pageInfo } from "src/components/helpers/pageInfo"
 
 type OwnProps = {
   children?: never
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
 }
-
-const icon = css`
-  height: 32px;
-`
-
-const pages = [
-  {
-    icon: <DiffIcon exCss={icon} />,
-    linkTo: RoutePath.Diff,
-    title: "Diff",
-  },
-]
 
 export const SideMenu: React.FC<OwnProps> = ({ isOpen, setIsOpen }) => {
   const history = useHistory()
@@ -53,7 +40,7 @@ export const SideMenu: React.FC<OwnProps> = ({ isOpen, setIsOpen }) => {
         onKeyDown={toggleOpen}
       >
         <List>
-          {pages.map(({ icon, linkTo, title }) => (
+          {pageInfo.map(({ icon, linkTo, title }) => (
             <ListItem key={title} button onClick={() => history.push(linkTo)}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={title} />
