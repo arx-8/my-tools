@@ -1,14 +1,22 @@
-import React from "react"
+import { createBrowserHistory } from "history"
+import React, { Fragment } from "react"
 import ReactDOM from "react-dom"
+import { GoogleAnalytics } from "src/components/helpers/GoogleAnalytics"
 import { Routes } from "src/components/helpers/Routes"
 import { GlobalStyles } from "src/components/styles/GlobalStyles"
+import { isDevelopment } from "src/constants/env"
 import * as serviceWorker from "src/serviceWorker"
+
+const history = createBrowserHistory()
 
 const App: React.FC = () => {
   return (
-    <GlobalStyles>
-      <Routes />
-    </GlobalStyles>
+    <Fragment>
+      {!isDevelopment && <GoogleAnalytics history={history} />}
+      <GlobalStyles>
+        <Routes />
+      </GlobalStyles>
+    </Fragment>
   )
 }
 
