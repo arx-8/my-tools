@@ -28,12 +28,12 @@ export const RichTextarea: React.FC<OwnProps> = ({
   return (
     <div css={root}>
       <Editor
+        blockRendererFn={blockRendererFn}
         editorState={editorState}
         onChange={(editorState) => {
           setEditorState(editorState)
           onChange(editorState.getCurrentContent().getPlainText())
         }}
-        blockRendererFn={blockRendererFn}
       />
     </div>
   )

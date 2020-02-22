@@ -13,11 +13,11 @@ export const Routes: React.FC<OwnProps> = () => {
   return (
     <HashRouter>
       <Switch>
-        <Route exact path={ReactRouterPath.Root} component={Root} />
-        <Route exact path={ReactRouterPath.Diff} component={Diff} />
+        <Route component={Root} exact path={ReactRouterPath.Root} />
+        <Route component={Diff} exact path={ReactRouterPath.Diff} />
 
         {/* No route */}
-        <Route path={ReactRouterPath.NotFound} component={NotFound} />
+        <Route component={NotFound} path={ReactRouterPath.NotFound} />
         <Route component={NotFound} />
       </Switch>
     </HashRouter>

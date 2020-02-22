@@ -22,14 +22,14 @@ export const RadioButtons = <TValue extends string>({
   return (
     <RadioGroup
       css={exCss}
-      value={selectedValue}
       onChange={(e) => {
         onChange(e.target.value as TValue)
       }}
+      value={selectedValue}
     >
       {values.map((v) => {
         return (
-          <FormControlLabel key={v} value={v} control={<Radio />} label={v} />
+          <FormControlLabel control={<Radio />} key={v} label={v} value={v} />
         )
       })}
     </RadioGroup>

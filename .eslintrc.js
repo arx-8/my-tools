@@ -36,6 +36,7 @@ module.exports = {
     "react/jsx-boolean-value": "error",
     // jsx pragma に @emotion/core#jsx を使っている場合、Short Syntax 使えないため
     "react/jsx-fragments": ["error", "element"],
+    "react/jsx-sort-props": "error",
     "react/no-access-state-in-setstate": "error",
     "react/no-array-index-key": "error",
     "react/no-did-mount-set-state": "error",

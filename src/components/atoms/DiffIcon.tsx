@@ -10,5 +10,5 @@ type OwnProps = {
 }
 
 export const DiffIcon: React.FC<OwnProps> = ({ exCss }) => {
-  return <img css={exCss} src={diffIcon} alt="diffIcon" />
+  return <img alt="diffIcon" css={exCss} src={diffIcon} />
 }

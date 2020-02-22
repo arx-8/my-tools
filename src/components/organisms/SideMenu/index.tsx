@@ -32,16 +32,16 @@ export const SideMenu: React.FC<OwnProps> = ({ isOpen, setIsOpen }) => {
   }
 
   return (
-    <Drawer open={isOpen} onClose={() => setIsOpen(false)}>
+    <Drawer onClose={() => setIsOpen(false)} open={isOpen}>
       <div
         css={menuBody}
-        role="presentation"
         onClick={toggleOpen}
         onKeyDown={toggleOpen}
+        role="presentation"
       >
         <List>
           {pageInfo.map(({ icon, linkTo, title }) => (
-            <ListItem key={title} button onClick={() => history.push(linkTo)}>
+            <ListItem button key={title} onClick={() => history.push(linkTo)}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={title} />
             </ListItem>
