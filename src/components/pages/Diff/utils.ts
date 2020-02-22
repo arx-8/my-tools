@@ -10,13 +10,21 @@ export type UrlStoreValues = {
   m: DiffMode
 }
 
-type StateValues = {
-  aText: string
-  bText: string
+type BaseStateValues = {
   mode: DiffMode
 } & DiffOptions
 
-export const toUrlStoreValues = (v: StateValues): UrlStoreValues => {
+type CompressStateValues = {
+  aText: string
+  bText: string
+} & BaseStateValues
+
+type DecompressStateValues = {
+  aTextInit: string
+  bTextInit: string
+} & BaseStateValues
+
+export const toUrlStoreValues = (v: CompressStateValues): UrlStoreValues => {
   return {
     a: v.aText,
     b: v.bText,
@@ -25,10 +33,10 @@ export const toUrlStoreValues = (v: StateValues): UrlStoreValues => {
   }
 }
 
-export const toStateValues = (v: UrlStoreValues): StateValues => {
+export const toStateValues = (v: UrlStoreValues): DecompressStateValues => {
   return {
-    aText: v.a,
-    bText: v.b,
+    aTextInit: v.a,
+    bTextInit: v.b,
     ignoreCase: v.i,
     mode: v.m,
   }
