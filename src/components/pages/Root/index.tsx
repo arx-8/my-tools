@@ -13,15 +13,15 @@ export const Root: React.FC<OwnProps> = () => {
     <Layout>
       <div css={root}>
         <header css={header}>
-          <img src={logo} css={logoCss} alt="logo" />
+          <img alt="logo" css={logoCss} src={logo} />
           <p>
             Edit <code>src/App.tsx</code> and save to reload.
           </p>
           <a
             css={link}
             href="https://reactjs.org"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             Learn React
           </a>

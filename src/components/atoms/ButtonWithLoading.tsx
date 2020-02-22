@@ -31,14 +31,14 @@ export const ButtonWithLoading: React.FC<OwnProps> = ({
 }) => {
   return (
     <Button
+      color="primary"
       css={exCss}
       disabled={isLoading}
-      variant="contained"
-      color="primary"
-      onClick={onClick}
       endIcon={
         isLoading ? <CircularProgress {...loadingIconProps} /> : defaultIcon
       }
+      onClick={onClick}
+      variant="contained"
     >
       {children}
     </Button>

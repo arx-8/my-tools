@@ -16,10 +16,10 @@ export const Layout: React.FC<OwnProps> = ({ children }) => {
       </div>
       <div css={body}>
         <Container
+          maxWidth="xl"
           style={{
             height: "100%",
           }}
-          maxWidth="xl"
         >
           {children}
         </Container>

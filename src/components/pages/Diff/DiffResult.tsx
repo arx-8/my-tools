@@ -22,7 +22,7 @@ export const DiffResult: React.FC<OwnProps> = ({ diffs, exCss }) => {
         return (
           // 他に unique id がないため
           // eslint-disable-next-line react/no-array-index-key
-          <span key={index} css={diffCss}>
+          <span css={diffCss} key={index}>
             {part.value}
           </span>
         )

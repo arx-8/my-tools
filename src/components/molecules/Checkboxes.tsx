@@ -26,7 +26,6 @@ export const Checkboxes = <TValue extends string>({
         const checked = selectedValues.includes(value)
         return (
           <FormControlLabel
-            key={value}
             control={
               <Checkbox
                 checked={checked}
@@ -39,6 +38,7 @@ export const Checkboxes = <TValue extends string>({
                 }}
               />
             }
+            key={value}
             label={label}
           />
         )

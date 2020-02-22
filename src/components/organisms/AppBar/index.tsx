@@ -22,14 +22,14 @@ export const AppBar: React.FC<OwnProps> = () => {
       <MuiAppBar>
         <Toolbar variant="dense">
           <IconButton
-            edge="start"
-            color="inherit"
             aria-label="menu"
+            color="inherit"
+            edge="start"
             onClick={() => setIsOpenMenu((prev) => !prev)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" css={padL2}>
+          <Typography color="inherit" css={padL2} variant="h6">
             {pageInfo.find((p) => p.linkTo === location.pathname)?.title}
           </Typography>
         </Toolbar>

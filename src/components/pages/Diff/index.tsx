@@ -96,12 +96,12 @@ export const Diff: React.FC<OwnProps> = () => {
   return (
     <Layout>
       <ButtonWithLoading
-        isLoading={isCompressing}
-        onClick={onCompress}
         defaultIcon={<BookmarkBorderIcon />}
+        isLoading={isCompressing}
         loadingIconProps={{
           size: 24,
         }}
+        onClick={onCompress}
       >
         Generate URL
       </ButtonWithLoading>
@@ -109,8 +109,8 @@ export const Diff: React.FC<OwnProps> = () => {
       <div css={padT2}></div>
       <ChooseOptions
         diffMode={diffMode}
-        setDiffMode={setDiffMode}
         diffOptions={diffOptions}
+        setDiffMode={setDiffMode}
         setDiffOptions={setDiffOptions}
       />
 
@@ -128,8 +128,8 @@ export const Diff: React.FC<OwnProps> = () => {
           />
         </div>
         <DiffResult
-          exCss={[mainChildren, diffResult]}
           diffs={diff(aText, bText, diffMode, diffOptions)}
+          exCss={[mainChildren, diffResult]}
         />
       </div>
     </Layout>
