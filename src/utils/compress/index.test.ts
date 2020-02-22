@@ -20,7 +20,6 @@ describe("compress & decompress", () => {
     const result = await decompress(await compress(src))
 
     // ## Assert ##
-    console.log(result)
     expect(result).toStrictEqual(src)
   })
 })
