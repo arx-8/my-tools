@@ -1,4 +1,4 @@
-import { CastAny } from "src/types/utils"
+import { CompressedString } from "src/utils/compress"
 
 import { DynamicRoutePath } from "."
 
@@ -16,22 +16,22 @@ describe("DynamicRoutePath", () => {
     // ## Arrange ##
     // ## Act ##
     const result = DynamicRoutePath.Diff({
-      v: "value",
-    } as CastAny)
+      v: "value" as CompressedString,
+    })
 
     // ## Assert ##
     expect(result).toStrictEqual("/diff?v=value")
   })
 
-  it("Diff with some value", () => {
+  it("Diff with encrypt flag", () => {
     // ## Arrange ##
     // ## Act ##
     const result = DynamicRoutePath.Diff({
-      v: "the value",
-      v2: "あいうえお",
-    } as CastAny)
+      e: "y",
+      v: "あいうえお" as CompressedString,
+    })
 
     // ## Assert ##
-    expect(result).toStrictEqual("/diff?v=the value&v2=あいうえお")
+    expect(result).toStrictEqual("/diff?e=y&v=あいうえお")
   })
 })

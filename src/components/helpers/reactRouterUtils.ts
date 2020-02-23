@@ -1,8 +1,11 @@
 import { useLocation, useParams } from "react-router-dom"
 import { CastAny } from "src/types/utils"
 
-/// Query parameter はフラットな string のペアしかありえない
-type BaseParams = Record<string, string>
+/**
+ * Query parameter はフラットな string のペアしかありえない
+ * オプショナルな Query parameter もありえるため、value は allow undefined
+ */
+type BaseParams = Record<string, string | undefined>
 
 /**
  * 標準の Query parameter が扱いづらいため、ラッピング
