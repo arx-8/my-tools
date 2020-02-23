@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { ButtonWithLoading } from "src/components/atoms/ButtonWithLoading"
 import { useQueryParams } from "src/components/helpers/reactRouterUtils"
+import { useActionStatus } from "src/components/helpers/useActionStatus"
 import { useCompressor } from "src/components/helpers/useCompressor"
 import { RichTextarea } from "src/components/molecules/RichTextarea"
 import { numberAreaWidth } from "src/components/molecules/RichTextarea/LineWithNumber"
@@ -33,12 +33,15 @@ const exampleB = exampleA.replace("l", "1").replace("v", "V")
 
 export const Diff: React.FC<OwnProps> = () => {
   const history = useHistory()
-  const { compress, decompress, isCompressing } = useCompressor<
-    UrlStoreValues
-  >()
   const queries = useQueryParams<
     Parameters<typeof DynamicRoutePath.Diff>["0"]
   >()
+
+  // compressor と、その loading status
+  const { compress, decompress, isCompressing } = useCompressor<
+    UrlStoreValues
+  >()
+  const [compressingStatus] = useActionStatus(isCompressing, 3000)
 
   // decompress 完了までにサンプルが見えると不快なため、ブックマーク遷移の場合は空表示にする
   const hasQueries = queries.v != null
@@ -96,12 +99,9 @@ export const Diff: React.FC<OwnProps> = () => {
   return (
     <Layout>
       <ButtonWithLoading
-        defaultIcon={<BookmarkBorderIcon />}
-        isLoading={isCompressing}
-        loadingIconProps={{
-          size: 24,
-        }}
+        disabled={compressingStatus !== "ready"}
         onClick={onCompress}
+        status={compressingStatus}
       >
         Generate URL
       </ButtonWithLoading>
