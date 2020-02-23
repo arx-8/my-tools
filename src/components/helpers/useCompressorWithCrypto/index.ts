@@ -7,11 +7,20 @@ import {
 } from "src/utils/compress"
 import { EncryptedString, decrypt, encrypt } from "src/utils/crypto"
 
+export type DecompressingWithDecryptStatus = "ready" | "succeeded" | "failed"
+
 type ReturnValues<TSrc> = {
   compressWithEnc: (src: TSrc, password: string) => Promise<CompressedString>
-  decompressWithEnc: (dst: CompressedString, password: string) => Promise<TSrc>
+  decompressWithEnc: (
+    dst: CompressedString,
+    password: string
+  ) => Promise<TSrc | undefined>
+  /**
+   * 復号は失敗の可能性がある（パスワードミス etc）
+   * そのため、boolean ではない
+   */
+  decompressingWithDecryptStatus: DecompressingWithDecryptStatus
   isCompressingWithEnc: boolean
-  isDecompressingWithEnc: boolean
 }
 
 type TempCompressSrc = {
@@ -22,7 +31,10 @@ export const useCompressorWithCrypto = <
   TSrc extends CompressibleObject
 >(): ReturnValues<TSrc> => {
   const [isCompressingWithEnc, setIsCompressingWithEnc] = useState(false)
-  const [isDecompressingWithEnc, setIsDecompressingWithEnc] = useState(false)
+  const [
+    decompressingWithDecryptStatus,
+    setDecompressingWithDecryptStatus,
+  ] = useState<DecompressingWithDecryptStatus>("ready")
 
   return {
     compressWithEnc: async (src, password) => {
@@ -35,13 +47,20 @@ export const useCompressorWithCrypto = <
       return dst
     },
     decompressWithEnc: async (dst, password) => {
-      setIsDecompressingWithEnc(true)
+      setDecompressingWithDecryptStatus("ready")
       const temp = await decompress<TempCompressSrc>(dst)
-      const src = JSON.parse(decrypt(temp.v, password))
-      setIsDecompressingWithEnc(false)
+
+      let src
+      try {
+        src = JSON.parse(decrypt(temp.v, password))
+      } catch (error) {
+        setDecompressingWithDecryptStatus("failed")
+        return undefined
+      }
+      setDecompressingWithDecryptStatus("succeeded")
       return src
     },
+    decompressingWithDecryptStatus,
     isCompressingWithEnc,
-    isDecompressingWithEnc,
   }
 }

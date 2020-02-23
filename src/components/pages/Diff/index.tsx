@@ -3,7 +3,10 @@ import { useHistory } from "react-router-dom"
 import { useQueryParams } from "src/components/helpers/reactRouterUtils"
 import { useActionStatus } from "src/components/helpers/useActionStatus"
 import { useCompressor } from "src/components/helpers/useCompressor"
-import { useCompressorWithCrypto } from "src/components/helpers/useCompressorWithCrypto"
+import {
+  DecompressingWithDecryptStatus,
+  useCompressorWithCrypto,
+} from "src/components/helpers/useCompressorWithCrypto"
 import {
   UrlStoreValues,
   toStateValues,
@@ -25,6 +28,8 @@ Excepteur sint occaecat cupidatat non proident.
 `
 const exampleB = exampleA.replace("l", "1").replace("v", "V")
 
+const PASSWORD_LENGTH = 8
+
 export const Diff: React.FC<OwnProps> = () => {
   const history = useHistory()
   const queries = useQueryParams<
@@ -42,6 +47,7 @@ export const Diff: React.FC<OwnProps> = () => {
     compressWithEnc,
     decompressWithEnc,
     isCompressingWithEnc,
+    decompressingWithDecryptStatus,
   } = useCompressorWithCrypto<UrlStoreValues>()
   const [compressingWithEncryptStatus] = useActionStatus(
     isCompressingWithEnc,
@@ -78,7 +84,15 @@ export const Diff: React.FC<OwnProps> = () => {
   }
 
   const onCompressWithEncrypt = async (): Promise<void> => {
-    const password = "TODO password"
+    const password = prompt(
+      `Please input password (${PASSWORD_LENGTH} or more characters)`
+    )
+    if (password == null || password.length < PASSWORD_LENGTH) {
+      alert(
+        `Error.\nPlease input valid password.\n(${PASSWORD_LENGTH} or more characters)`
+      )
+      return
+    }
 
     history.push(
       DynamicRoutePath.Diff({
@@ -128,6 +142,7 @@ export const Diff: React.FC<OwnProps> = () => {
     return (
       <DiffFromBookmarkWithEncrypt
         {...baseProps}
+        decompressingWithDecryptStatus={decompressingWithDecryptStatus}
         decompressWithEnc={decompressWithEnc}
         queries={{ v: queries.v }}
         setATextInit={setATextInit}
@@ -205,7 +220,8 @@ type PropsDiffFromBookmarkWithEncrypt = {
   decompressWithEnc: (
     dst: CompressedString,
     password: string
-  ) => Promise<UrlStoreValues>
+  ) => Promise<UrlStoreValues | undefined>
+  decompressingWithDecryptStatus: DecompressingWithDecryptStatus
 } & PropsDiffFromBookmarkBase
 
 /**
@@ -213,6 +229,7 @@ type PropsDiffFromBookmarkWithEncrypt = {
  */
 const DiffFromBookmarkWithEncrypt: React.FC<PropsDiffFromBookmarkWithEncrypt> = ({
   decompressWithEnc,
+  decompressingWithDecryptStatus,
   queries,
   setAText,
   setATextInit,
@@ -224,9 +241,19 @@ const DiffFromBookmarkWithEncrypt: React.FC<PropsDiffFromBookmarkWithEncrypt> = 
 }) => {
   useEffect(() => {
     ;(async () => {
-      const obj = toStateValues(
-        await decompressWithEnc(queries.v, "TODO password")
-      )
+      const password = prompt("This URL is encrypted. Please input password.")
+      if (password == null || password.length < PASSWORD_LENGTH) {
+        alert("Error.\nPlease input valid password.")
+        return
+      }
+
+      const maybeSrc = await decompressWithEnc(queries.v, password)
+      if (maybeSrc == null) {
+        alert("Failed to decrypt. Probably your password is incorrect.")
+        return
+      }
+
+      const obj = toStateValues(maybeSrc)
 
       // 子コンポーネント (draft-js) 側で編集再開できるようにするため
       setATextInit(obj.aTextInit)
