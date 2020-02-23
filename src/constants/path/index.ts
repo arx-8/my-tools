@@ -44,7 +44,7 @@ export type RoutePath = Brand<string, "RoutePath">
  */
 const buildUrlWithQueryParams = (
   url: string,
-  queryParams: Record<string, string> | undefined
+  queryParams: Record<string, string | undefined> | undefined
 ): string => {
   if (queryParams == null) {
     return url
@@ -65,6 +65,7 @@ const buildUrlWithQueryParams = (
  */
 export const DynamicRoutePath = {
   /**
+   * ブクマ URL を少しでも短くするため、なるべく短いキー名にしている
    * @param params 空ブクマ表示も許可するため、allow undefined
    */
   Diff: (params?: { v: CompressedString }): RoutePath => {
