@@ -24,7 +24,7 @@ export const useCompressor = <
     compress: async (src) => {
       setIsCompressing(true)
       // 処理完了が速すぎても loading を知覚できなくなってしまうため、わざと最低待ち時間を入れてる
-      const [dst] = await Promise.all([_compress(src), sleep(500)])
+      const [dst] = await Promise.all([_compress(src), sleep(400)])
       setIsCompressing(false)
       return dst
     },
