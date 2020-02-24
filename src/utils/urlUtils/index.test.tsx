@@ -1,10 +1,10 @@
-import { convertRealPathname } from "."
+import { convertFullPathnameWithoutQueryParams } from "."
 
-describe("convertRealPathname", () => {
+describe("convertFullPathnameWithoutQueryParams", () => {
   it("normal", () => {
     // ## Arrange ##
     // ## Act ##
-    const result = convertRealPathname("/", "#/")
+    const result = convertFullPathnameWithoutQueryParams("/", "#/")
 
     // ## Assert ##
     expect(result).toStrictEqual("/#/")
@@ -13,7 +13,7 @@ describe("convertRealPathname", () => {
   it("without query", () => {
     // ## Arrange ##
     // ## Act ##
-    const result = convertRealPathname("/", "#/diff")
+    const result = convertFullPathnameWithoutQueryParams("/", "#/diff")
 
     // ## Assert ##
     expect(result).toStrictEqual("/#/diff")
@@ -22,7 +22,7 @@ describe("convertRealPathname", () => {
   it("with query", () => {
     // ## Arrange ##
     // ## Act ##
-    const result = convertRealPathname("/", "#/diff?v=XQA")
+    const result = convertFullPathnameWithoutQueryParams("/", "#/diff?v=XQA")
 
     // ## Assert ##
     expect(result).toStrictEqual("/#/diff?")
@@ -31,7 +31,10 @@ describe("convertRealPathname", () => {
   it("with some queries", () => {
     // ## Arrange ##
     // ## Act ##
-    const result = convertRealPathname("/", "#/some/complex/path?q1=XQA&q2=0")
+    const result = convertFullPathnameWithoutQueryParams(
+      "/",
+      "#/some/complex/path?q1=XQA&q2=0"
+    )
 
     // ## Assert ##
     expect(result).toStrictEqual("/#/some/complex/path?")
