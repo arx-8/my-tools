@@ -49,9 +49,12 @@
     "prettier": "1.19.1",
     "prettier-plugin-import-sort": "0.0.3",
     "react-scripts": "3.4.0",
+    "source-map-explorer": "2.3.1",
     "typescript": "3.8.2"
   },
   "scripts": {
+    "analyze:run": "source-map-explorer 'build/static/js/*.js' --html misc/source-map-explorer.html",
+    "analyze": "npm-run-all --sequential build analyze:run",
     "build": "react-scripts build",
     "eslint-print-config": "eslint --print-config src/index.tsx > misc/eslint-print-config.json",
     "lint-dry": "npm-run-all --parallel --continue-on-error lint:eslint-dry lint:tsc",
