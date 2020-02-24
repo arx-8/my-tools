@@ -62,6 +62,9 @@ export const Diff: React.FC<OwnProps> = () => {
     ignoreCase: false,
   })
 
+  // UI
+  const [isMaximizeDiffResult, setIsMaximizeDiffResult] = useState(false)
+
   useEffect(() => {
     ;(async () => {
       if (queries.v == null) {
@@ -119,23 +122,26 @@ export const Diff: React.FC<OwnProps> = () => {
         setDiffOptions={setDiffOptions}
       />
 
-      <div css={main}>
-        <div css={[mainChildren, diffSrc1]}>
+      <div css={[main, isMaximizeDiffResult ? isMaxMain : isNotMaxMain]}>
+        <div css={[mainChildren, diffSrc1, isMaximizeDiffResult && dispNone]}>
           <RichTextarea
             initialValue={aTextInit}
             onChange={(value) => setATextThrottled(value)}
           />
         </div>
-        <div css={[mainChildren, diffSrc2]}>
+        <div css={[mainChildren, diffSrc2, isMaximizeDiffResult && dispNone]}>
           <RichTextarea
             initialValue={bTextInit}
             onChange={(value) => setBTextThrottled(value)}
           />
         </div>
-        <DiffResult
-          diffs={diff(aText, bText, diffMode, diffOptions)}
-          exCss={[mainChildren, diffResult]}
-        />
+        <div css={[mainChildren, diffResult]}>
+          <DiffResult
+            diffs={diff(aText, bText, diffMode, diffOptions)}
+            isMaximize={isMaximizeDiffResult}
+            setMaximize={setIsMaximizeDiffResult}
+          />
+        </div>
       </div>
     </Layout>
   )
@@ -144,6 +150,13 @@ export const Diff: React.FC<OwnProps> = () => {
 const main = css`
   display: grid;
   gap: 4px;
+`
+
+const isMaxMain = css`
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+`
+
+const isNotMaxMain = css`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `
 
@@ -159,7 +172,12 @@ const diffSrc2 = css`
   border: 1px solid rgb(144, 238, 144);
 `
 
+const dispNone = css`
+  display: none;
+`
+
 const diffResult = css`
   border: 1px solid;
+  /* diffSrc の行番号部分と合わせるため */
   padding-left: ${numberAreaWidth};
 `

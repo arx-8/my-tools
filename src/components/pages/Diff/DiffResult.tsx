@@ -1,37 +1,72 @@
 /** @jsx jsx */
-import { SerializedStyles, css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/core"
+import IconButton from "@material-ui/core/IconButton"
+import zIndex from "@material-ui/core/styles/zIndex"
+import FullscreenIcon from "@material-ui/icons/Fullscreen"
+import FullscreenExitIcon from "@material-ui/icons/FullscreenExit"
 import { Change } from "diff"
 import React from "react"
 
 type OwnProps = {
   children?: never
   diffs: Change[]
-  exCss?: SerializedStyles | SerializedStyles[]
+  isMaximize: boolean
+  setMaximize: (next: boolean) => void
 }
 
-export const DiffResult: React.FC<OwnProps> = ({ diffs, exCss }) => {
+export const DiffResult: React.FC<OwnProps> = ({
+  diffs,
+  setMaximize,
+  isMaximize,
+}) => {
   return (
-    <pre css={[root, exCss]}>
-      {diffs.map((part, index) => {
-        const diffCss = part.added
-          ? addedCss
-          : part.removed
-          ? removedCss
-          : noDiffCss
+    <div css={root}>
+      <div css={actions}>
+        <IconButton
+          aria-label="toggleMaximize"
+          css={toggleMaximizeBtn}
+          onClick={() => setMaximize(!isMaximize)}
+        >
+          {isMaximize ? <FullscreenExitIcon /> : <FullscreenIcon />}
+        </IconButton>
+      </div>
 
-        return (
-          // 他に unique id がないため
-          // eslint-disable-next-line react/no-array-index-key
-          <span css={diffCss} key={index}>
-            {part.value}
-          </span>
-        )
-      })}
-    </pre>
+      <pre css={diffArea}>
+        {diffs.map((part, index) => {
+          const diffCss = part.added
+            ? addedCss
+            : part.removed
+            ? removedCss
+            : noDiffCss
+
+          return (
+            // 他に unique id がないため
+            // eslint-disable-next-line react/no-array-index-key
+            <span css={diffCss} key={index}>
+              {part.value}
+            </span>
+          )
+        })}
+      </pre>
+    </div>
   )
 }
 
 const root = css`
+  position: relative;
+`
+
+const actions = css`
+  position: absolute;
+  right: 0;
+  z-index: ${zIndex.mobileStepper};
+`
+
+const toggleMaximizeBtn = css`
+  padding: 4px !important;
+`
+
+const diffArea = css`
   white-space: pre-wrap;
   margin: unset;
   font-family: inherit;

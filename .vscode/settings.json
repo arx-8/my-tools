@@ -35,6 +35,7 @@
     "Interop",
     "browserslist",
     "compressedencoded",
+    "disp",
     "esnext",
     "immer",
     "jsonurl",
