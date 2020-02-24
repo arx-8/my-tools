@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import React, { useEffect, useState } from "react"
+import throttle from "lodash/throttle"
+import React, { useCallback, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { ButtonWithLoading } from "src/components/atoms/ButtonWithLoading"
 import { useQueryParams } from "src/components/helpers/reactRouterUtils"
@@ -50,6 +51,10 @@ export const Diff: React.FC<OwnProps> = () => {
   // パフォーマンスチューニングのため分けてる
   const [aText, setAText] = useState(hasQueries ? "" : exampleA)
   const [bText, setBText] = useState(hasQueries ? "" : exampleB)
+  // この値は diff の表示用（入力の表示は Child component state を使っている）
+  // そのため、diff への反映だけを間引いて、パフォーマンスを向上させる
+  const setATextThrottled = useCallback(throttle(setAText, 500), [])
+  const setBTextThrottled = useCallback(throttle(setBText, 500), [])
 
   // diff options
   const [diffMode, setDiffMode] = useState<DiffMode>("Chars")
@@ -118,13 +123,13 @@ export const Diff: React.FC<OwnProps> = () => {
         <div css={[mainChildren, diffSrc1]}>
           <RichTextarea
             initialValue={aTextInit}
-            onChange={(value) => setAText(value)}
+            onChange={(value) => setATextThrottled(value)}
           />
         </div>
         <div css={[mainChildren, diffSrc2]}>
           <RichTextarea
             initialValue={bTextInit}
-            onChange={(value) => setBText(value)}
+            onChange={(value) => setBTextThrottled(value)}
           />
         </div>
         <DiffResult
