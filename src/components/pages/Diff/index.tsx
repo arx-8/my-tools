@@ -108,6 +108,11 @@ export const Diff: React.FC<OwnProps> = () => {
     <Layout>
       <ButtonWithLoading
         disabled={compressingStatus !== "ready"}
+        gaData={{
+          dataEventAction: "Generate URL",
+          dataEventCategory: "Bookmarkable Diff",
+          dataOn: "click",
+        }}
         onClick={onCompress}
         status={compressingStatus}
       >

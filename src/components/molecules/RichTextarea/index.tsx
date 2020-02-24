@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import IconButton from "@material-ui/core/IconButton"
 import zIndex from "@material-ui/core/styles/zIndex"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { ContentBlock, ContentState, Editor, EditorState } from "draft-js"
 import React, { useEffect, useState } from "react"
+import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { LineWithNumber } from "src/components/molecules/RichTextarea/LineWithNumber"
 
 type OwnProps = {
@@ -50,14 +50,19 @@ export const RichTextarea: React.FC<OwnProps> = ({
   return (
     <div css={root}>
       <div css={actions}>
-        <IconButton
+        <IconButtonGA
           aria-label="clear"
           css={clearBtn}
+          gaData={{
+            dataEventAction: "clear",
+            dataEventCategory: "Bookmarkable Diff",
+            dataOn: "click",
+          }}
           onClick={onClear}
           tabIndex={-1}
         >
           <DeleteIcon />
-        </IconButton>
+        </IconButtonGA>
       </div>
 
       <Editor

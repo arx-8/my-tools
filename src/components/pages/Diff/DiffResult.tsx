@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import IconButton from "@material-ui/core/IconButton"
 import zIndex from "@material-ui/core/styles/zIndex"
 import FullscreenIcon from "@material-ui/icons/Fullscreen"
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit"
 import { Change } from "diff"
 import React from "react"
+import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 
 type OwnProps = {
   children?: never
@@ -22,13 +22,18 @@ export const DiffResult: React.FC<OwnProps> = ({
   return (
     <div css={root}>
       <div css={actions}>
-        <IconButton
+        <IconButtonGA
           aria-label="toggleMaximize"
           css={toggleMaximizeBtn}
+          gaData={{
+            dataEventAction: "toggleMaximize",
+            dataEventCategory: "Bookmarkable Diff",
+            dataOn: "click",
+          }}
           onClick={() => setMaximize(!isMaximize)}
         >
           {isMaximize ? <FullscreenExitIcon /> : <FullscreenIcon />}
-        </IconButton>
+        </IconButtonGA>
       </div>
 
       <pre css={diffArea}>

@@ -1,10 +1,11 @@
 /** @jsx jsx */
 import { InterpolationWithTheme, jsx } from "@emotion/core"
-import { Button, ButtonProps, CircularProgress } from "@material-ui/core"
+import { ButtonProps, CircularProgress } from "@material-ui/core"
 import { green } from "@material-ui/core/colors"
 import CheckCircleIcon from "@material-ui/icons/CheckCircle"
 import LinkIcon from "@material-ui/icons/Link"
 import React from "react"
+import { ButtonGA, ButtonGAProps } from "src/components/atoms/ButtonGA"
 import { ActionStatus } from "src/components/helpers/useActionStatus"
 import { CastAny } from "src/types/utils"
 
@@ -23,23 +24,27 @@ type OwnProps = {
   status: ActionStatus
 }
 
-export const ButtonWithLoading: React.FC<OwnProps> = ({
+type P = OwnProps & ButtonGAProps
+
+export const ButtonWithLoading: React.FC<P> = ({
   children,
   disabled,
   exCss,
   onClick,
   status,
+  ...rest
 }) => {
   return (
-    <Button
+    <ButtonGA
       color="primary"
       css={exCss}
       disabled={disabled}
       endIcon={iconMap[status]}
       onClick={onClick}
       variant="contained"
+      {...rest}
     >
       {children}
-    </Button>
+    </ButtonGA>
   )
 }

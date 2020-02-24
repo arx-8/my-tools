@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { Collapse, IconButton, Typography } from "@material-ui/core"
+import { Collapse, Typography } from "@material-ui/core"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import React, { useState } from "react"
+import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { Checkboxes } from "src/components/molecules/Checkboxes"
 import { RadioButtons } from "src/components/molecules/RadioButtons"
 import {
@@ -34,15 +35,17 @@ export const ChooseOptions: React.FC<OwnProps> = ({
     <div css={root}>
       <div css={header}>
         <Typography variant="h6">Diff options</Typography>
-        {isOpen ? (
-          <IconButton css={openBtn} onClick={() => setIsOpen(false)}>
-            <ExpandLessIcon />
-          </IconButton>
-        ) : (
-          <IconButton css={openBtn} onClick={() => setIsOpen(true)}>
-            <ExpandMoreIcon />
-          </IconButton>
-        )}
+        <IconButtonGA
+          css={openBtn}
+          gaData={{
+            dataEventAction: "toggleOpenOptions",
+            dataEventCategory: "Bookmarkable Diff",
+            dataOn: "click",
+          }}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButtonGA>
       </div>
 
       <Collapse in={isOpen}>
