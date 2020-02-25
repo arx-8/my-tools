@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder"
-import React, { useEffect, useState } from "react"
+import { green, red } from "@material-ui/core/colors"
+import throttle from "lodash/throttle"
+import React, { useCallback, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { ButtonWithLoading } from "src/components/atoms/ButtonWithLoading"
 import { useQueryParams } from "src/components/helpers/reactRouterUtils"
+import { useActionStatus } from "src/components/helpers/useActionStatus"
 import { useCompressor } from "src/components/helpers/useCompressor"
 import { RichTextarea } from "src/components/molecules/RichTextarea"
 import { numberAreaWidth } from "src/components/molecules/RichTextarea/LineWithNumber"
@@ -15,7 +17,7 @@ import {
   toStateValues,
   toUrlStoreValues,
 } from "src/components/pages/Diff/utils"
-import { padT2 } from "src/components/styles/styles"
+import { dispNone, padT2 } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
 import { DynamicRoutePath } from "src/constants/path"
 import { DiffMode, DiffOptions, diff } from "src/utils/diff"
@@ -33,12 +35,15 @@ const exampleB = exampleA.replace("l", "1").replace("v", "V")
 
 export const Diff: React.FC<OwnProps> = () => {
   const history = useHistory()
-  const { compress, decompress, isCompressing } = useCompressor<
-    UrlStoreValues
-  >()
   const queries = useQueryParams<
     Parameters<typeof DynamicRoutePath.Diff>["0"]
   >()
+
+  // compressor と、その loading status
+  const { compress, decompress, isCompressing } = useCompressor<
+    UrlStoreValues
+  >()
+  const [compressingStatus] = useActionStatus(isCompressing, 3000)
 
   // decompress 完了までにサンプルが見えると不快なため、ブックマーク遷移の場合は空表示にする
   const hasQueries = queries.v != null
@@ -47,12 +52,19 @@ export const Diff: React.FC<OwnProps> = () => {
   // パフォーマンスチューニングのため分けてる
   const [aText, setAText] = useState(hasQueries ? "" : exampleA)
   const [bText, setBText] = useState(hasQueries ? "" : exampleB)
+  // この値は diff の表示用（入力の表示は Child component state を使っている）
+  // そのため、diff への反映だけを間引いて、パフォーマンスを向上させる
+  const setATextThrottled = useCallback(throttle(setAText, 500), [])
+  const setBTextThrottled = useCallback(throttle(setBText, 500), [])
 
   // diff options
   const [diffMode, setDiffMode] = useState<DiffMode>("Chars")
   const [diffOptions, setDiffOptions] = useState<DiffOptions>({
     ignoreCase: false,
   })
+
+  // UI
+  const [isMaximizeDiffResult, setIsMaximizeDiffResult] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -96,12 +108,14 @@ export const Diff: React.FC<OwnProps> = () => {
   return (
     <Layout>
       <ButtonWithLoading
-        defaultIcon={<BookmarkBorderIcon />}
-        isLoading={isCompressing}
-        loadingIconProps={{
-          size: 24,
+        disabled={compressingStatus !== "ready"}
+        gaData={{
+          dataEventAction: "Generate URL",
+          dataEventCategory: "Bookmarkable Diff",
+          dataOn: "click",
         }}
         onClick={onCompress}
+        status={compressingStatus}
       >
         Generate URL
       </ButtonWithLoading>
@@ -114,23 +128,32 @@ export const Diff: React.FC<OwnProps> = () => {
         setDiffOptions={setDiffOptions}
       />
 
-      <div css={main}>
-        <div css={[mainChildren, diffSrc1]}>
+      <div css={[main, isMaximizeDiffResult ? whenIsMax : whenIsNotMax]}>
+        <div css={[baseDiffText, diffSrc1, isMaximizeDiffResult && dispNone]}>
           <RichTextarea
             initialValue={aTextInit}
-            onChange={(value) => setAText(value)}
+            onChange={(value) => setATextThrottled(value)}
           />
         </div>
-        <div css={[mainChildren, diffSrc2]}>
+        <div css={[baseDiffText, diffSrc2, isMaximizeDiffResult && dispNone]}>
           <RichTextarea
             initialValue={bTextInit}
-            onChange={(value) => setBText(value)}
+            onChange={(value) => setBTextThrottled(value)}
           />
         </div>
-        <DiffResult
-          diffs={diff(aText, bText, diffMode, diffOptions)}
-          exCss={[mainChildren, diffResult]}
-        />
+        <div
+          css={[
+            baseDiffText,
+            diffResult,
+            isMaximizeDiffResult && diffResultIsMax,
+          ]}
+        >
+          <DiffResult
+            diffs={diff(aText, bText, diffMode, diffOptions)}
+            isMaximize={isMaximizeDiffResult}
+            setMaximize={setIsMaximizeDiffResult}
+          />
+        </div>
       </div>
     </Layout>
   )
@@ -139,22 +162,35 @@ export const Diff: React.FC<OwnProps> = () => {
 const main = css`
   display: grid;
   gap: 4px;
+`
+
+const whenIsMax = css`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `
 
-const mainChildren = css`
+const whenIsNotMax = css`
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+`
+
+const baseDiffText = css`
   line-height: initial;
+  border: 2px solid;
+  border-radius: 4px;
 `
 
 const diffSrc1 = css`
-  border: 1px solid rgb(250, 128, 114);
+  border-color: ${green["700"]};
 `
 
 const diffSrc2 = css`
-  border: 1px solid rgb(144, 238, 144);
+  border-color: ${red["700"]};
 `
 
 const diffResult = css`
-  border: 1px solid;
+  /* diffSrc の行番号部分と合わせるため */
   padding-left: ${numberAreaWidth};
+`
+
+const diffResultIsMax = css`
+  padding-left: 0.3em;
 `

@@ -1,46 +1,50 @@
 /** @jsx jsx */
 import { InterpolationWithTheme, jsx } from "@emotion/core"
-import {
-  Button,
-  ButtonProps,
-  CircularProgress,
-  CircularProgressProps,
-} from "@material-ui/core"
+import { ButtonProps, CircularProgress } from "@material-ui/core"
+import { green } from "@material-ui/core/colors"
+import CheckCircleIcon from "@material-ui/icons/CheckCircle"
+import LinkIcon from "@material-ui/icons/Link"
 import React from "react"
+import { ButtonGA, ButtonGAProps } from "src/components/atoms/ButtonGA"
+import { ActionStatus } from "src/components/helpers/useActionStatus"
 import { CastAny } from "src/types/utils"
+
+// color, size 等を変更したい場合は、props を追加して上書きする
+const iconMap: Record<ActionStatus, ButtonProps["endIcon"]> = {
+  done: <CheckCircleIcon style={{ color: green["500"] }} />,
+  ready: <LinkIcon />,
+  started: <CircularProgress size={24} />,
+}
 
 type OwnProps = {
   children: ButtonProps["children"]
-  /**
-   * Not isLoading 状態で表示するアイコン
-   */
-  defaultIcon: ButtonProps["endIcon"]
+  disabled: boolean
   exCss?: InterpolationWithTheme<CastAny>
-  isLoading: boolean
-  loadingIconProps?: CircularProgressProps
   onClick: ButtonProps["onClick"]
+  status: ActionStatus
 }
 
-export const ButtonWithLoading: React.FC<OwnProps> = ({
-  exCss,
-  isLoading,
-  onClick,
-  defaultIcon,
+type P = OwnProps & ButtonGAProps
+
+export const ButtonWithLoading: React.FC<P> = ({
   children,
-  loadingIconProps,
+  disabled,
+  exCss,
+  onClick,
+  status,
+  ...rest
 }) => {
   return (
-    <Button
+    <ButtonGA
       color="primary"
       css={exCss}
-      disabled={isLoading}
-      endIcon={
-        isLoading ? <CircularProgress {...loadingIconProps} /> : defaultIcon
-      }
+      disabled={disabled}
+      endIcon={iconMap[status]}
       onClick={onClick}
       variant="contained"
+      {...rest}
     >
       {children}
-    </Button>
+    </ButtonGA>
   )
 }

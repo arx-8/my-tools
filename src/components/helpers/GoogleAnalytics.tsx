@@ -1,7 +1,10 @@
+import "autotrack/lib/plugins/event-tracker"
+
 import { History } from "history"
 import React, { useEffect } from "react"
 import ReactGA from "react-ga"
 import { GOOGLE_ANALYTICS_TRACKING_CODE } from "src/constants/env"
+import { convertFullPathnameWithoutQueryParams } from "src/utils/urlUtils"
 
 type Props = {
   children?: never
@@ -13,7 +16,7 @@ export const GoogleAnalytics: React.FC<Props> = ({ history }) => {
     ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_CODE)
 
     // 直リンの捕捉
-    const p = convertRealPathname(
+    const p = convertFullPathnameWithoutQueryParams(
       window.location.pathname,
       window.location.hash
     )
@@ -22,10 +25,18 @@ export const GoogleAnalytics: React.FC<Props> = ({ history }) => {
 
     // 遷移の捕捉
     history.listen((listener) => {
-      const p2 = convertRealPathname(listener.pathname, listener.hash)
+      const p2 = convertFullPathnameWithoutQueryParams(
+        listener.pathname,
+        listener.hash
+      )
 
       ReactGA.set({ page: p2 })
       ReactGA.pageview(p2)
+    })
+
+    // イベントの捕捉
+    ReactGA.plugin.require("eventTracker", {
+      attributePrefix: "data-",
     })
 
     // 初回のみでよい
@@ -33,9 +44,4 @@ export const GoogleAnalytics: React.FC<Props> = ({ history }) => {
   }, [])
 
   return null
-}
-
-export const convertRealPathname = (pathname: string, hash: string): string => {
-  const hashWithoutQuery = hash.replace(/\?.*$/, "?")
-  return `${pathname}${hashWithoutQuery}`
 }

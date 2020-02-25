@@ -25,6 +25,13 @@ module.exports = {
   ],
   rules: {
     "import/no-default-export": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        name: "lodash",
+        message: "Use lodash/* instead.",
+      },
+    ],
     "no-restricted-syntax": [
       "error",
       {

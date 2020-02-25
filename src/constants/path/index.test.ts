@@ -1,4 +1,5 @@
 import { CastAny } from "src/types/utils"
+import { CompressedString } from "src/utils/compress"
 
 import { DynamicRoutePath } from "."
 
@@ -16,8 +17,8 @@ describe("DynamicRoutePath", () => {
     // ## Arrange ##
     // ## Act ##
     const result = DynamicRoutePath.Diff({
-      v: "value",
-    } as CastAny)
+      v: "value" as CompressedString,
+    })
 
     // ## Assert ##
     expect(result).toStrictEqual("/diff?v=value")
@@ -26,6 +27,7 @@ describe("DynamicRoutePath", () => {
   it("Diff with some value", () => {
     // ## Arrange ##
     // ## Act ##
+    // 可能性を確認したいだけのテストなので、CastAny
     const result = DynamicRoutePath.Diff({
       v: "the value",
       v2: "あいうえお",

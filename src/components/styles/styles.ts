@@ -15,3 +15,7 @@ export const padT = css`
 export const padT2 = css`
   padding-top: 16px;
 `
+
+export const dispNone = css`
+  display: none;
+`
