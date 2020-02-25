@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
+import { green, red } from "@material-ui/core/colors"
 import throttle from "lodash/throttle"
 import React, { useCallback, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
@@ -16,7 +17,7 @@ import {
   toStateValues,
   toUrlStoreValues,
 } from "src/components/pages/Diff/utils"
-import { padT2 } from "src/components/styles/styles"
+import { dispNone, padT2 } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
 import { DynamicRoutePath } from "src/constants/path"
 import { DiffMode, DiffOptions, diff } from "src/utils/diff"
@@ -127,20 +128,26 @@ export const Diff: React.FC<OwnProps> = () => {
         setDiffOptions={setDiffOptions}
       />
 
-      <div css={[main, isMaximizeDiffResult ? isMaxMain : isNotMaxMain]}>
-        <div css={[mainChildren, diffSrc1, isMaximizeDiffResult && dispNone]}>
+      <div css={[main, isMaximizeDiffResult ? whenIsMax : whenIsNotMax]}>
+        <div css={[baseDiffText, diffSrc1, isMaximizeDiffResult && dispNone]}>
           <RichTextarea
             initialValue={aTextInit}
             onChange={(value) => setATextThrottled(value)}
           />
         </div>
-        <div css={[mainChildren, diffSrc2, isMaximizeDiffResult && dispNone]}>
+        <div css={[baseDiffText, diffSrc2, isMaximizeDiffResult && dispNone]}>
           <RichTextarea
             initialValue={bTextInit}
             onChange={(value) => setBTextThrottled(value)}
           />
         </div>
-        <div css={[mainChildren, diffResult]}>
+        <div
+          css={[
+            baseDiffText,
+            diffResult,
+            isMaximizeDiffResult && diffResultIsMax,
+          ]}
+        >
           <DiffResult
             diffs={diff(aText, bText, diffMode, diffOptions)}
             isMaximize={isMaximizeDiffResult}
@@ -157,32 +164,33 @@ const main = css`
   gap: 4px;
 `
 
-const isMaxMain = css`
+const whenIsMax = css`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `
 
-const isNotMaxMain = css`
+const whenIsNotMax = css`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `
 
-const mainChildren = css`
+const baseDiffText = css`
   line-height: initial;
+  border: 2px solid;
+  border-radius: 4px;
 `
 
 const diffSrc1 = css`
-  border: 1px solid rgb(250, 128, 114);
+  border-color: ${green["700"]};
 `
 
 const diffSrc2 = css`
-  border: 1px solid rgb(144, 238, 144);
-`
-
-const dispNone = css`
-  display: none;
+  border-color: ${red["700"]};
 `
 
 const diffResult = css`
-  border: 1px solid;
   /* diffSrc の行番号部分と合わせるため */
   padding-left: ${numberAreaWidth};
+`
+
+const diffResultIsMax = css`
+  padding-left: 0.3em;
 `
