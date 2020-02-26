@@ -15,12 +15,21 @@ export const GoogleAnalytics: React.FC<Props> = ({ history }) => {
     ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_CODE)
 
     // 直リンの捕捉
-    ReactGA.set({ page: window.location.pathname })
+    // 個人情報 (query parameter) の消去のため、 location キーをセットしている
+    // @see https://support.google.com/analytics/answer/6366371
+    // @see https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters?hl=ja#dl
+    ReactGA.set({
+      location: window.location.hostname,
+      page: window.location.pathname,
+    })
     ReactGA.pageview(window.location.pathname)
 
     // 遷移の捕捉
     history.listen((listener) => {
-      ReactGA.set({ page: listener.pathname })
+      ReactGA.set({
+        location: listener.pathname,
+        page: listener.pathname,
+      })
       ReactGA.pageview(listener.pathname)
     })
 
