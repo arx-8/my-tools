@@ -36,7 +36,7 @@ const exampleB = exampleA.replace("l", "1").replace("v", "V")
 export const Diff: React.FC<OwnProps> = () => {
   const history = useHistory()
   const queries = useQueryParams<
-    Parameters<typeof DynamicRoutePath.Diff>["0"]
+    Parameters<typeof DynamicRoutePath.diff>["0"]
   >()
 
   // compressor と、その loading status
@@ -92,7 +92,7 @@ export const Diff: React.FC<OwnProps> = () => {
 
   const onCompress = async (): Promise<void> => {
     history.push(
-      DynamicRoutePath.Diff({
+      DynamicRoutePath.diff({
         v: await compress(
           toUrlStoreValues({
             aText,

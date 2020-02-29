@@ -15,7 +15,7 @@ export const NotFound: React.FC<OwnProps> = () => {
       <div css={root}>
         <div css={header}>
           <p>Page not found.</p>
-          <Link css={link} to={StaticRoutePath.Root}>
+          <Link css={link} to={StaticRoutePath.root}>
             Go to Top
           </Link>
         </div>

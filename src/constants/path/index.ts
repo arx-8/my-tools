@@ -6,9 +6,9 @@ import { CompressedString } from "src/utils/compress"
  * react-router用のパスの定義
  */
 const _ReactRouterPath = {
-  Diff: "/diff",
-  NotFound: "/notfound",
-  Root: "/",
+  diff: "/diff",
+  not_found: "/notfound",
+  root: "/",
 } as const
 
 /**
@@ -68,8 +68,8 @@ export const DynamicRoutePath = {
    * ブクマ URL を少しでも短くするため、なるべく短いキー名にしている
    * @param params 空ブクマ表示も許可するため、allow undefined
    */
-  Diff: (params?: { v: CompressedString }): RoutePath => {
-    return buildUrlWithQueryParams(ReactRouterPath.Diff, params) as RoutePath
+  diff: (params?: { v: CompressedString }): RoutePath => {
+    return buildUrlWithQueryParams(ReactRouterPath.diff, params) as RoutePath
   },
 } as const
 
