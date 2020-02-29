@@ -1,9 +1,12 @@
+/** @jsx jsx */
+import { css, jsx } from "@emotion/core"
 import MuiAppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import MenuIcon from "@material-ui/icons/Menu"
 import React, { Fragment, useState } from "react"
 import { useLocation } from "react-router-dom"
+import { GitHubLink } from "src/components/atoms/GitHubLink"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { pageInfo } from "src/components/helpers/pageInfo"
 import { SideMenu } from "src/components/organisms/SideMenu"
@@ -37,6 +40,9 @@ export const AppBar: React.FC<OwnProps> = () => {
           <Typography color="inherit" css={padL2} variant="h6">
             {pageInfo.find((p) => p.linkTo === location.pathname)?.title}
           </Typography>
+
+          <div css={space}></div>
+          <GitHubLink />
         </Toolbar>
       </MuiAppBar>
 
@@ -44,3 +50,7 @@ export const AppBar: React.FC<OwnProps> = () => {
     </Fragment>
   )
 }
+
+const space = css`
+  margin-left: auto;
+`
