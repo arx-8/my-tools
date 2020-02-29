@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { green, red } from "@material-ui/core/colors"
+import { green, grey, red } from "@material-ui/core/colors"
 import throttle from "lodash/throttle"
 import React, { useCallback, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
@@ -36,7 +36,7 @@ const exampleB = exampleA.replace("l", "1").replace("v", "V")
 export const Diff: React.FC<OwnProps> = () => {
   const history = useHistory()
   const queries = useQueryParams<
-    Parameters<typeof DynamicRoutePath.Diff>["0"]
+    Parameters<typeof DynamicRoutePath.diff>["0"]
   >()
 
   // compressor と、その loading status
@@ -92,7 +92,7 @@ export const Diff: React.FC<OwnProps> = () => {
 
   const onCompress = async (): Promise<void> => {
     history.push(
-      DynamicRoutePath.Diff({
+      DynamicRoutePath.diff({
         v: await compress(
           toUrlStoreValues({
             aText,
@@ -128,7 +128,7 @@ export const Diff: React.FC<OwnProps> = () => {
         setDiffOptions={setDiffOptions}
       />
 
-      <div css={[main, isMaximizeDiffResult ? whenIsMax : whenIsNotMax]}>
+      <div css={main}>
         <div css={[baseDiffText, diffSrc1, isMaximizeDiffResult && dispNone]}>
           <RichTextarea
             initialValue={aTextInit}
@@ -161,36 +161,37 @@ export const Diff: React.FC<OwnProps> = () => {
 
 const main = css`
   display: grid;
-  gap: 4px;
-`
-
-const whenIsMax = css`
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-`
-
-const whenIsNotMax = css`
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-row-gap: 8px;
 `
 
 const baseDiffText = css`
   line-height: initial;
-  border: 2px solid;
-  border-radius: 4px;
 `
 
 const diffSrc1 = css`
-  border-color: ${green["700"]};
+  border: 1px solid ${green["700"]};
+  border-right: 1px solid ${grey["900"]};
+  border-radius: 4px 0 0 4px;
 `
 
 const diffSrc2 = css`
-  border-color: ${red["700"]};
+  border: 1px solid ${red["700"]};
+  border-left: 1px solid ${grey["900"]};
+  border-radius: 0 4px 4px 0;
+
+  /* gap が使えない・diffResult に margin-left すると改段落時に崩れるため、ここで余白入れる */
+  margin-right: 4px;
 `
 
 const diffResult = css`
   /* diffSrc の行番号部分と合わせるため */
   padding-left: ${numberAreaWidth};
+  border: 2px solid ${grey["900"]};
+  border-radius: 4px;
 `
 
 const diffResultIsMax = css`
+  /* isMax 時は、diffSrc の行番号部分と合わせる必要がなくなるため */
   padding-left: 0.3em;
 `

@@ -10,7 +10,7 @@ const icon = css`
 export const pageInfo = [
   {
     icon: <DiffIcon exCss={icon} />,
-    linkTo: DynamicRoutePath.Diff(),
+    linkTo: DynamicRoutePath.diff(),
     title: "Bookmarkable Diff",
   },
 ]

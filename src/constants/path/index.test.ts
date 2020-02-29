@@ -7,7 +7,7 @@ describe("DynamicRoutePath", () => {
   it("Diff with empty", () => {
     // ## Arrange ##
     // ## Act ##
-    const result = DynamicRoutePath.Diff()
+    const result = DynamicRoutePath.diff()
 
     // ## Assert ##
     expect(result).toStrictEqual("/diff")
@@ -16,7 +16,7 @@ describe("DynamicRoutePath", () => {
   it("Diff with value", () => {
     // ## Arrange ##
     // ## Act ##
-    const result = DynamicRoutePath.Diff({
+    const result = DynamicRoutePath.diff({
       v: "value" as CompressedString,
     })
 
@@ -28,7 +28,7 @@ describe("DynamicRoutePath", () => {
     // ## Arrange ##
     // ## Act ##
     // 可能性を確認したいだけのテストなので、CastAny
-    const result = DynamicRoutePath.Diff({
+    const result = DynamicRoutePath.diff({
       v: "the value",
       v2: "あいうえお",
     } as CastAny)

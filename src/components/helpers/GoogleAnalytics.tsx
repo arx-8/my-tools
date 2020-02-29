@@ -15,7 +15,7 @@ export const GoogleAnalytics: React.FC<Props> = ({ history }) => {
     ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_CODE)
 
     // 直リンの捕捉
-    // 個人情報 (query parameter) の消去のため、 location キーをセットしている
+    // 個人情報(に近しい)データの消去のため、location キーをセットして query parameter を上書き消去する
     // @see https://support.google.com/analytics/answer/6366371
     // @see https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters?hl=ja#dl
     ReactGA.set({
@@ -38,7 +38,7 @@ export const GoogleAnalytics: React.FC<Props> = ({ history }) => {
       attributePrefix: "data-",
     })
 
-    // 初回のみでよい
+    // 初回、1度のみの設定でよい
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
