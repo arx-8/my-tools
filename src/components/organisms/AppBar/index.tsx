@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
+import { Slide, useScrollTrigger } from "@material-ui/core"
 import MuiAppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
@@ -19,32 +20,35 @@ type OwnProps = {
 export const AppBar: React.FC<OwnProps> = () => {
   const location = useLocation()
   const [isOpenMenu, setIsOpenMenu] = useState(false)
+  const isScrolled = useScrollTrigger()
 
   return (
     <Fragment>
-      <MuiAppBar>
-        <Toolbar variant="dense">
-          <IconButtonGA
-            aria-label="menu"
-            color="inherit"
-            edge="start"
-            gaData={{
-              dataEventAction: "toggleOpenMenu",
-              dataEventCategory: "AppBar",
-              dataOn: "click",
-            }}
-            onClick={() => setIsOpenMenu((prev) => !prev)}
-          >
-            <MenuIcon />
-          </IconButtonGA>
-          <Typography color="inherit" css={padL2} variant="h6">
-            {pageInfo.find((p) => p.linkTo === location.pathname)?.title}
-          </Typography>
+      <Slide appear direction="down" in={!isScrolled}>
+        <MuiAppBar>
+          <Toolbar variant="dense">
+            <IconButtonGA
+              aria-label="menu"
+              color="inherit"
+              edge="start"
+              gaData={{
+                dataEventAction: "toggleOpenMenu",
+                dataEventCategory: "AppBar",
+                dataOn: "click",
+              }}
+              onClick={() => setIsOpenMenu((prev) => !prev)}
+            >
+              <MenuIcon />
+            </IconButtonGA>
+            <Typography color="inherit" css={padL2} variant="h6">
+              {pageInfo.find((p) => p.linkTo === location.pathname)?.title}
+            </Typography>
 
-          <div css={space}></div>
-          <GitHubLink />
-        </Toolbar>
-      </MuiAppBar>
+            <div css={space}></div>
+            <GitHubLink />
+          </Toolbar>
+        </MuiAppBar>
+      </Slide>
 
       <SideMenu isOpen={isOpenMenu} setIsOpen={setIsOpenMenu} />
     </Fragment>

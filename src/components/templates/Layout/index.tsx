@@ -11,29 +11,21 @@ type OwnProps = {
 export const Layout: React.FC<OwnProps> = ({ children }) => {
   return (
     <Fragment>
-      <div css={top}>
-        <AppBar />
-      </div>
-      <div css={body}>
-        <Container
-          maxWidth="xl"
-          style={{
-            height: "100%",
-          }}
-        >
-          {children}
-        </Container>
-      </div>
+      <AppBar />
+      <Container css={body} maxWidth="xl">
+        {children}
+      </Container>
     </Fragment>
   )
 }
 
-const TopVh = 6
-
-const top = css`
-  height: ${TopVh}vh;
-`
-
 const body = css`
-  height: ${100 - TopVh}vh;
+  height: 100%;
+
+  /*
+    vh 指定だと、画面高が小さい場合に body が AppBar にめり込む
+    MuiAppBar を static (固定位置) にすると、Slide の  in scroll appear が効かない
+    そのため、MuiAppBar absolute + 固定高にしている
+  */
+  padding-top: ${48 + 16}px;
 `
