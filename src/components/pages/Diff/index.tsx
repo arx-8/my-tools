@@ -1,15 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
 import { green, grey, red } from "@material-ui/core/colors"
-import throttle from "lodash/throttle"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { ButtonWithLoading } from "src/components/atoms/ButtonWithLoading"
 import { useQueryParams } from "src/components/helpers/reactRouterUtils"
 import { useActionStatus } from "src/components/helpers/useActionStatus"
 import { useCompressor } from "src/components/helpers/useCompressor"
 import { RichTextarea } from "src/components/molecules/RichTextarea"
-import { numberAreaWidth } from "src/components/molecules/RichTextarea/LineWithNumber"
 import { ChooseOptions } from "src/components/pages/Diff/ChooseOptions"
 import { DiffResult } from "src/components/pages/Diff/DiffResult"
 import {
@@ -52,10 +50,6 @@ export const Diff: React.FC<OwnProps> = () => {
   // パフォーマンスチューニングのため分けてる
   const [aText, setAText] = useState(hasQueries ? "" : exampleA)
   const [bText, setBText] = useState(hasQueries ? "" : exampleB)
-  // この値は diff の表示用（入力の表示は Child component state を使っている）
-  // そのため、diff への反映だけを間引いて、パフォーマンスを向上させる
-  const setATextThrottled = useCallback(throttle(setAText, 500), [])
-  const setBTextThrottled = useCallback(throttle(setBText, 500), [])
 
   // diff options
   const [diffMode, setDiffMode] = useState<DiffMode>("Chars")
@@ -129,16 +123,20 @@ export const Diff: React.FC<OwnProps> = () => {
       />
 
       <div css={main}>
-        <div css={[baseDiffText, diffSrc1, isMaximizeDiffResult && dispNone]}>
+        <div css={[isMaximizeDiffResult && dispNone]}>
           <RichTextarea
+            exTextareaCss={[baseDiffText, diffSrc1]}
             initialValue={aTextInit}
-            onChange={(value) => setATextThrottled(value)}
+            onChangeThrottled={(value) => setAText(value)}
+            throttleWait={500}
           />
         </div>
-        <div css={[baseDiffText, diffSrc2, isMaximizeDiffResult && dispNone]}>
+        <div css={[isMaximizeDiffResult && dispNone]}>
           <RichTextarea
+            exTextareaCss={[baseDiffText, diffSrc2]}
             initialValue={bTextInit}
-            onChange={(value) => setBTextThrottled(value)}
+            onChangeThrottled={(value) => setBText(value)}
+            throttleWait={500}
           />
         </div>
         <div
@@ -162,22 +160,24 @@ export const Diff: React.FC<OwnProps> = () => {
 const main = css`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  grid-row-gap: 8px;
+  /* grid-row-gap: 8px; */
+  gap: 8px;
 `
 
 const baseDiffText = css`
   line-height: initial;
+  resize: vertical;
 `
 
 const diffSrc1 = css`
   border: 1px solid ${green["700"]};
-  border-right: 1px solid ${grey["900"]};
+  /* border-right: 1px solid ${grey["600"]}; */
   border-radius: 4px 0 0 4px;
 `
 
 const diffSrc2 = css`
   border: 1px solid ${red["700"]};
-  border-left: 1px solid ${grey["900"]};
+  /* border-left: 1px solid ${grey["600"]}; */
   border-radius: 0 4px 4px 0;
 
   /* gap が使えない・diffResult に margin-left すると改段落時に崩れるため、ここで余白入れる */
@@ -185,8 +185,6 @@ const diffSrc2 = css`
 `
 
 const diffResult = css`
-  /* diffSrc の行番号部分と合わせるため */
-  padding-left: ${numberAreaWidth};
   border: 2px solid ${grey["900"]};
   border-radius: 4px;
 `
