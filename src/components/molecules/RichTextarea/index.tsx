@@ -1,36 +1,51 @@
 /** @jsx jsx */
-import { SerializedStyles, css, jsx } from "@emotion/core"
-import { TextareaAutosize } from "@material-ui/core"
+import { css, jsx } from "@emotion/core"
 import zIndex from "@material-ui/core/styles/zIndex"
 import DeleteIcon from "@material-ui/icons/Delete"
-import throttle from "lodash/throttle"
-import React, { useCallback, useState } from "react"
+import { ContentBlock, ContentState, Editor, EditorState } from "draft-js"
+import React, { useEffect, useState } from "react"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
+import { LineWithNumber } from "src/components/molecules/RichTextarea/LineWithNumber"
 
 type OwnProps = {
   children?: never
-  exTextareaCss?: SerializedStyles | SerializedStyles[]
-  /**
-   * 親側に反映すると、再レンダリングが多く発生しうるため、throttleWait 分だけ親側の反映だけ間引く
-   * 自身（見た目）の反映は inner state で即時反映する
-   */
-  onChangeThrottled: (next: string) => void
-  throttleWait: number
-  value: string
+  initialValue: string
+  onChange: (textContent: string) => void
 }
 
+/**
+ * Memo: `Select all on focus` is not working...
+ * https://github.com/facebook/draft-js/issues/1386#issuecomment-413752604
+ */
 export const RichTextarea: React.FC<OwnProps> = ({
-  exTextareaCss,
-  onChangeThrottled,
-  value,
-  throttleWait,
+  initialValue,
+  onChange,
 }) => {
-  const [innerValue, setInnerValue] = useState(value)
-
-  const _onChangeThrottled = useCallback(
-    throttle(onChangeThrottled, throttleWait),
-    []
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(ContentState.createFromText(initialValue))
   )
+  const _onChange = (next: EditorState): void => {
+    setEditorState(next)
+    // Set raw text to parent
+    onChange(next.getCurrentContent().getPlainText())
+  }
+
+  useEffect(() => {
+    // 初期値が非同期で変更されうるため
+    setEditorState(
+      EditorState.createWithContent(ContentState.createFromText(initialValue))
+    )
+  }, [initialValue])
+
+  const onClear = (): void => {
+    // undo 可能にするため、undo stack に空を積む
+    const next = EditorState.push(
+      editorState,
+      EditorState.createEmpty().getCurrentContent(),
+      "redo"
+    )
+    _onChange(next)
+  }
 
   return (
     <div css={root}>
@@ -43,25 +58,17 @@ export const RichTextarea: React.FC<OwnProps> = ({
             dataEventCategory: "Bookmarkable Diff",
             dataOn: "click",
           }}
-          onClick={() => {
-            setInnerValue("")
-            // clear だけは即時反映された方が見栄えがいいため
-            onChangeThrottled("")
-          }}
+          onClick={onClear}
           tabIndex={-1}
         >
           <DeleteIcon />
         </IconButtonGA>
       </div>
 
-      <TextareaAutosize
-        css={[textareaCss, exTextareaCss]}
-        onChange={(e) => {
-          setInnerValue(e.target.value)
-          _onChangeThrottled(e.target.value)
-        }}
-        rowsMin={3}
-        value={innerValue}
+      <Editor
+        blockRendererFn={blockRendererFn}
+        editorState={editorState}
+        onChange={_onChange}
       />
     </div>
   )
@@ -81,6 +88,17 @@ const clearBtn = css`
   padding: 4px !important;
 `
 
-const textareaCss = css`
-  width: 100%;
-`
+/**
+ * @see https://gist.github.com/schabluk/0e5e938bc30a7833201b605cee4efb4a
+ * @see https://gist.github.com/lixiaoyan/79b5740f213b8526d967682f6cd329c0
+ */
+type BlockRendererFn = (
+  contentBlock: ContentBlock
+) => {
+  component: React.ReactNode
+  editable?: boolean
+}
+
+const blockRendererFn: BlockRendererFn = () => {
+  return { component: LineWithNumber }
+}
