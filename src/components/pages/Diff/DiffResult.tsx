@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { green, grey, red } from "@material-ui/core/colors"
+import { green, red } from "@material-ui/core/colors"
 import zIndex from "@material-ui/core/styles/zIndex"
 import FullscreenIcon from "@material-ui/icons/Fullscreen"
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit"
@@ -87,5 +87,5 @@ const removedCss = css`
 `
 
 const noDiffCss = css`
-  background-color: ${grey["100"]};
+  background-color: #ddd;
 `
