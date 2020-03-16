@@ -1,6 +1,7 @@
 import React from "react"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { Diff } from "src/components/pages/Diff"
+import { MysqlTableToX } from "src/components/pages/MysqlTableToX"
 import { NotFound } from "src/components/pages/NotFound"
 import { Root } from "src/components/pages/Root"
 import { ReactRouterPath } from "src/constants/path"
@@ -15,6 +16,11 @@ export const Routes: React.FC<OwnProps> = () => {
       <Switch>
         <Route component={Root} exact path={ReactRouterPath.root} />
         <Route component={Diff} exact path={ReactRouterPath.diff} />
+        <Route
+          component={MysqlTableToX}
+          exact
+          path={ReactRouterPath.mysql_table_to_x}
+        />
 
         {/* No route */}
         <Route component={NotFound} path={ReactRouterPath.not_found} />
