@@ -6,7 +6,7 @@ import React from "react"
 export type ButtonGAProps = {
   gaData: {
     dataEventAction: string
-    dataEventCategory: "AppBar" | "Bookmarkable Diff"
+    dataEventCategory: "AppBar" | "Bookmarkable Diff" | "MySQL table to X"
     dataOn: "click" | "touchstart"
   }
 }
