@@ -5,14 +5,16 @@ import React from "react"
 
 export type OwnProps = {
   children?: never
+  tabIndex?: number
 }
 
-export const GitHubLink: React.FC<OwnProps> = () => {
+export const GitHubLink: React.FC<OwnProps> = ({ tabIndex }) => {
   return (
     <a
       aria-label="View source on GitHub"
       css={root}
       href="https://github.com/arx-8/my-tools"
+      tabIndex={tabIndex}
     >
       <GitHubIcon />
     </a>
