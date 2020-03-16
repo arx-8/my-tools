@@ -5,6 +5,7 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
+import matchSorter from "match-sorter"
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import { pageInfo } from "src/components/helpers/pageInfo"
@@ -49,7 +50,9 @@ export const SideMenu: React.FC<OwnProps> = ({ isOpen, setIsOpen }) => {
         role="presentation"
       >
         <List>
-          {pageInfo.map(({ icon, linkTo, title }) => (
+          {matchSorter(pageInfo, searchFuncName, {
+            keys: ["linkTo", "title"],
+          }).map(({ icon, linkTo, title }) => (
             <ListItem button key={title} onClick={() => history.push(linkTo)}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={title} />
