@@ -45,7 +45,7 @@ export const AppBar: React.FC<OwnProps> = () => {
             </Typography>
 
             <div css={space}></div>
-            <GitHubLink />
+            <GitHubLink tabIndex={-1} />
           </Toolbar>
         </MuiAppBar>
       </Slide>
