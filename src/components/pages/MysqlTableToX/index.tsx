@@ -4,6 +4,7 @@ import { TextareaAutosize } from "@material-ui/core"
 import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { useState } from "react"
+import { useLocalStorage } from "react-use"
 import { padT } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
 import { mysqlTableToCsv, mysqlTableToJson } from "src/utils/mysqlUtils"
@@ -28,7 +29,10 @@ const exampleTable = `\
 
 export const MysqlTableToX: React.FC<OwnProps> = () => {
   const [mysqlTableValue, setMysqlTableValue] = useState(exampleTable)
-  const [convertType, setConvertType] = useState<ConvertType>("csv")
+  const [convertType, setConvertType] = useLocalStorage<ConvertType>(
+    "MysqlTableToX",
+    "csv"
+  )
 
   return (
     <Layout>
