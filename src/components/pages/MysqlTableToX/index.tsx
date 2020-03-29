@@ -84,7 +84,6 @@ const root = css``
 
 const textareaCss = css`
   width: 100%;
-  font-family: monospace, monospace;
 `
 
 const readOnly = css`
