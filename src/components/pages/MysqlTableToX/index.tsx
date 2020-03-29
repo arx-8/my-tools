@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
 import { TextareaAutosize } from "@material-ui/core"
+import AssignmentIcon from "@material-ui/icons/Assignment"
 import ToggleButton from "@material-ui/lab/ToggleButton"
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup"
 import React, { useState } from "react"
 import { useLocalStorage } from "react-use"
+import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { padT } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
 import { mysqlTableToCsv, mysqlTableToJson } from "src/utils/mysqlUtils"
@@ -34,6 +36,11 @@ export const MysqlTableToX: React.FC<OwnProps> = () => {
     "csv"
   )
 
+  const converted =
+    convertType === "csv"
+      ? mysqlTableToCsv(mysqlTableValue)
+      : mysqlTableToJson(mysqlTableValue)
+
   return (
     <Layout>
       <div css={root}>
@@ -47,21 +54,36 @@ export const MysqlTableToX: React.FC<OwnProps> = () => {
           value={mysqlTableValue}
         />
 
-        <div css={padT}></div>
-        <ToggleButtonGroup
-          exclusive
-          onChange={(_e, value) => {
-            setConvertType(value)
-          }}
-          value={convertType}
-        >
-          <ToggleButton aria-label="centered" value="csv">
-            CSV
-          </ToggleButton>
-          <ToggleButton aria-label="left aligned" value="json">
-            JSON
-          </ToggleButton>
-        </ToggleButtonGroup>
+        <div css={[padT, actions]}>
+          <ToggleButtonGroup
+            exclusive
+            onChange={(_e, value) => {
+              setConvertType(value)
+            }}
+            value={convertType}
+          >
+            <ToggleButton aria-label="centered" value="csv">
+              CSV
+            </ToggleButton>
+            <ToggleButton aria-label="left aligned" value="json">
+              JSON
+            </ToggleButton>
+          </ToggleButtonGroup>
+
+          <IconButtonGA
+            aria-label="copy to clipboard"
+            gaData={{
+              dataEventAction: "copyToClipboard",
+              dataEventCategory: "MySQL table to X",
+              dataOn: "click",
+            }}
+            onClick={() => {
+              navigator.clipboard.writeText(converted)
+            }}
+          >
+            <AssignmentIcon />
+          </IconButtonGA>
+        </div>
 
         <div css={padT}></div>
         <TextareaAutosize
@@ -69,11 +91,7 @@ export const MysqlTableToX: React.FC<OwnProps> = () => {
           onFocus={(e) => e.target.select()}
           readOnly
           rowsMin={5}
-          value={
-            convertType === "csv"
-              ? mysqlTableToCsv(mysqlTableValue)
-              : mysqlTableToJson(mysqlTableValue)
-          }
+          value={converted}
         />
       </div>
     </Layout>
@@ -90,4 +108,9 @@ const readOnly = css`
   cursor: default;
   color: rgb(84, 84, 84);
   background-color: rgb(235, 235, 228);
+`
+
+const actions = css`
+  display: flex;
+  justify-content: space-between;
 `
