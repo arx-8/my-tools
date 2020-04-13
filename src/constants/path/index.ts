@@ -7,6 +7,7 @@ import { CompressedString } from "src/utils/compress"
  */
 const _ReactRouterPath = {
   diff: "/diff",
+  leverage_calculator: "/leverage_calculator",
   mysql_table_to_x: "/mysql_table_to_x",
   not_found: "/notfound",
   root: "/",
