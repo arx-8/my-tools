@@ -14,9 +14,9 @@ type ReturnValues<TSrc> = {
   isDecompressing: boolean
 }
 
-export const useCompressor = <
-  TSrc extends CompressibleObject
->(): ReturnValues<TSrc> => {
+export const useCompressor = <TSrc extends CompressibleObject>(): ReturnValues<
+  TSrc
+> => {
   const [isCompressing, setIsCompressing] = useState(false)
   const [isDecompressing, setIsDecompressing] = useState(false)
 
