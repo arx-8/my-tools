@@ -33,6 +33,7 @@
   "cSpell.words": [
     "Autosize",
     "Bookmarkable",
+    "Emptyable",
     "Interop",
     "autotrack",
     "browserslist",
@@ -43,6 +44,8 @@
     "jsonurl",
     "lzma",
     "lzstring",
-    "rawencoded"
+    "monospace",
+    "rawencoded",
+    "refetch"
   ]
 }

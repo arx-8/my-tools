@@ -19,3 +19,8 @@ export const padT2 = css`
 export const dispNone = css`
   display: none;
 `
+
+export const monospaceFont = css`
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace !important;
+`
