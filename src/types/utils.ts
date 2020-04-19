@@ -22,3 +22,8 @@ export type FixMeAny = any
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CastAny = any
+
+export type LabeledValue<T extends string | number> = {
+  label: string
+  value: T
+}
