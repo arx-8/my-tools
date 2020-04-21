@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import MenuIcon from "@material-ui/icons/Menu"
 import React, { Fragment, useState } from "react"
+import { Helmet } from "react-helmet"
 import { useLocation } from "react-router-dom"
 import { GitHubLink } from "src/components/atoms/GitHubLink"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
@@ -22,8 +23,14 @@ export const AppBar: React.FC<OwnProps> = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false)
   const isScrolled = useScrollTrigger()
 
+  const currentPage = pageInfo.find((p) => p.linkTo === location.pathname)
+
   return (
     <Fragment>
+      <Helmet>
+        <title>{currentPage?.title}</title>
+      </Helmet>
+
       <Slide appear direction="down" in={!isScrolled}>
         <MuiAppBar>
           <Toolbar variant="dense">
@@ -41,7 +48,7 @@ export const AppBar: React.FC<OwnProps> = () => {
               <MenuIcon />
             </IconButtonGA>
             <Typography color="inherit" css={padL2} variant="h6">
-              {pageInfo.find((p) => p.linkTo === location.pathname)?.title}
+              {currentPage?.title}
             </Typography>
 
             <div css={space}></div>
