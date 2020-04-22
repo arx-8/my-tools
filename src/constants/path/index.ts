@@ -1,5 +1,6 @@
-import { Brand, CastAny, ValueOf } from "src/types/utils"
+import { CastAny, ValueOf } from "src/types/utils"
 import { CompressedString } from "src/utils/compress"
+import { Brand } from "utility-types"
 
 // --- react-router用のパスの定義 ---
 /**

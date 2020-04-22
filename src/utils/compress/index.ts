@@ -1,6 +1,7 @@
 import produce from "immer"
 import jsonurl from "json-url"
-import { Brand, FixMeAny } from "src/types/utils"
+import { FixMeAny } from "src/types/utils"
+import { Brand } from "utility-types"
 
 /**
  * 実装の簡素化のため、1階層のフラットな json のみ対応
