@@ -13,7 +13,7 @@ import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { LabeledRow } from "src/components/molecules/LabeledRow"
 import { LabeledRowWithRadios } from "src/components/molecules/LabeledRowWithRadios"
-import { ComparePricesRow } from "src/components/pages/LeverageCalculator/ComparePricesRow"
+import { ComparePricesTable } from "src/components/pages/LeverageCalculator/ComparePricesTable"
 import { padT } from "src/components/styles/styles"
 import { currenciesLabeled } from "src/domainLayer/investment/Currency"
 import { lsValuesLabeled } from "src/domainLayer/investment/LS"
@@ -177,17 +177,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
                 </Table>
 
                 {/* 上の table の cell と同じ幅だとレイアウトの都合が悪いため、分ける */}
-                <Table css={tableCss} size="small">
-                  <TableBody>
-                    <ComparePricesRow
-                      isLong={isLong}
-                      label="価格比較"
-                      orderQuantity={orderQuantity}
-                      targetUnitPrice={targetUnitPrice}
-                      usdJpy={usdJpy}
-                    />
-                  </TableBody>
-                </Table>
+                <ComparePricesTable recordIndex={index} />
               </TableContainer>
             </Fragment>
           )

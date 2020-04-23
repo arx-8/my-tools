@@ -25,6 +25,7 @@ const getDefaultRecord = (
 ): CalculatorRecord => {
   return {
     _id: createCalculatorRecordId(),
+    comparePrices: [0],
     isLong: true,
     name: "untitled",
     orderQuantity: 1,

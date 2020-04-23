@@ -12,6 +12,8 @@ export type CalculatorRecordId = Brand<string, "CalculatorRecordId">
  */
 export type CalculatorRecord = {
   _id: CalculatorRecordId
+  /** 価格比較用の価格 */
+  comparePrices: number[]
   /** L or S */
   isLong: boolean
   /** レコード名 */
