@@ -19,3 +19,18 @@ export type LabeledValue<T extends string | number> = {
   label: string
   value: T
 }
+
+/**
+ * for exhaustive check
+ */
+export const assertNever = (x: never): never => {
+  throw new Error(
+    `Unexpected value (\`${JSON.stringify(x)}\`). Should have been never.`
+  )
+}
+
+export function assertNotNull<T>(x: T): asserts x is NonNullable<T> {
+  if (x == null) {
+    throw new Error(`Unexpected null / undefined. Should have been never.`)
+  }
+}

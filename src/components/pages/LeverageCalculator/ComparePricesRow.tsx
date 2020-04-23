@@ -8,13 +8,17 @@ import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import ClearIcon from "@material-ui/icons/Clear"
 import produce from "immer"
-import React, { useCallback } from "react"
+import React from "react"
 import { useLocalStorage } from "react-use"
 import { ButtonGA } from "src/components/atoms/ButtonGA"
 import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
-import { AvailableCurrency } from "src/components/pages/LeverageCalculator"
 import { monospaceFont } from "src/components/styles/styles"
+import {
+  Money,
+  calcProfitOrLossAsJpy,
+  getMoneyValue,
+} from "src/domainLayer/investment/Money"
 import { calc10PerStep } from "src/utils/numberUtils"
 
 type Props = {
@@ -22,8 +26,7 @@ type Props = {
   isLong: boolean
   label: string
   orderQuantity: number
-  targetUnitPrice: number
-  targetUnitPriceCurrency: AvailableCurrency
+  targetUnitPrice: Money
   usdJpy: number
 }
 
@@ -32,7 +35,6 @@ export const ComparePricesRow: React.FC<Props> = ({
   label,
   orderQuantity,
   targetUnitPrice,
-  targetUnitPriceCurrency,
   usdJpy,
 }) => {
   const [prices, setPrices] = useLocalStorage<number[]>(
@@ -44,28 +46,13 @@ export const ComparePricesRow: React.FC<Props> = ({
     setPrices((prev) => {
       return produce(prev, (draft) => {
         if (index == null) {
-          draft.push(price ?? targetUnitPrice)
+          draft.push(price ?? getMoneyValue(targetUnitPrice))
         } else {
           draft[index] = price ?? 0
         }
       })
     })
   }
-
-  const calcProfitOrLossAsJpy = useCallback(
-    (comparePrice: number): number => {
-      const targetUnitPriceAsJpy =
-        targetUnitPriceCurrency === "JPY"
-          ? targetUnitPrice
-          : targetUnitPrice * usdJpy
-      const comparePriceAsJpy =
-        targetUnitPriceCurrency === "JPY" ? comparePrice : comparePrice * usdJpy
-      return isLong
-        ? (comparePriceAsJpy - targetUnitPriceAsJpy) * orderQuantity
-        : (targetUnitPriceAsJpy - comparePriceAsJpy) * orderQuantity
-    },
-    [isLong, orderQuantity, targetUnitPrice, targetUnitPriceCurrency, usdJpy]
-  )
 
   return (
     <TableRow>
@@ -108,7 +95,15 @@ export const ComparePricesRow: React.FC<Props> = ({
 
                   {/* 損益 */}
                   <TableCell>
-                    <ProfitOrLoss value={calcProfitOrLossAsJpy(p)} />
+                    <ProfitOrLoss
+                      value={calcProfitOrLossAsJpy(
+                        p,
+                        targetUnitPrice,
+                        orderQuantity,
+                        isLong,
+                        usdJpy
+                      )}
+                    />
                   </TableCell>
 
                   {/* 操作 */}
