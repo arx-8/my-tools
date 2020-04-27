@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { green, red } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -11,9 +10,10 @@ import React from "react"
 import { ButtonGA } from "src/components/atoms/ButtonGA"
 import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
+import { PriceOrLoss, ProfitOrLoss } from "src/components/atoms/ProfitOrLoss"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
-import { monospaceFont } from "src/components/styles/styles"
 import {
+  calcAccountBalanceWithProfitOrLoss,
   calcProfitOrLossAsJpy,
   getMoneyValue,
 } from "src/domainLayer/investment/Money"
@@ -25,7 +25,12 @@ type Props = {
 }
 
 export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
-  const { records, setRecordById, usdJpy } = useLeverageCalculator()
+  const {
+    accountBalance,
+    records,
+    setRecordById,
+    usdJpy,
+  } = useLeverageCalculator()
 
   const {
     _id,
@@ -63,6 +68,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                 <TableRow>
                   <TableCell css={col1}>対象単価</TableCell>
                   <TableCell css={col2}>損益 (JPY)</TableCell>
+                  <TableCell css={col3}>証拠金残高 (JPY)</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -86,12 +92,32 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                       {/* 損益 */}
                       <TableCell>
                         <ProfitOrLoss
-                          value={calcProfitOrLossAsJpy(
-                            p,
-                            targetUnitPrice,
-                            orderQuantity,
-                            isLong,
-                            usdJpy
+                          value={getMoneyValue(
+                            calcProfitOrLossAsJpy(
+                              p,
+                              targetUnitPrice,
+                              orderQuantity,
+                              isLong,
+                              usdJpy
+                            )
+                          )}
+                        />
+                      </TableCell>
+
+                      {/* 証拠金残高 */}
+                      <TableCell>
+                        <PriceOrLoss
+                          value={getMoneyValue(
+                            calcAccountBalanceWithProfitOrLoss(
+                              accountBalance,
+                              calcProfitOrLossAsJpy(
+                                p,
+                                targetUnitPrice,
+                                orderQuantity,
+                                isLong,
+                                usdJpy
+                              )
+                            )
                           )}
                         />
                       </TableCell>
@@ -140,22 +166,6 @@ const col2 = css`
   width: 128px;
 `
 
-type InnerProps = {
-  value: number
-}
-
-const ProfitOrLoss: React.FC<InnerProps> = ({ value }) => {
-  return value < 0 ? (
-    <span css={[monospaceFont, loss]}>{value.toLocaleString()}</span>
-  ) : (
-    <span css={[monospaceFont, profit]}>+{value.toLocaleString()}</span>
-  )
-}
-
-const loss = css`
-  color: ${red["800"]};
-`
-
-const profit = css`
-  color: ${green["800"]};
+const col3 = css`
+  width: 128px;
 `

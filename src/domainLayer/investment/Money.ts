@@ -112,7 +112,7 @@ export const calcProfitOrLossAsJpy = (
   orderQuantity: number,
   isLong: boolean,
   usdJpy: number
-): number => {
+): JPY => {
   const targetUnitPriceAsJpy =
     targetUnitPrice.currency === "JPY"
       ? targetUnitPrice.asJpy
@@ -121,7 +121,25 @@ export const calcProfitOrLossAsJpy = (
   const comparePriceAsJpy =
     targetUnitPrice.currency === "JPY" ? comparePrice : comparePrice * usdJpy
 
-  return isLong
+  const price = isLong
     ? (comparePriceAsJpy - targetUnitPriceAsJpy) * orderQuantity
     : (targetUnitPriceAsJpy - comparePriceAsJpy) * orderQuantity
+
+  return {
+    asJpy: price,
+    currency: "JPY",
+  }
+}
+
+/**
+ * "損益" を計算して返す
+ */
+export const calcAccountBalanceWithProfitOrLoss = (
+  accountBalance: JPY,
+  profitOrLossAsJpy: JPY
+): JPY => {
+  return {
+    asJpy: accountBalance.asJpy + profitOrLossAsJpy.asJpy,
+    currency: "JPY",
+  }
 }

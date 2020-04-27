@@ -1,7 +1,6 @@
 import { createContext, useContext } from "react"
 import { Provider } from "src/components/helpers/LeverageCalculatorContext/Provider"
-import { Currency } from "src/domainLayer/investment/Currency"
-import { Money } from "src/domainLayer/investment/Money"
+import { JPY, Money } from "src/domainLayer/investment/Money"
 import { CastAny } from "src/types/utils"
 import { Brand } from "utility-types"
 
@@ -25,13 +24,12 @@ export type CalculatorRecord = {
 }
 
 type Value = {
-  accountBalance: Money
+  accountBalance: JPY
   addRecord: () => void
   fetchUsdJpy: () => Promise<void>
   isFetchingUsdJpy: boolean
   records: CalculatorRecord[]
   removeRecordById: (id: CalculatorRecordId) => void
-  setAccountBalanceCurrency: (next: Currency) => void
   setAccountBalanceValue: (next: number) => void
   setRecordById: (
     id: CalculatorRecordId,

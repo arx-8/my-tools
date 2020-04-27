@@ -13,8 +13,7 @@ import React from "react"
 import { ButtonGA } from "src/components/atoms/ButtonGA"
 import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
-import { LabeledRowWithRadios } from "src/components/molecules/LabeledRowWithRadios"
-import { currenciesLabeled } from "src/domainLayer/investment/Currency"
+import { LabeledRow } from "src/components/molecules/LabeledRow"
 import { getMoneyValue } from "src/domainLayer/investment/Money"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -27,7 +26,6 @@ export const CommonInputs: React.FC<Props> = () => {
     accountBalance,
     fetchUsdJpy,
     isFetchingUsdJpy,
-    setAccountBalanceCurrency,
     setAccountBalanceValue,
     setUsdJpy,
     usdJpy,
@@ -37,18 +35,14 @@ export const CommonInputs: React.FC<Props> = () => {
     <TableContainer component={Paper}>
       <Table css={tableCss} size="small">
         <TableBody>
-          <LabeledRowWithRadios
-            checked={accountBalance.currency}
-            label="証拠金残高"
-            onCheckRadio={setAccountBalanceCurrency}
-            radioValues={currenciesLabeled}
-          >
+          <LabeledRow label="証拠金残高 (JPY)">
             <FastNumberField
               arrowInputStep={calc10PerStep(getMoneyValue(accountBalance))}
               onChangeValue={(v) => setAccountBalanceValue(v ?? 0)}
               value={getMoneyValue(accountBalance)}
             />
-          </LabeledRowWithRadios>
+          </LabeledRow>
+
           <TableRow>
             <TableCell css={col1}>USD/JPY</TableCell>
             <TableCell css={col2}>

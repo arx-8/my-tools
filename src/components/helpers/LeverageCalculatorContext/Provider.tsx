@@ -8,11 +8,7 @@ import {
   LeverageCalculatorContext,
 } from "src/components/helpers/LeverageCalculatorContext"
 import { fetchLatest } from "src/dataLayer/exchangeRatesApi"
-import {
-  Money,
-  setMoneyCurrency,
-  setMoneyValue,
-} from "src/domainLayer/investment/Money"
+import { JPY } from "src/domainLayer/investment/Money"
 import { CastAny } from "src/types/utils"
 import { ulid } from "ulid"
 
@@ -39,7 +35,8 @@ const getDefaultRecord = (
 
 export const Provider: React.FC<Props> = ({ children }) => {
   // 証拠金残高
-  const [accountBalance, setAccountBalance] = useLocalStorage<Money>(
+  // 実装を簡単にするため、一旦 JPY 固定
+  const [accountBalance, setAccountBalance] = useLocalStorage<JPY>(
     "useLeverageCalculator.accountBalance",
     {
       asJpy: 100_000,
@@ -96,11 +93,12 @@ export const Provider: React.FC<Props> = ({ children }) => {
             })
           )
         },
-        setAccountBalanceCurrency: (currency) => {
-          setAccountBalance((prev) => setMoneyCurrency(prev, currency))
-        },
         setAccountBalanceValue: (value) => {
-          setAccountBalance((prev) => setMoneyValue(prev, value))
+          setAccountBalance((prev) => {
+            return produce(prev, (draft) => {
+              draft.asJpy = value
+            })
+          })
         },
         setRecordById: (id, producer) => {
           setRecords((prev) =>

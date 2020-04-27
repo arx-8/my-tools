@@ -151,7 +151,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
                         })}
                       </div>
                     </LabeledRow>
-                    <LabeledRow label="発注価格（￥）">
+                    <LabeledRow label="発注価格 (JPY)">
                       <FastNumberField
                         disabled
                         onChangeValue={() => /** NOP */ undefined}
