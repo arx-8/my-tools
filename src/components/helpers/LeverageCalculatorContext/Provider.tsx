@@ -1,5 +1,5 @@
 import produce from "immer"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { useLocalStorage } from "react-use"
 import {
@@ -65,6 +65,15 @@ export const Provider: React.FC<Props> = ({ children }) => {
     "useLeverageCalculator.records",
     [getDefaultRecord()]
   )
+
+  useEffect(() => {
+    ;(async () => {
+      const resp = await refetchUsdJpy({ force: true })
+      setUsdJpy(resp.rates.JPY)
+    })()
+    // 初回 render のみでよい
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <LeverageCalculatorContext.Provider
