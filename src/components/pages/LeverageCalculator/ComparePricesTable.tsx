@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
+import { TableSortLabel } from "@material-ui/core"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -17,6 +18,7 @@ import {
   calcProfitOrLossAsJpy,
   getMoneyValue,
 } from "src/domainLayer/investment/Money"
+import { sortBy } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
 type Props = {
@@ -35,10 +37,31 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
   const {
     _id,
     comparePrices,
+    comparePricesSortBy,
     isLong,
     orderQuantity,
     targetUnitPrice,
   } = records[recordIndex]
+
+  const toggleComparePricesSortBy = (): void => {
+    setRecordById(_id, (draft) => {
+      if (draft.comparePricesSortBy == null) {
+        draft.comparePricesSortBy = {
+          direction: "asc",
+          target: "targetUnitPrice",
+        }
+        draft.comparePrices = sortBy(draft.comparePrices, "asc")
+      } else {
+        const nextDir =
+          draft.comparePricesSortBy.direction === "asc" ? "desc" : "asc"
+        draft.comparePricesSortBy = {
+          direction: nextDir,
+          target: draft.comparePricesSortBy.target,
+        }
+        draft.comparePrices = sortBy(draft.comparePrices, nextDir)
+      }
+    })
+  }
 
   return (
     <Table size="small">
@@ -66,7 +89,15 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell css={col1}>対象単価</TableCell>
+                  <TableCell css={col1}>
+                    <TableSortLabel
+                      active={comparePricesSortBy?.target === "targetUnitPrice"}
+                      direction={comparePricesSortBy?.direction}
+                      onClick={toggleComparePricesSortBy}
+                    >
+                      対象単価 ({targetUnitPrice.currency})
+                    </TableSortLabel>
+                  </TableCell>
                   <TableCell css={col2}>損益 (JPY)</TableCell>
                   <TableCell css={col3}>証拠金残高 (JPY)</TableCell>
                 </TableRow>
@@ -159,13 +190,13 @@ const parentCol1 = css`
 `
 
 const col1 = css`
-  width: 128px;
+  width: 144px;
 `
 
 const col2 = css`
-  width: 128px;
+  width: 112px;
 `
 
 const col3 = css`
-  width: 128px;
+  width: 112px;
 `

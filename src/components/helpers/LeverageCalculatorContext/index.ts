@@ -6,6 +6,12 @@ import { Brand } from "utility-types"
 
 export type CalculatorRecordId = Brand<string, "CalculatorRecordId">
 
+export type SortBy = {
+  direction: "asc" | "desc"
+  /** 今のところ他の列や複合でソートすることはない */
+  target: "targetUnitPrice"
+}
+
 /**
  * 各計算機
  */
@@ -13,6 +19,8 @@ export type CalculatorRecord = {
   _id: CalculatorRecordId
   /** 価格比較用の価格 */
   comparePrices: number[]
+  /** 価格比較の並び順 */
+  comparePricesSortBy?: SortBy
   /** L or S */
   isLong: boolean
   /** レコード名 */
