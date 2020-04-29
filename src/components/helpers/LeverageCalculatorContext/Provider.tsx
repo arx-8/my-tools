@@ -1,12 +1,12 @@
 import produce from "immer"
 import React, { useEffect, useState } from "react"
-import { useQuery } from "react-query"
 import { useLocalStorage } from "react-use"
 import {
   CalculatorRecord,
   CalculatorRecordId,
   LeverageCalculatorContext,
 } from "src/components/helpers/LeverageCalculatorContext"
+import { useFetch } from "src/components/helpers/useFetch"
 import { fetchLatest } from "src/dataLayer/exchangeRatesApi"
 import { JPY } from "src/domainLayer/investment/Money"
 import { CastAny } from "src/types/utils"
@@ -49,17 +49,14 @@ export const Provider: React.FC<Props> = ({ children }) => {
   const [usdJpy, setUsdJpy] = useState<number>(100)
 
   // usdJpy 自動入力
-  const { isFetching: isFetchingUsdJpy, refetch: refetchUsdJpy } = useQuery(
-    "fetchLatestRates",
-    () =>
+  const { isFetching: isFetchingUsdJpy, execFetch: fetchUsdJpy } = useFetch({
+    cacheTime: 1 * 60 * 1_000,
+    fetcher: () =>
       fetchLatest({
         base: "USD",
         symbols: ["JPY"],
       }),
-    {
-      cacheTime: 1 * 60 * 1_000,
-    }
-  )
+  })
 
   const [records, setRecords] = useLocalStorage<CalculatorRecord[]>(
     "useLeverageCalculator.records",
@@ -68,8 +65,10 @@ export const Provider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     ;(async () => {
-      const resp = await refetchUsdJpy({ force: true })
-      setUsdJpy(resp.rates.JPY)
+      const resp = await fetchUsdJpy()
+      if (resp) {
+        setUsdJpy(resp.rates.JPY)
+      }
     })()
     // 初回 render のみでよい
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,8 +90,10 @@ export const Provider: React.FC<Props> = ({ children }) => {
           )
         },
         fetchUsdJpy: async () => {
-          const resp = await refetchUsdJpy({ force: true })
-          setUsdJpy(resp.rates.JPY)
+          const resp = await fetchUsdJpy()
+          if (resp) {
+            setUsdJpy(resp.rates.JPY)
+          }
         },
         isFetchingUsdJpy,
         records,
