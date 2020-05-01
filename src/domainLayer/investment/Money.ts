@@ -13,6 +13,9 @@ export type JPY = {
   currency: "JPY"
 }
 
+/**
+ * 非破壊・参照透過である
+ */
 export const setMoneyCurrency = (v: Money, nextCurrency: Currency): Money => {
   if (v.currency === "JPY" && v.currency !== nextCurrency) {
     return {
@@ -29,6 +32,9 @@ export const setMoneyCurrency = (v: Money, nextCurrency: Currency): Money => {
   return v
 }
 
+/**
+ * 非破壊・参照透過である
+ */
 export const setMoneyValue = (v: Money, value: number): Money => {
   switch (v.currency) {
     case "JPY":
@@ -127,19 +133,6 @@ export const calcProfitOrLossAsJpy = (
 
   return {
     asJpy: price,
-    currency: "JPY",
-  }
-}
-
-/**
- * "損益" を計算して返す
- */
-export const calcAccountBalanceWithProfitOrLoss = (
-  accountBalance: JPY,
-  profitOrLossAsJpy: JPY
-): JPY => {
-  return {
-    asJpy: accountBalance.asJpy + profitOrLossAsJpy.asJpy,
     currency: "JPY",
   }
 }

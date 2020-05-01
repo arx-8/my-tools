@@ -40,6 +40,7 @@ module.exports = {
           "Do not declare enums. Use `Plain Object` or `Literal Types` instead.",
       },
     ],
+    "prefer-template": "error",
     "react/jsx-boolean-value": "error",
     // jsx pragma に @emotion/core#jsx を使っている場合、Short Syntax 使えないため
     "react/jsx-fragments": ["error", "element"],

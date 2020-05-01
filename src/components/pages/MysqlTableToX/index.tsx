@@ -9,6 +9,7 @@ import { useLocalStorage } from "react-use"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { padT } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
+import { APP_VER } from "src/constants/app"
 import { mysqlTableToCsv, mysqlTableToJson } from "src/utils/mysqlUtils"
 
 type OwnProps = {
@@ -32,7 +33,7 @@ const exampleTable = `\
 export const MysqlTableToX: React.FC<OwnProps> = () => {
   const [mysqlTableValue, setMysqlTableValue] = useState(exampleTable)
   const [convertType, setConvertType] = useLocalStorage<ConvertType>(
-    "MysqlTableToX",
+    `${APP_VER}/MysqlTableToX`,
     "csv"
   )
 

@@ -52,14 +52,10 @@ const buildUrlWithQueryParams = (
   if (queryParams == null) {
     return url
   }
-  return (
-    url +
-    "?" +
-    Object.entries(queryParams)
-      .map(([k, v]) => `${k}=${v}`)
-      .reduce((acc, curr) => (acc += `&${curr}`), "")
-      .slice(1)
-  )
+  return `${url}?${Object.entries(queryParams)
+    .map(([k, v]) => `${k}=${v}`)
+    .reduce((acc, curr) => (acc += `&${curr}`), "")
+    .slice(1)}`
 }
 
 /**

@@ -14,15 +14,15 @@ import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { PriceOrLoss, ProfitOrLoss } from "src/components/atoms/ProfitOrLoss"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import {
-  calcAccountBalanceWithProfitOrLoss,
   calcProfitOrLossAsJpy,
   getMoneyValue,
 } from "src/domainLayer/investment/Money"
-import { sortBy } from "src/utils/arrayUtils"
+import { average, sortBy } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
 type Props = {
   children?: never
+  /** TODO ここ _id にして index を廃止すべき */
   recordIndex: number
 }
 
@@ -34,14 +34,14 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     usdJpy,
   } = useLeverageCalculator()
 
-  const {
-    _id,
-    comparePrices,
-    comparePricesSortBy,
-    isLong,
-    orderQuantity,
-    targetUnitPrice,
-  } = records[recordIndex]
+  const { _id, comparePrices, comparePricesSortBy, isLong, orders } = records[
+    recordIndex
+  ]
+
+  const order1st = orders[0]
+  if (order1st == null) {
+    throw new Error("Logic Failure: 'orders' must have 1 or more elements")
+  }
 
   const toggleComparePricesSortBy = (): void => {
     setRecordById(_id, (draft) => {
@@ -63,6 +63,36 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     })
   }
 
+  const calcTotalProfitOrLossAsJpy = (comparePrice: number): number => {
+    return orders.reduce((acc, curr) => {
+      return (acc += getMoneyValue(
+        calcProfitOrLossAsJpy(
+          comparePrice,
+          curr.targetUnitPrice,
+          curr.orderQuantity,
+          isLong,
+          usdJpy
+        )
+      ))
+    }, 0)
+  }
+
+  const calcAccountBalanceWithTotalProfitOrLossAsJpy = (
+    comparePrice: number
+  ): number => {
+    return orders.reduce((acc, curr) => {
+      return (acc += getMoneyValue(
+        calcProfitOrLossAsJpy(
+          comparePrice,
+          curr.targetUnitPrice,
+          curr.orderQuantity,
+          isLong,
+          usdJpy
+        )
+      ))
+    }, accountBalance.asJpy)
+  }
+
   return (
     <Table size="small">
       <TableBody>
@@ -77,8 +107,10 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
               }}
               onClick={() =>
                 setRecordById(_id, (draft) => {
-                  // デフォルト値は、入力値の基準になるよう、対象単価と同値とする
-                  draft.comparePrices.push(getMoneyValue(targetUnitPrice))
+                  // デフォルト値は、入力値の基準になるよう +-0 値（の近似値）にする
+                  draft.comparePrices.push(
+                    average(orders.map((o) => getMoneyValue(o.targetUnitPrice)))
+                  )
                 })
               }
               size="small"
@@ -95,7 +127,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                       direction={comparePricesSortBy?.direction}
                       onClick={toggleComparePricesSortBy}
                     >
-                      対象単価 ({targetUnitPrice.currency})
+                      対象単価 ({order1st.targetUnitPrice.currency})
                     </TableSortLabel>
                   </TableCell>
                   <TableCell css={col2}>損益 (JPY)</TableCell>
@@ -122,33 +154,14 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
 
                       {/* 損益 */}
                       <TableCell>
-                        <ProfitOrLoss
-                          value={getMoneyValue(
-                            calcProfitOrLossAsJpy(
-                              p,
-                              targetUnitPrice,
-                              orderQuantity,
-                              isLong,
-                              usdJpy
-                            )
-                          )}
-                        />
+                        <ProfitOrLoss value={calcTotalProfitOrLossAsJpy(p)} />
                       </TableCell>
 
                       {/* 証拠金残高 */}
                       <TableCell>
                         <PriceOrLoss
-                          value={getMoneyValue(
-                            calcAccountBalanceWithProfitOrLoss(
-                              accountBalance,
-                              calcProfitOrLossAsJpy(
-                                p,
-                                targetUnitPrice,
-                                orderQuantity,
-                                isLong,
-                                usdJpy
-                              )
-                            )
+                          value={calcAccountBalanceWithTotalProfitOrLossAsJpy(
+                            p
                           )}
                         />
                       </TableCell>

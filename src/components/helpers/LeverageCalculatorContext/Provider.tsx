@@ -7,6 +7,7 @@ import {
   LeverageCalculatorContext,
 } from "src/components/helpers/LeverageCalculatorContext"
 import { useFetch } from "src/components/helpers/useFetch"
+import { APP_VER } from "src/constants/app"
 import { fetchLatest } from "src/dataLayer/exchangeRatesApi"
 import { JPY } from "src/domainLayer/investment/Money"
 import { CastAny } from "src/types/utils"
@@ -14,6 +15,10 @@ import { ulid } from "ulid"
 
 type Props = {
   children: React.ReactChild | React.ReactChild[]
+}
+
+const createCalculatorRecordId = (): CalculatorRecordId => {
+  return ulid() as CastAny
 }
 
 const getDefaultRecord = (
@@ -25,11 +30,15 @@ const getDefaultRecord = (
     comparePricesSortBy: undefined,
     isLong: true,
     name: "untitled",
-    orderQuantity: 1,
-    targetUnitPrice: {
-      asUsd: 0,
-      currency: "USD" as const,
-    },
+    orders: [
+      {
+        orderQuantity: 1,
+        targetUnitPrice: {
+          asJpy: 0,
+          currency: "JPY" as const,
+        },
+      },
+    ],
     ...overwrite,
   }
 }
@@ -38,7 +47,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
   // 証拠金残高
   // 実装を簡単にするため、一旦 JPY 固定
   const [accountBalance, setAccountBalance] = useLocalStorage<JPY>(
-    "useLeverageCalculator.accountBalance",
+    `${APP_VER}/useLeverageCalculator.accountBalance`,
     {
       asJpy: 100_000,
       currency: "JPY",
@@ -59,7 +68,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
   })
 
   const [records, setRecords] = useLocalStorage<CalculatorRecord[]>(
-    "useLeverageCalculator.records",
+    `${APP_VER}/useLeverageCalculator.records`,
     [getDefaultRecord()]
   )
 
@@ -129,8 +138,4 @@ export const Provider: React.FC<Props> = ({ children }) => {
       {children}
     </LeverageCalculatorContext.Provider>
   )
-}
-
-const createCalculatorRecordId = (): CalculatorRecordId => {
-  return ulid() as CastAny
 }
