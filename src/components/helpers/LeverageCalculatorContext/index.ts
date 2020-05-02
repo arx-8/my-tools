@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react"
 import { Provider } from "src/components/helpers/LeverageCalculatorContext/Provider"
-import { JPY, Money } from "src/domainLayer/investment/Money"
+import { JPY } from "src/domainLayer/investment/Money"
+import { Order } from "src/domainLayer/investment/Order"
 import { CastAny } from "src/types/utils"
 import { SortDirection } from "src/utils/arrayUtils"
 import { Brand } from "utility-types"
@@ -11,13 +12,6 @@ export type SortBy = {
   direction: SortDirection
   /** 今のところ他の列や複合でソートすることはない */
   target: "targetUnitPrice"
-}
-
-export type Order = {
-  /** 発注数 */
-  orderQuantity: number
-  /** 対象単価 */
-  targetUnitPrice: Money
 }
 
 /**

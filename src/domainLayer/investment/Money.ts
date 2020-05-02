@@ -74,6 +74,86 @@ export const getMoneyValueAsJpy = (v: Money, usdJpy: number): number => {
   }
 }
 
+export const multiplyMoney = (v: Money, multiplyNum: number): Money => {
+  return setMoneyValue(v, getMoneyValue(v) * multiplyNum)
+}
+
+export const addMoney = (a: Money, b: Money): Money => {
+  switch (a.currency) {
+    case "JPY":
+      if (a.currency !== b.currency) {
+        throw new Error(
+          `Currencies must be equal. a=${a.currency}, b=${b.currency}`
+        )
+      }
+
+      return {
+        asJpy: a.asJpy + b.asJpy,
+        currency: "JPY",
+      }
+
+    case "USD":
+      if (a.currency !== b.currency) {
+        throw new Error(
+          `Currencies must be equal. a=${a.currency}, b=${b.currency}`
+        )
+      }
+
+      return {
+        asUsd: a.asUsd + b.asUsd,
+        currency: "USD",
+      }
+
+    default:
+      return assertNever(a)
+  }
+}
+
+export const divideMoney = (v: Money, denominator: number): Money => {
+  if (denominator === 0) {
+    throw new Error("Logic Failure: ZeroDivisionError")
+  }
+
+  switch (v.currency) {
+    case "JPY":
+      return {
+        asJpy: v.asJpy / denominator,
+        currency: v.currency,
+      }
+
+    case "USD":
+      return {
+        asUsd: v.asUsd / denominator,
+        currency: v.currency,
+      }
+
+    default:
+      return assertNever(v)
+  }
+}
+
+/**
+ * 四捨五入
+ */
+export const roundMoney = (v: Money): Money => {
+  switch (v.currency) {
+    case "JPY":
+      return {
+        asJpy: Math.round(v.asJpy),
+        currency: v.currency,
+      }
+
+    case "USD":
+      return {
+        asUsd: Math.round(v.asUsd),
+        currency: v.currency,
+      }
+
+    default:
+      return assertNever(v)
+  }
+}
+
 /**
  * "発注価格" を計算して返す
  */

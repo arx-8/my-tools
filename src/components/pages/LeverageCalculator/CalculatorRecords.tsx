@@ -10,10 +10,7 @@ import React, { Fragment } from "react"
 import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { FastTextField } from "src/components/atoms/FastTextField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
-import {
-  Order,
-  useLeverageCalculator,
-} from "src/components/helpers/LeverageCalculatorContext"
+import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { LabeledRow } from "src/components/molecules/LabeledRow"
 import { LabeledRowWithRadios } from "src/components/molecules/LabeledRowWithRadios"
 import { ComparePricesTable } from "src/components/pages/LeverageCalculator/ComparePricesTable"
@@ -27,6 +24,7 @@ import {
   getMoneyValueAsJpy,
   setMoneyCurrency,
 } from "src/domainLayer/investment/Money"
+import { Order, getHeadOrderStrict } from "src/domainLayer/investment/Order"
 
 type Props = {
   children?: never
@@ -73,12 +71,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
           setRecordById(_id, producer)
         }
 
-        const order1st = orders[0]
-        if (order1st == null) {
-          throw new Error(
-            "Logic Failure: 'orders' must have 1 or more elements"
-          )
-        }
+        const order1st = getHeadOrderStrict(orders)
 
         return (
           <Fragment key={_id}>

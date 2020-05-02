@@ -26,7 +26,8 @@ const getDefaultRecord = (
 ): CalculatorRecord => {
   return {
     _id: createCalculatorRecordId(),
-    comparePrices: [0],
+    // 初期値 0 より、「追加」ボタンで追加した基準値の方が便利なため、初期値は空にしておく
+    comparePrices: [],
     comparePricesSortBy: undefined,
     isLong: true,
     name: "untitled",

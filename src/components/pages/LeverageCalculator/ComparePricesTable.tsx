@@ -16,8 +16,13 @@ import { useLeverageCalculator } from "src/components/helpers/LeverageCalculator
 import {
   calcProfitOrLossAsJpy,
   getMoneyValue,
+  roundMoney,
 } from "src/domainLayer/investment/Money"
-import { average, sortBy } from "src/utils/arrayUtils"
+import {
+  calcAveragePrice,
+  getHeadOrderStrict,
+} from "src/domainLayer/investment/Order"
+import { sortBy } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
 type Props = {
@@ -38,10 +43,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     recordIndex
   ]
 
-  const order1st = orders[0]
-  if (order1st == null) {
-    throw new Error("Logic Failure: 'orders' must have 1 or more elements")
-  }
+  const order1st = getHeadOrderStrict(orders)
 
   const toggleComparePricesSortBy = (): void => {
     setRecordById(_id, (draft) => {
@@ -109,7 +111,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                 setRecordById(_id, (draft) => {
                   // デフォルト値は、入力値の基準になるよう +-0 値（の近似値）にする
                   draft.comparePrices.push(
-                    average(orders.map((o) => getMoneyValue(o.targetUnitPrice)))
+                    getMoneyValue(roundMoney(calcAveragePrice(orders)))
                   )
                 })
               }
@@ -169,7 +171,6 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                       {/* 操作 */}
                       <TableCell>
                         <IconButtonGA
-                          disabled={comparePrices.length <= 1}
                           gaData={{
                             dataEventAction: "delete compare price",
                             dataEventCategory: "LeverageCalculator",

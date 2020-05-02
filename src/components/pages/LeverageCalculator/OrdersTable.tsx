@@ -14,6 +14,7 @@ import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { getMoneyValue, setMoneyValue } from "src/domainLayer/investment/Money"
+import { getHeadOrderStrict } from "src/domainLayer/investment/Order"
 import { SortDirection } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -31,10 +32,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
   const { records, setRecordById } = useLeverageCalculator()
   const { _id, orders } = records[recordIndex]
 
-  const order1st = orders[0]
-  if (order1st == null) {
-    throw new Error("Logic Failure: 'orders' must have 1 or more elements")
-  }
+  const order1st = getHeadOrderStrict(orders)
 
   const toggleDirection = (): void => {
     const next = direction === "asc" ? "desc" : "asc"

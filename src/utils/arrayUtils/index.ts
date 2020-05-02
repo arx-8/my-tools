@@ -29,11 +29,3 @@ const descSorter = <T extends Sortable>(a: T, b: T): SorterReturn => {
   if (a < b) return 1
   return 0
 }
-
-export const sum = (values: number[]): number => {
-  return values.reduce((acc, curr) => (acc += curr), 0)
-}
-
-export const average = (values: number[]): number => {
-  return sum(values) / values.length
-}
