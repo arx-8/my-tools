@@ -1,5 +1,6 @@
-import { Brand, CastAny, ValueOf } from "src/types/utils"
+import { CastAny, ValueOf } from "src/types/utils"
 import { CompressedString } from "src/utils/compress"
+import { Brand } from "utility-types"
 
 // --- react-router用のパスの定義 ---
 /**
@@ -51,14 +52,10 @@ const buildUrlWithQueryParams = (
   if (queryParams == null) {
     return url
   }
-  return (
-    url +
-    "?" +
-    Object.entries(queryParams)
-      .map(([k, v]) => `${k}=${v}`)
-      .reduce((acc, curr) => (acc += `&${curr}`), "")
-      .slice(1)
-  )
+  return `${url}?${Object.entries(queryParams)
+    .map(([k, v]) => `${k}=${v}`)
+    .reduce((acc, curr) => (acc += `&${curr}`), "")
+    .slice(1)}`
 }
 
 /**

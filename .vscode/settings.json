@@ -46,6 +46,7 @@
     "lzstring",
     "monospace",
     "rawencoded",
-    "refetch"
+    "refetch",
+    "ulid"
   ]
 }
