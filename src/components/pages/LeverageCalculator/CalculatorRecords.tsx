@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
 import { FormControlLabel, Paper, Radio } from "@material-ui/core"
-import { red } from "@material-ui/core/colors"
+import { grey, red } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableContainer from "@material-ui/core/TableContainer"
@@ -151,6 +151,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
                   <LabeledRow label="発注価格 (JPY)">
                     <FastNumberField
                       disabled
+                      exCss={disabledInput}
                       onChangeValue={() => /** NOP */ undefined}
                       value={calcTotalOrderPriceAsJpy(orders)}
                     />
@@ -158,6 +159,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
                   <LabeledRow label="レバレッジ">
                     <FastNumberField
                       disabled
+                      exCss={disabledInput}
                       onChangeValue={() => /** NOP */ undefined}
                       value={calcTotalLeverage(orders)}
                     />
@@ -176,9 +178,6 @@ export const CalculatorRecords: React.FC<Props> = () => {
 }
 
 const tableCss = css`
-  /* max-width: 800px;
-  table-layout: fixed; */
-
   & td {
     border-bottom: 1px solid rgba(160, 160, 160, 1);
   }
@@ -197,18 +196,10 @@ const deleteBtn = css`
   color: ${red["400"]};
 `
 
-// const col1 = css`
-//   width: 88px;
-// `
-
-// const col2 = css`
-//   width: 128px;
-// `
-
-// const col3 = css`
-//   width: 88px;
-// `
-
 const radios = css`
   display: flex;
+`
+
+const disabledInput = css`
+  background-color: ${grey["400"]}!important;
 `

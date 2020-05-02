@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { SerializedStyles, jsx } from "@emotion/core"
 import { InputProps, TextField, TextFieldProps } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 
@@ -8,6 +10,7 @@ type Props = {
   /** inputProps.step と同等機能 */
   arrowInputStep?: number
   children?: never
+  exCss?: SerializedStyles
   /**
    * TextFieldProps.onChange との衝突回避のため、このような名前にしている
    * 固定 disable で onChangeValue={undefined} したいケースもあるが、
@@ -20,6 +23,7 @@ type Props = {
 export const FastNumberField: React.FC<Props> = ({
   allowMinus,
   arrowInputStep,
+  exCss,
   onChangeValue,
   onFocus,
   value,
@@ -51,6 +55,7 @@ export const FastNumberField: React.FC<Props> = ({
   return (
     <TextField
       {...rest}
+      css={exCss}
       onBlur={onSubmit}
       onChange={onChangeTemp}
       // onFocus 時に全選択された方が、ほとんどのケースで便利なため

@@ -79,9 +79,6 @@ export const CommonInputs: React.FC<Props> = () => {
 }
 
 const tableCss = css`
-  /* max-width: 800px;
-  table-layout: fixed; */
-
   & td {
     border-bottom: 1px solid rgba(160, 160, 160, 1);
   }
