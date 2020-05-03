@@ -76,6 +76,7 @@ const diffArea = css`
   white-space: pre-wrap;
   margin: unset;
   font-family: inherit;
+  overflow-wrap: break-word;
 `
 
 const addedCss = css`
