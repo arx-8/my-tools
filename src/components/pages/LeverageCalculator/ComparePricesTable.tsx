@@ -13,6 +13,7 @@ import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { PriceOrLoss, ProfitOrLoss } from "src/components/atoms/ProfitOrLoss"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
+import { tar } from "src/components/styles/styles"
 import {
   calcProfitOrLossAsJpy,
   getMoneyValue,
@@ -142,7 +143,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                     // eslint-disable-next-line react/no-array-index-key
                     <TableRow key={index}>
                       {/* 対象単価 */}
-                      <TableCell>
+                      <TableCell css={tar}>
                         <FastNumberField
                           arrowInputStep={calc10PerStep(p)}
                           onChangeValue={(v) => {
@@ -155,12 +156,12 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                       </TableCell>
 
                       {/* 損益 */}
-                      <TableCell>
+                      <TableCell css={tar}>
                         <ProfitOrLoss value={calcTotalProfitOrLossAsJpy(p)} />
                       </TableCell>
 
                       {/* 証拠金残高 */}
-                      <TableCell>
+                      <TableCell css={tar}>
                         <PriceOrLoss
                           value={calcAccountBalanceWithTotalProfitOrLossAsJpy(
                             p

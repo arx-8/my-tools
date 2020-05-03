@@ -3,6 +3,7 @@ import { css, jsx } from "@emotion/core"
 import { green, grey, red } from "@material-ui/core/colors"
 import React from "react"
 import { monospaceFont } from "src/components/styles/styles"
+import { toLocaleStringFixed } from "src/utils/numberUtils"
 
 type Props = {
   value: number
@@ -13,7 +14,7 @@ type Props = {
  */
 export const ProfitOrLoss: React.FC<Props> = ({ value }) => {
   // 小数部分を色分けすることで、正確性を保ちつつ些事が目に付かないようにする
-  const [integer, decimal] = value.toLocaleString().split(".") as [
+  const [integer, decimal] = toLocaleStringFixed(value, 3).split(".") as [
     string,
     string | undefined
   ]
@@ -46,7 +47,7 @@ const decimalCss = css`
  * ＋値の場合はただの文字列
  */
 export const PriceOrLoss: React.FC<Props> = ({ value }) => {
-  const [integer, decimal] = value.toLocaleString().split(".") as [
+  const [integer, decimal] = toLocaleStringFixed(value, 3).split(".") as [
     string,
     string | undefined
   ]

@@ -24,3 +24,10 @@ export const monospaceFont = css`
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace !important;
 `
+
+/**
+ * text-align: right
+ */
+export const tar = css`
+  text-align: right;
+`
