@@ -7,15 +7,15 @@ import TableBody from "@material-ui/core/TableBody"
 import TableContainer from "@material-ui/core/TableContainer"
 import DeleteIcon from "@material-ui/icons/Delete"
 import React, { Fragment } from "react"
-import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { FastTextField } from "src/components/atoms/FastTextField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
+import { PriceOrLoss } from "src/components/atoms/ProfitOrLoss"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { LabeledRow } from "src/components/molecules/LabeledRow"
 import { LabeledRowWithRadios } from "src/components/molecules/LabeledRowWithRadios"
 import { ComparePricesTable } from "src/components/pages/LeverageCalculator/ComparePricesTable"
 import { OrdersTable } from "src/components/pages/LeverageCalculator/OrdersTable"
-import { padT } from "src/components/styles/styles"
+import { padT, tar } from "src/components/styles/styles"
 import { currenciesLabeled } from "src/domainLayer/investment/Currency"
 import { lsValuesLabeled } from "src/domainLayer/investment/LS"
 import {
@@ -149,20 +149,14 @@ export const CalculatorRecords: React.FC<Props> = () => {
                     </div>
                   </LabeledRow>
                   <LabeledRow label="発注価格 (JPY)">
-                    <FastNumberField
-                      disabled
-                      exCss={disabledInput}
-                      onChangeValue={() => /** NOP */ undefined}
-                      value={calcTotalOrderPriceAsJpy(orders)}
-                    />
+                    <div css={[calcCell, tar]}>
+                      <PriceOrLoss value={calcTotalOrderPriceAsJpy(orders)} />
+                    </div>
                   </LabeledRow>
                   <LabeledRow label="レバレッジ">
-                    <FastNumberField
-                      disabled
-                      exCss={disabledInput}
-                      onChangeValue={() => /** NOP */ undefined}
-                      value={calcTotalLeverage(orders)}
-                    />
+                    <div css={[calcCell, tar]}>
+                      <PriceOrLoss value={calcTotalLeverage(orders)} />
+                    </div>
                   </LabeledRow>
                 </TableBody>
               </Table>
@@ -200,6 +194,7 @@ const radios = css`
   display: flex;
 `
 
-const disabledInput = css`
-  background-color: ${grey["400"]}!important;
+const calcCell = css`
+  background-color: ${grey.A100}!important;
+  width: 196px;
 `
