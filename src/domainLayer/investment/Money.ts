@@ -139,7 +139,9 @@ export const addMoney = (a: Money, b: Money): Money => {
 
 export const divideMoney = (v: Money, denominator: number): Money => {
   if (denominator === 0) {
-    throw new Error("Logic Failure: ZeroDivisionError")
+    // ZeroDivisionError guard
+    // 実用的な操作では発生しないが入力はできてしまうため、実装している
+    return setMoneyValue(v, Infinity)
   }
 
   switch (v.currency) {

@@ -14,7 +14,6 @@ import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { getMoneyValue, setMoneyValue } from "src/domainLayer/investment/Money"
-import { getHeadOrderStrict } from "src/domainLayer/investment/Order"
 import { SortDirection } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -31,8 +30,6 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
 
   const { records, setRecordById } = useLeverageCalculator()
   const { _id, orders } = records[recordIndex]
-
-  const order1st = getHeadOrderStrict(orders)
 
   const toggleDirection = (): void => {
     const next = direction === "asc" ? "desc" : "asc"
@@ -56,10 +53,8 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
         }}
         onClick={() =>
           setRecordById(_id, (draft) => {
-            draft.orders.push({
-              orderQuantity: 1,
-              targetUnitPrice: setMoneyValue(order1st.targetUnitPrice, 0),
-            })
+            // 近い価格で発注することが多いはずなので、初期値は直近と同じ価格
+            draft.orders.push(draft.orders[draft.orders.length - 1])
           })
         }
         size="small"
