@@ -56,7 +56,17 @@ export const Provider: React.FC<Props> = ({ children }) => {
   )
 
   // usdJpy
-  const [usdJpy, setUsdJpy] = useState<number>(100)
+  const [usdJpy, _setUsdJpy] = useState<number>(100)
+  /**
+   * ZeroDivisionError を防ぐため、異常な set をさせない setter
+   */
+  const setUsdJpySafety = (next = 1): void => {
+    if (next <= 0) {
+      _setUsdJpy(1)
+    } else {
+      _setUsdJpy(next)
+    }
+  }
 
   // usdJpy 自動入力
   const { isFetching: isFetchingUsdJpy, execFetch: fetchUsdJpy } = useFetch({
@@ -77,7 +87,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
     ;(async () => {
       const resp = await fetchUsdJpy()
       if (resp) {
-        setUsdJpy(resp.rates.JPY)
+        setUsdJpySafety(resp.rates.JPY)
       }
     })()
     // 初回 render のみでよい
@@ -102,7 +112,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
         fetchUsdJpy: async () => {
           const resp = await fetchUsdJpy()
           if (resp) {
-            setUsdJpy(resp.rates.JPY)
+            setUsdJpySafety(resp.rates.JPY)
           }
         },
         isFetchingUsdJpy,
@@ -132,7 +142,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
             })
           )
         },
-        setUsdJpy,
+        setUsdJpy: setUsdJpySafety,
         usdJpy,
       }}
     >
