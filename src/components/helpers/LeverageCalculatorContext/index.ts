@@ -38,6 +38,10 @@ export type CalculatorRecord = {
 type Value = {
   accountBalance: JPY
   addRecord: () => void
+  /**
+   * 全注文合計レバレッジ
+   */
+  allTotalLeverage: number
   fetchUsdJpy: () => Promise<void>
   isFetchingUsdJpy: boolean
   records: CalculatorRecord[]

@@ -7,13 +7,16 @@ import {
   TableBody,
   TableContainer,
 } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
 import TableCell from "@material-ui/core/TableCell"
 import TableRow from "@material-ui/core/TableRow"
 import React from "react"
 import { ButtonGA } from "src/components/atoms/ButtonGA"
 import { FastNumberField } from "src/components/atoms/FastNumberField"
+import { PriceOrLoss } from "src/components/atoms/ProfitOrLoss"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { LabeledRow } from "src/components/molecules/LabeledRow"
+import { tar } from "src/components/styles/styles"
 import { getMoneyValue } from "src/domainLayer/investment/Money"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -29,6 +32,7 @@ export const CommonInputs: React.FC<Props> = () => {
     setAccountBalanceValue,
     setUsdJpy,
     usdJpy,
+    allTotalLeverage,
   } = useLeverageCalculator()
 
   return (
@@ -72,6 +76,12 @@ export const CommonInputs: React.FC<Props> = () => {
               )}
             </TableCell>
           </TableRow>
+
+          <LabeledRow label="レバレッジ">
+            <div css={[calcCell, tar]}>
+              <PriceOrLoss value={allTotalLeverage} />
+            </div>
+          </LabeledRow>
         </TableBody>
       </Table>
     </TableContainer>
@@ -94,4 +104,9 @@ const col2 = css`
 
 const col3 = css`
   width: 88px;
+`
+
+const calcCell = css`
+  background-color: ${grey.A100}!important;
+  width: 196px;
 `
