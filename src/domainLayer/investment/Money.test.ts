@@ -10,10 +10,9 @@ describe("calcLeverage", () => {
         currency: "JPY",
       },
       {
-        asJpy: 100,
+        asJpy: 1_000,
         currency: "JPY",
       },
-      10,
       100
     )
 
@@ -30,10 +29,9 @@ describe("calcLeverage", () => {
         currency: "JPY",
       },
       {
-        asUsd: 50,
+        asUsd: 100,
         currency: "USD",
       },
-      2,
       200
     )
 

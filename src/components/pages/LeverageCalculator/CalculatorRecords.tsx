@@ -22,6 +22,7 @@ import {
   calcLeverage,
   calcOrderPrice,
   getMoneyValueAsJpy,
+  multiplyMoney,
   setMoneyCurrency,
 } from "src/domainLayer/investment/Money"
 import { Order, getHeadOrderStrict } from "src/domainLayer/investment/Order"
@@ -52,8 +53,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
     return orders.reduce((acc, curr) => {
       return (acc += calcLeverage(
         accountBalance,
-        curr.targetUnitPrice,
-        curr.orderQuantity,
+        multiplyMoney(curr.targetUnitPrice, curr.orderQuantity),
         usdJpy
       ))
     }, 0)

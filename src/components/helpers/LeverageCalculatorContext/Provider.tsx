@@ -9,7 +9,13 @@ import {
 import { useFetch } from "src/components/helpers/useFetch"
 import { APP_VER } from "src/constants/app"
 import { fetchLatest } from "src/dataLayer/exchangeRatesApi"
-import { JPY } from "src/domainLayer/investment/Money"
+import {
+  JPY,
+  addMoney,
+  calcLeverage,
+  convertCurrency,
+  multiplyMoney,
+} from "src/domainLayer/investment/Money"
 import { CastAny } from "src/types/utils"
 import { ulid } from "ulid"
 
@@ -94,6 +100,20 @@ export const Provider: React.FC<Props> = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // 全注文合計レバレッジ
+  const allTotalPrice = records
+    .flatMap((r) =>
+      r.orders.map((o) =>
+        convertCurrency(
+          multiplyMoney(o.targetUnitPrice, o.orderQuantity),
+          accountBalance.currency,
+          usdJpy
+        )
+      )
+    )
+    .reduce((acc, curr) => addMoney(acc, curr))
+  const allTotalLeverage = calcLeverage(accountBalance, allTotalPrice, usdJpy)
+
   return (
     <LeverageCalculatorContext.Provider
       value={{
@@ -109,6 +129,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
             })
           )
         },
+        allTotalLeverage,
         fetchUsdJpy: async () => {
           const resp = await fetchUsdJpy()
           if (resp) {

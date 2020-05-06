@@ -52,6 +52,34 @@ export const setMoneyValue = (v: Money, value: number): Money => {
   }
 }
 
+export const convertCurrency = (
+  fromValue: Money,
+  toCurrency: Currency,
+  usdJpy: number
+): Money => {
+  // from, to が同じなら、何もしない
+  if (fromValue.currency === toCurrency) {
+    return fromValue
+  }
+
+  switch (fromValue.currency) {
+    case "JPY":
+      return {
+        asUsd: fromValue.asJpy / usdJpy,
+        currency: "USD",
+      }
+
+    case "USD":
+      return {
+        asJpy: fromValue.asUsd * usdJpy,
+        currency: "JPY",
+      }
+
+    default:
+      return assertNever(fromValue)
+  }
+}
+
 export const getMoneyValue = (v: Money): number => {
   switch (v.currency) {
     case "JPY":
@@ -172,21 +200,18 @@ export const calcOrderPrice = (
  */
 export const calcLeverage = (
   accountBalance: Money,
-  targetUnitPrice: Money,
-  orderQuantity: number,
+  price: Money,
   usdJpy: number
 ): number => {
   // 全て JPY に寄せてから計算する
-  const accountBalanceAsJpy =
-    accountBalance.currency === "JPY"
-      ? accountBalance.asJpy
-      : accountBalance.asUsd * usdJpy
-  const targetUnitPriceAsJpy =
-    targetUnitPrice.currency === "JPY"
-      ? targetUnitPrice.asJpy
-      : targetUnitPrice.asUsd * usdJpy
+  const accountBalanceAsJpy = convertCurrency(
+    accountBalance,
+    "JPY",
+    usdJpy
+  ) as JPY
+  const priceAsJpy = convertCurrency(price, "JPY", usdJpy) as JPY
 
-  return (targetUnitPriceAsJpy * orderQuantity) / accountBalanceAsJpy
+  return priceAsJpy.asJpy / accountBalanceAsJpy.asJpy
 }
 
 /**
