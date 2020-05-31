@@ -48,9 +48,8 @@ type Value = {
   removeRecordById: (id: CalculatorRecordId) => void
   setAccountBalanceValue: (next: number) => void
   setRecordById: (
-    id: CalculatorRecordId,
-    producer: (draft: CalculatorRecord) => void
-  ) => void
+    id: CalculatorRecordId
+  ) => (producer: (draft: CalculatorRecord) => void) => void
   setUsdJpy: (next: number) => void
   usdJpy: number
 }

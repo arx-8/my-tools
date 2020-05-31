@@ -40,14 +40,20 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     usdJpy,
   } = useLeverageCalculator()
 
-  const { _id, comparePrices, comparePricesSortBy, isLong, orders } = records[
-    recordIndex
-  ]
+  const {
+    _id,
+    comparePrices,
+    comparePricesSortBy,
+    isLong,
+    orders,
+    selectedComparePriceIndex,
+  } = records[recordIndex]
 
+  const setRecord = setRecordById(_id)
   const order1st = getHeadOrderStrict(orders)
 
   const toggleComparePricesSortBy = (): void => {
-    setRecordById(_id, (draft) => {
+    setRecord((draft) => {
       if (draft.comparePricesSortBy == null) {
         draft.comparePricesSortBy = {
           direction: "asc",
@@ -109,7 +115,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                 dataOn: "click",
               }}
               onClick={() =>
-                setRecordById(_id, (draft) => {
+                setRecord((draft) => {
                   // デフォルト値は、入力値の基準になるよう +-0 値（の近似値）にする
                   draft.comparePrices.push(
                     getMoneyValue(roundMoney(calcAveragePrice(orders)))
@@ -147,7 +153,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                         <FastNumberField
                           arrowInputStep={calc10PerStep(p)}
                           onChangeValue={(v) => {
-                            setRecordById(_id, (draft) => {
+                            setRecord((draft) => {
                               draft.comparePrices[index] = v ?? 0
                             })
                           }}
@@ -178,7 +184,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                             dataOn: "click",
                           }}
                           onClick={() => {
-                            setRecordById(_id, (draft) => {
+                            setRecord((draft) => {
                               draft.comparePrices = draft.comparePrices.filter(
                                 (_, draftIdx) => draftIdx !== index
                               )

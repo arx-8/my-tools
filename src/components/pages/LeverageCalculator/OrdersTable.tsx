@@ -35,10 +35,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
   const { records, setRecordById } = useLeverageCalculator()
   const { _id, orders } = records[recordIndex]
 
-  const setRecord = (producer: (draft: CalculatorRecord) => void): void => {
-    // 複数回使うため、部分適用
-    setRecordById(_id, producer)
-  }
+  const setRecord = setRecordById(_id)
 
   const toggleDirection = (): void => {
     const next = direction === "asc" ? "desc" : "asc"

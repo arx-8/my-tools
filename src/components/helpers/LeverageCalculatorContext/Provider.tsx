@@ -158,7 +158,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
             })
           )
         },
-        setRecordById: (id, producer) => {
+        setRecordById: (id) => (producer) => {
           setRecords(
             produce(records, (draft) => {
               const target = draft.find((r) => r._id === id)
