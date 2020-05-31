@@ -50,16 +50,20 @@ const getDefaultRecord = (
   }
 }
 
+const initialAccountBalance: JPY = {
+  asJpy: 100_000,
+  currency: "JPY",
+}
+
 export const Provider: React.FC<Props> = ({ children }) => {
   // 証拠金残高
   // 実装を簡単にするため、一旦 JPY 固定
-  const [accountBalance, setAccountBalance] = useLocalStorage<JPY>(
+  const [_accountBalance, setAccountBalance] = useLocalStorage<JPY>(
     `${APP_VER}/useLeverageCalculator.accountBalance`,
-    {
-      asJpy: 100_000,
-      currency: "JPY",
-    }
+    initialAccountBalance
   )
+  // useLocalStorage の remove を呼ぶと undefined になってしまうため
+  const accountBalance = _accountBalance ?? initialAccountBalance
 
   // usdJpy
   const [usdJpy, _setUsdJpy] = useState<number>(100)
@@ -84,10 +88,11 @@ export const Provider: React.FC<Props> = ({ children }) => {
       }),
   })
 
-  const [records, setRecords] = useLocalStorage<CalculatorRecord[]>(
+  const [_records, setRecords] = useLocalStorage<CalculatorRecord[]>(
     `${APP_VER}/useLeverageCalculator.records`,
     [getDefaultRecord()]
   )
+  const records = _records ?? [getDefaultRecord()]
 
   useEffect(() => {
     ;(async () => {
@@ -101,7 +106,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
   }, [])
 
   // 全注文合計レバレッジ
-  const allTotalPrice = records
+  const allTotalPrice = (records ?? [getDefaultRecord()])
     .flatMap((r) =>
       r.orders.map((o) =>
         convertCurrency(
@@ -119,11 +124,11 @@ export const Provider: React.FC<Props> = ({ children }) => {
       value={{
         accountBalance,
         addRecord: () => {
-          setRecords((prev) =>
-            produce(prev, (draft) => {
+          setRecords(
+            produce(records, (draft) => {
               draft.push(
                 getDefaultRecord({
-                  name: `untitled ${prev.length + 1}`,
+                  name: `untitled ${records.length + 1}`,
                 })
               )
             })
@@ -139,22 +144,22 @@ export const Provider: React.FC<Props> = ({ children }) => {
         isFetchingUsdJpy,
         records,
         removeRecordById: (id) => {
-          setRecords((prev) =>
-            prev.filter((r) => {
+          setRecords(
+            records.filter((r) => {
               return r._id !== id
             })
           )
         },
         setAccountBalanceValue: (value) => {
-          setAccountBalance((prev) => {
-            return produce(prev, (draft) => {
+          setAccountBalance(
+            produce(accountBalance, (draft) => {
               draft.asJpy = value
             })
-          })
+          )
         },
         setRecordById: (id, producer) => {
-          setRecords((prev) =>
-            produce(prev, (draft) => {
+          setRecords(
+            produce(records, (draft) => {
               const target = draft.find((r) => r._id === id)
               if (target == null) {
                 throw new Error("Logic Failure!")
