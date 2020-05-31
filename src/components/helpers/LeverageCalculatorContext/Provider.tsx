@@ -13,6 +13,7 @@ import {
   JPY,
   addMoney,
   calcLeverage,
+  calcTotalProfitOrLossAsJpy,
   convertCurrency,
   multiplyMoney,
   newEmptyMoney,
@@ -125,6 +126,25 @@ export const Provider: React.FC<Props> = ({ children }) => {
     )
   const allTotalLeverage = calcLeverage(accountBalance, allTotalPrice, usdJpy)
 
+  // 全価格比較合計損益
+  const allTotalProfitOrLoss = records
+    .filter(
+      (r) =>
+        r.selectedComparePriceIndex != null &&
+        r.comparePrices[r.selectedComparePriceIndex] != null
+    )
+    .reduce((acc, curr) => {
+      return (
+        acc +
+        calcTotalProfitOrLossAsJpy(
+          curr.comparePrices[curr.selectedComparePriceIndex!],
+          curr.orders,
+          curr.isLong,
+          usdJpy
+        )
+      )
+    }, 0)
+
   return (
     <LeverageCalculatorContext.Provider
       value={{
@@ -141,6 +161,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
           )
         },
         allTotalLeverage,
+        allTotalProfitOrLoss,
         fetchUsdJpy: async () => {
           const resp = await fetchUsdJpy()
           if (resp) {

@@ -16,6 +16,7 @@ import { useLeverageCalculator } from "src/components/helpers/LeverageCalculator
 import { tar } from "src/components/styles/styles"
 import {
   calcProfitOrLossAsJpy,
+  calcTotalProfitOrLossAsJpy,
   getMoneyValue,
   roundMoney,
 } from "src/domainLayer/investment/Money"
@@ -70,22 +71,6 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
         draft.comparePrices = sortBy(draft.comparePrices, nextDir)
       }
     })
-  }
-
-  const calcTotalProfitOrLossAsJpy = (comparePrice: number): number => {
-    return orders
-      .filter((o) => o.selected)
-      .reduce((acc, curr) => {
-        return (acc += getMoneyValue(
-          calcProfitOrLossAsJpy(
-            comparePrice,
-            curr.targetUnitPrice,
-            curr.orderQuantity,
-            isLong,
-            usdJpy
-          )
-        ))
-      }, 0)
   }
 
   const calcAccountBalanceWithTotalProfitOrLossAsJpy = (
@@ -184,7 +169,14 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
 
                       {/* 損益 */}
                       <TableCell css={tar}>
-                        <ProfitOrLoss value={calcTotalProfitOrLossAsJpy(p)} />
+                        <ProfitOrLoss
+                          value={calcTotalProfitOrLossAsJpy(
+                            p,
+                            orders,
+                            isLong,
+                            usdJpy
+                          )}
+                        />
                       </TableCell>
 
                       {/* 証拠金残高 */}

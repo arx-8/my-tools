@@ -1,4 +1,5 @@
 import { Currency } from "src/domainLayer/investment/Currency"
+import { Order } from "src/domainLayer/investment/Order"
 import { assertNever } from "src/types/utils"
 
 export type Money = JPY | USD
@@ -238,6 +239,7 @@ export const calcLeverage = (
  */
 export const calcProfitOrLossAsJpy = (
   comparePrice: number,
+  // TODO ここ Order 丸ごと渡せばよいのでは
   targetUnitPrice: Money,
   orderQuantity: number,
   isLong: boolean,
@@ -259,4 +261,25 @@ export const calcProfitOrLossAsJpy = (
     asJpy: price,
     currency: "JPY",
   }
+}
+
+export const calcTotalProfitOrLossAsJpy = (
+  comparePrice: number,
+  orders: Order[],
+  isLong: boolean,
+  usdJpy: number
+): number => {
+  return orders
+    .filter((o) => o.selected)
+    .reduce((acc, curr) => {
+      return (acc += getMoneyValue(
+        calcProfitOrLossAsJpy(
+          comparePrice,
+          curr.targetUnitPrice,
+          curr.orderQuantity,
+          isLong,
+          usdJpy
+        )
+      ))
+    }, 0)
 }

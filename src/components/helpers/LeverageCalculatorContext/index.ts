@@ -49,6 +49,10 @@ type Value = {
    * 全注文合計レバレッジ
    */
   allTotalLeverage: number
+  /**
+   * 全価格比較合計損益
+   */
+  allTotalProfitOrLoss: number
   fetchUsdJpy: () => Promise<void>
   isFetchingUsdJpy: boolean
   records: CalculatorRecord[]

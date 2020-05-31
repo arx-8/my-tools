@@ -13,7 +13,7 @@ import TableRow from "@material-ui/core/TableRow"
 import React from "react"
 import { ButtonGA } from "src/components/atoms/ButtonGA"
 import { FastNumberField } from "src/components/atoms/FastNumberField"
-import { PriceOrLoss } from "src/components/atoms/ProfitOrLoss"
+import { PriceOrLoss, ProfitOrLoss } from "src/components/atoms/ProfitOrLoss"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { LabeledRow } from "src/components/molecules/LabeledRow"
 import { tar } from "src/components/styles/styles"
@@ -27,12 +27,13 @@ type Props = {
 export const CommonInputs: React.FC<Props> = () => {
   const {
     accountBalance,
+    allTotalLeverage,
+    allTotalProfitOrLoss,
     fetchUsdJpy,
     isFetchingUsdJpy,
     setAccountBalanceValue,
     setUsdJpy,
     usdJpy,
-    allTotalLeverage,
   } = useLeverageCalculator()
 
   return (
@@ -80,6 +81,11 @@ export const CommonInputs: React.FC<Props> = () => {
           <LabeledRow label="レバレッジ">
             <div css={[calcCell, tar]}>
               <PriceOrLoss value={allTotalLeverage} />
+            </div>
+          </LabeledRow>
+          <LabeledRow label="全価格比較合計損益 (JPY)">
+            <div css={[calcCell, tar]}>
+              <ProfitOrLoss value={allTotalProfitOrLoss} />
             </div>
           </LabeledRow>
         </TableBody>
