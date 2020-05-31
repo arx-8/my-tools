@@ -48,6 +48,7 @@
     "rawencoded",
     "refetch",
     "selecteds",
-    "ulid"
+    "ulid",
+    "undefinedable"
   ]
 }

@@ -48,6 +48,7 @@ const getDefaultRecord = (
       },
     ],
     ...overwrite,
+    selectedComparePriceIndex: undefined,
   }
 }
 

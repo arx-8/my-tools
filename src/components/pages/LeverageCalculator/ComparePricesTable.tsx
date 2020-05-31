@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { TableSortLabel } from "@material-ui/core"
+import { Radio, TableSortLabel } from "@material-ui/core"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -130,6 +130,9 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
             <Table size="small">
               <TableHead>
                 <TableRow>
+                  <TableCell padding="checkbox">
+                    {/* 想定目標選択列 */}
+                  </TableCell>
                   <TableCell css={col1}>
                     <TableSortLabel
                       active={comparePricesSortBy?.target === "targetUnitPrice"}
@@ -148,6 +151,20 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                   return (
                     // eslint-disable-next-line react/no-array-index-key
                     <TableRow key={index}>
+                      {/* 想定目標選択列 */}
+                      <TableCell padding="checkbox">
+                        <Radio
+                          checked={selectedComparePriceIndex === index}
+                          color="primary"
+                          onChange={(e) =>
+                            setRecord((draft) => {
+                              if (e.target.checked) {
+                                draft.selectedComparePriceIndex = index
+                              }
+                            })
+                          }
+                        />
+                      </TableCell>
                       {/* 対象単価 */}
                       <TableCell css={tar}>
                         <FastNumberField

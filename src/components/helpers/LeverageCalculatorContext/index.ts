@@ -33,6 +33,13 @@ export type CalculatorRecord = {
    * 型で表現し切れていないが、必ず 1 要素以上あり、全ての currency が同じである。
    */
   orders: Order[]
+  /**
+   * 想定目標価格比較選択。
+   * comparePrices が Array なので number 型 (= Array index)。
+   * 複数の目標は選択できないため、単数。
+   * 価格比較が空配列許可のため、undefinedable
+   */
+  selectedComparePriceIndex: number | undefined
 }
 
 type Value = {

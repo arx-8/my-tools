@@ -12,10 +12,7 @@ import React, { useState } from "react"
 import { ButtonGA } from "src/components/atoms/ButtonGA"
 import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
-import {
-  CalculatorRecord,
-  useLeverageCalculator,
-} from "src/components/helpers/LeverageCalculatorContext"
+import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { getMoneyValue, setMoneyValue } from "src/domainLayer/investment/Money"
 import { getWholeSelectStatus } from "src/domainLayer/investment/Order"
 import { SortDirection } from "src/utils/arrayUtils"
