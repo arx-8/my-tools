@@ -40,6 +40,7 @@ const getDefaultRecord = (
     orders: [
       {
         orderQuantity: 1,
+        selected: true,
         targetUnitPrice: {
           asJpy: 0,
           currency: "JPY" as const,
