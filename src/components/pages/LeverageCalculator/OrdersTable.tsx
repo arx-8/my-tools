@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { TableSortLabel } from "@material-ui/core"
+import { Checkbox, TableSortLabel } from "@material-ui/core"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -14,6 +14,7 @@ import { FastNumberField } from "src/components/atoms/FastNumberField"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { getMoneyValue, setMoneyValue } from "src/domainLayer/investment/Money"
+import { getWholeSelectStatus } from "src/domainLayer/investment/Order"
 import { SortDirection } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -31,10 +32,12 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
   const { records, setRecordById } = useLeverageCalculator()
   const { _id, orders } = records[recordIndex]
 
+  const setRecord = setRecordById(_id)
+
   const toggleDirection = (): void => {
     const next = direction === "asc" ? "desc" : "asc"
     setDirection(next)
-    setRecordById(_id, (draft) => {
+    setRecord((draft) => {
       draft.orders = orderBy(
         draft.orders,
         (o) => getMoneyValue(o.targetUnitPrice),
@@ -42,6 +45,8 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
       )
     })
   }
+
+  const wholeSelectStatus = getWholeSelectStatus(orders)
 
   return (
     <div>
@@ -52,7 +57,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
           dataOn: "click",
         }}
         onClick={() =>
-          setRecordById(_id, (draft) => {
+          setRecord((draft) => {
             // 近い価格で発注することが多いはずなので、初期値は直近と同じ価格
             draft.orders.push(draft.orders[draft.orders.length - 1])
           })
@@ -66,6 +71,20 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
       <Table size="small">
         <TableHead>
           <TableRow>
+            <TableCell padding="checkbox">
+              {/* 選択列 */}
+              <Checkbox
+                checked={wholeSelectStatus === "all-selected"}
+                color="primary"
+                indeterminate={wholeSelectStatus === "indeterminate"}
+                inputProps={{ "aria-label": "select all" }}
+                onChange={(e) => {
+                  setRecord((draft) => {
+                    draft.orders.forEach((o) => (o.selected = e.target.checked))
+                  })
+                }}
+              />
+            </TableCell>
             <TableCell css={col1}>
               <TableSortLabel
                 active={direction != null}
@@ -84,6 +103,20 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
             return (
               // eslint-disable-next-line react/no-array-index-key
               <TableRow key={index}>
+                {/* 選択列 */}
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={o.selected}
+                    color="primary"
+                    inputProps={{ "aria-labelledby": `${_id}.orders.${index}` }}
+                    onChange={(e) => {
+                      setRecord((draft) => {
+                        draft.orders[index].selected = e.target.checked
+                      })
+                    }}
+                  />
+                </TableCell>
+
                 {/* 対象単価 */}
                 <TableCell>
                   <FastNumberField
@@ -91,7 +124,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
                       getMoneyValue(o.targetUnitPrice)
                     )}
                     onChangeValue={(v) => {
-                      setRecordById(_id, (draft) => {
+                      setRecord((draft) => {
                         draft.orders[index].targetUnitPrice = setMoneyValue(
                           o.targetUnitPrice,
                           v ?? 0
@@ -107,7 +140,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
                   <FastNumberField
                     arrowInputStep={calc10PerStep(o.orderQuantity)}
                     onChangeValue={(v) => {
-                      setRecordById(_id, (draft) => {
+                      setRecord((draft) => {
                         draft.orders[index].orderQuantity = v ?? 0
                       })
                     }}
@@ -125,7 +158,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
                       dataOn: "click",
                     }}
                     onClick={() => {
-                      setRecordById(_id, (draft) => {
+                      setRecord((draft) => {
                         draft.orders = draft.orders.filter(
                           (_, filterIndex) => index !== filterIndex
                         )

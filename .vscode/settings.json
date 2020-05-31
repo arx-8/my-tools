@@ -47,6 +47,8 @@
     "monospace",
     "rawencoded",
     "refetch",
-    "ulid"
+    "selecteds",
+    "ulid",
+    "undefinedable"
   ]
 }

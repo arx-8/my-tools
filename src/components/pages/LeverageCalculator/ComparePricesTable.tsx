@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { TableSortLabel } from "@material-ui/core"
+import { Radio, TableSortLabel } from "@material-ui/core"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -16,6 +16,7 @@ import { useLeverageCalculator } from "src/components/helpers/LeverageCalculator
 import { tar } from "src/components/styles/styles"
 import {
   calcProfitOrLossAsJpy,
+  calcTotalProfitOrLossAsJpy,
   getMoneyValue,
   roundMoney,
 } from "src/domainLayer/investment/Money"
@@ -40,14 +41,20 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     usdJpy,
   } = useLeverageCalculator()
 
-  const { _id, comparePrices, comparePricesSortBy, isLong, orders } = records[
-    recordIndex
-  ]
+  const {
+    _id,
+    comparePrices,
+    comparePricesSortBy,
+    isLong,
+    orders,
+    selectedComparePriceIndex,
+  } = records[recordIndex]
 
+  const setRecord = setRecordById(_id)
   const order1st = getHeadOrderStrict(orders)
 
   const toggleComparePricesSortBy = (): void => {
-    setRecordById(_id, (draft) => {
+    setRecord((draft) => {
       if (draft.comparePricesSortBy == null) {
         draft.comparePricesSortBy = {
           direction: "asc",
@@ -66,34 +73,22 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     })
   }
 
-  const calcTotalProfitOrLossAsJpy = (comparePrice: number): number => {
-    return orders.reduce((acc, curr) => {
-      return (acc += getMoneyValue(
-        calcProfitOrLossAsJpy(
-          comparePrice,
-          curr.targetUnitPrice,
-          curr.orderQuantity,
-          isLong,
-          usdJpy
-        )
-      ))
-    }, 0)
-  }
-
   const calcAccountBalanceWithTotalProfitOrLossAsJpy = (
     comparePrice: number
   ): number => {
-    return orders.reduce((acc, curr) => {
-      return (acc += getMoneyValue(
-        calcProfitOrLossAsJpy(
-          comparePrice,
-          curr.targetUnitPrice,
-          curr.orderQuantity,
-          isLong,
-          usdJpy
-        )
-      ))
-    }, accountBalance.asJpy)
+    return orders
+      .filter((o) => o.selected)
+      .reduce((acc, curr) => {
+        return (acc += getMoneyValue(
+          calcProfitOrLossAsJpy(
+            comparePrice,
+            curr.targetUnitPrice,
+            curr.orderQuantity,
+            isLong,
+            usdJpy
+          )
+        ))
+      }, accountBalance.asJpy)
   }
 
   return (
@@ -109,7 +104,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                 dataOn: "click",
               }}
               onClick={() =>
-                setRecordById(_id, (draft) => {
+                setRecord((draft) => {
                   // デフォルト値は、入力値の基準になるよう +-0 値（の近似値）にする
                   draft.comparePrices.push(
                     getMoneyValue(roundMoney(calcAveragePrice(orders)))
@@ -124,6 +119,9 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
             <Table size="small">
               <TableHead>
                 <TableRow>
+                  <TableCell padding="checkbox">
+                    {/* 想定目標選択列 */}
+                  </TableCell>
                   <TableCell css={col1}>
                     <TableSortLabel
                       active={comparePricesSortBy?.target === "targetUnitPrice"}
@@ -142,12 +140,26 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                   return (
                     // eslint-disable-next-line react/no-array-index-key
                     <TableRow key={index}>
+                      {/* 想定目標選択列 */}
+                      <TableCell padding="checkbox">
+                        <Radio
+                          checked={selectedComparePriceIndex === index}
+                          color="primary"
+                          onChange={(e) =>
+                            setRecord((draft) => {
+                              if (e.target.checked) {
+                                draft.selectedComparePriceIndex = index
+                              }
+                            })
+                          }
+                        />
+                      </TableCell>
                       {/* 対象単価 */}
                       <TableCell css={tar}>
                         <FastNumberField
                           arrowInputStep={calc10PerStep(p)}
                           onChangeValue={(v) => {
-                            setRecordById(_id, (draft) => {
+                            setRecord((draft) => {
                               draft.comparePrices[index] = v ?? 0
                             })
                           }}
@@ -157,7 +169,14 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
 
                       {/* 損益 */}
                       <TableCell css={tar}>
-                        <ProfitOrLoss value={calcTotalProfitOrLossAsJpy(p)} />
+                        <ProfitOrLoss
+                          value={calcTotalProfitOrLossAsJpy(
+                            p,
+                            orders,
+                            isLong,
+                            usdJpy
+                          )}
+                        />
                       </TableCell>
 
                       {/* 証拠金残高 */}
@@ -178,7 +197,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                             dataOn: "click",
                           }}
                           onClick={() => {
-                            setRecordById(_id, (draft) => {
+                            setRecord((draft) => {
                               draft.comparePrices = draft.comparePrices.filter(
                                 (_, draftIdx) => draftIdx !== index
                               )

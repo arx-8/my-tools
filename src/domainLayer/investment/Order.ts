@@ -9,6 +9,7 @@ import {
 export type Order = {
   /** 発注数 */
   orderQuantity: number
+  selected: boolean
   /** 対象単価 */
   targetUnitPrice: Money
 }
@@ -42,4 +43,20 @@ export const getHeadOrderStrict = (orders: Order[]): Order => {
     throw new Error("Logic Failure: 'orders' must have 1 or more elements")
   }
   return orders[0]
+}
+
+/**
+ * 全て選択なし | 全て選択あり | ありなし混在
+ */
+type WholeSelectStatus = "no-selected" | "all-selected" | "indeterminate"
+
+export const getWholeSelectStatus = (orders: Order[]): WholeSelectStatus => {
+  const selecteds = orders.filter((o) => o.selected)
+  if (selecteds.length === 0) {
+    return "no-selected"
+  } else if (selecteds.length === orders.length) {
+    return "all-selected"
+  } else {
+    return "indeterminate"
+  }
 }

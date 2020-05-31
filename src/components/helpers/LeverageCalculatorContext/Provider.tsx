@@ -13,8 +13,10 @@ import {
   JPY,
   addMoney,
   calcLeverage,
+  calcTotalProfitOrLossAsJpy,
   convertCurrency,
   multiplyMoney,
+  newEmptyMoney,
 } from "src/domainLayer/investment/Money"
 import { CastAny } from "src/types/utils"
 import { ulid } from "ulid"
@@ -40,13 +42,12 @@ const getDefaultRecord = (
     orders: [
       {
         orderQuantity: 1,
-        targetUnitPrice: {
-          asJpy: 0,
-          currency: "JPY" as const,
-        },
+        selected: true,
+        targetUnitPrice: newEmptyMoney("JPY"),
       },
     ],
     ...overwrite,
+    selectedComparePriceIndex: undefined,
   }
 }
 
@@ -108,16 +109,41 @@ export const Provider: React.FC<Props> = ({ children }) => {
   // 全注文合計レバレッジ
   const allTotalPrice = (records ?? [getDefaultRecord()])
     .flatMap((r) =>
-      r.orders.map((o) =>
-        convertCurrency(
-          multiplyMoney(o.targetUnitPrice, o.orderQuantity),
-          accountBalance.currency,
+      r.orders
+        .filter((o) => o.selected)
+        // 計算のために通貨単位を揃える
+        .map((o) =>
+          convertCurrency(
+            multiplyMoney(o.targetUnitPrice, o.orderQuantity),
+            accountBalance.currency,
+            usdJpy
+          )
+        )
+    )
+    .reduce(
+      (acc, curr) => addMoney(acc, curr),
+      newEmptyMoney(accountBalance.currency)
+    )
+  const allTotalLeverage = calcLeverage(accountBalance, allTotalPrice, usdJpy)
+
+  // 全価格比較合計損益
+  const allTotalProfitOrLoss = records
+    .filter(
+      (r) =>
+        r.selectedComparePriceIndex != null &&
+        r.comparePrices[r.selectedComparePriceIndex] != null
+    )
+    .reduce((acc, curr) => {
+      return (
+        acc +
+        calcTotalProfitOrLossAsJpy(
+          curr.comparePrices[curr.selectedComparePriceIndex!],
+          curr.orders,
+          curr.isLong,
           usdJpy
         )
       )
-    )
-    .reduce((acc, curr) => addMoney(acc, curr))
-  const allTotalLeverage = calcLeverage(accountBalance, allTotalPrice, usdJpy)
+    }, 0)
 
   return (
     <LeverageCalculatorContext.Provider
@@ -135,6 +161,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
           )
         },
         allTotalLeverage,
+        allTotalProfitOrLoss,
         fetchUsdJpy: async () => {
           const resp = await fetchUsdJpy()
           if (resp) {
@@ -157,7 +184,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
             })
           )
         },
-        setRecordById: (id, producer) => {
+        setRecordById: (id) => (producer) => {
           setRecords(
             produce(records, (draft) => {
               const target = draft.find((r) => r._id === id)

@@ -62,15 +62,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
   return (
     <Fragment>
       {records.map(({ _id, isLong, name, orders }, index) => {
-        /**
-         * setRecordById の id を部分適用
-         */
-        const setRecord = (
-          producer: Parameters<typeof setRecordById>["1"]
-        ): void => {
-          setRecordById(_id, producer)
-        }
-
+        const setRecord = setRecordById(_id)
         const order1st = getHeadOrderStrict(orders)
 
         return (
@@ -150,12 +142,20 @@ export const CalculatorRecords: React.FC<Props> = () => {
                   </LabeledRow>
                   <LabeledRow label="発注価格 (JPY)">
                     <div css={[calcCell, tar]}>
-                      <PriceOrLoss value={calcTotalOrderPriceAsJpy(orders)} />
+                      <PriceOrLoss
+                        value={calcTotalOrderPriceAsJpy(
+                          orders.filter((o) => o.selected)
+                        )}
+                      />
                     </div>
                   </LabeledRow>
                   <LabeledRow label="レバレッジ">
                     <div css={[calcCell, tar]}>
-                      <PriceOrLoss value={calcTotalLeverage(orders)} />
+                      <PriceOrLoss
+                        value={calcTotalLeverage(
+                          orders.filter((o) => o.selected)
+                        )}
+                      />
                     </div>
                   </LabeledRow>
                 </TableBody>
