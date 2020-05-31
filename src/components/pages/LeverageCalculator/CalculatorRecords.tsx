@@ -142,12 +142,20 @@ export const CalculatorRecords: React.FC<Props> = () => {
                   </LabeledRow>
                   <LabeledRow label="発注価格 (JPY)">
                     <div css={[calcCell, tar]}>
-                      <PriceOrLoss value={calcTotalOrderPriceAsJpy(orders)} />
+                      <PriceOrLoss
+                        value={calcTotalOrderPriceAsJpy(
+                          orders.filter((o) => o.selected)
+                        )}
+                      />
                     </div>
                   </LabeledRow>
                   <LabeledRow label="レバレッジ">
                     <div css={[calcCell, tar]}>
-                      <PriceOrLoss value={calcTotalLeverage(orders)} />
+                      <PriceOrLoss
+                        value={calcTotalLeverage(
+                          orders.filter((o) => o.selected)
+                        )}
+                      />
                     </div>
                   </LabeledRow>
                 </TableBody>

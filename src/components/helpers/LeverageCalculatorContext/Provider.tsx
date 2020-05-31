@@ -15,6 +15,7 @@ import {
   calcLeverage,
   convertCurrency,
   multiplyMoney,
+  newEmptyMoney,
 } from "src/domainLayer/investment/Money"
 import { CastAny } from "src/types/utils"
 import { ulid } from "ulid"
@@ -41,10 +42,7 @@ const getDefaultRecord = (
       {
         orderQuantity: 1,
         selected: true,
-        targetUnitPrice: {
-          asJpy: 0,
-          currency: "JPY" as const,
-        },
+        targetUnitPrice: newEmptyMoney("JPY"),
       },
     ],
     ...overwrite,
@@ -110,15 +108,21 @@ export const Provider: React.FC<Props> = ({ children }) => {
   // 全注文合計レバレッジ
   const allTotalPrice = (records ?? [getDefaultRecord()])
     .flatMap((r) =>
-      r.orders.map((o) =>
-        convertCurrency(
-          multiplyMoney(o.targetUnitPrice, o.orderQuantity),
-          accountBalance.currency,
-          usdJpy
+      r.orders
+        .filter((o) => o.selected)
+        // 計算のために通貨単位を揃える
+        .map((o) =>
+          convertCurrency(
+            multiplyMoney(o.targetUnitPrice, o.orderQuantity),
+            accountBalance.currency,
+            usdJpy
+          )
         )
-      )
     )
-    .reduce((acc, curr) => addMoney(acc, curr))
+    .reduce(
+      (acc, curr) => addMoney(acc, curr),
+      newEmptyMoney(accountBalance.currency)
+    )
   const allTotalLeverage = calcLeverage(accountBalance, allTotalPrice, usdJpy)
 
   return (

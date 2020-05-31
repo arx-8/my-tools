@@ -13,6 +13,23 @@ export type JPY = {
   currency: "JPY"
 }
 
+export const newEmptyMoney = (currency: Currency): Money => {
+  switch (currency) {
+    case "JPY":
+      return {
+        asJpy: 0,
+        currency: currency,
+      }
+    case "USD":
+      return {
+        asUsd: 0,
+        currency: currency,
+      }
+    default:
+      return assertNever(currency)
+  }
+}
+
 /**
  * 非破壊・参照透過である
  */

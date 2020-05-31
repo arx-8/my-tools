@@ -1,3 +1,5 @@
+import { newEmptyMoney } from "src/domainLayer/investment/Money"
+
 import { getWholeSelectStatus } from "./Order"
 import type { Order } from "./Order"
 
@@ -19,18 +21,12 @@ describe("getWholeSelectStatus", () => {
       {
         orderQuantity: 0,
         selected: false,
-        targetUnitPrice: {
-          asJpy: 0,
-          currency: "JPY",
-        },
+        targetUnitPrice: newEmptyMoney("JPY"),
       },
       {
         orderQuantity: 0,
         selected: false,
-        targetUnitPrice: {
-          asJpy: 0,
-          currency: "JPY",
-        },
+        targetUnitPrice: newEmptyMoney("JPY"),
       },
     ]
 
@@ -47,26 +43,17 @@ describe("getWholeSelectStatus", () => {
       {
         orderQuantity: 0,
         selected: true,
-        targetUnitPrice: {
-          asUsd: 0,
-          currency: "USD",
-        },
+        targetUnitPrice: newEmptyMoney("USD"),
       },
       {
         orderQuantity: 0,
         selected: true,
-        targetUnitPrice: {
-          asUsd: 0,
-          currency: "USD",
-        },
+        targetUnitPrice: newEmptyMoney("USD"),
       },
       {
         orderQuantity: 0,
         selected: true,
-        targetUnitPrice: {
-          asUsd: 0,
-          currency: "USD",
-        },
+        targetUnitPrice: newEmptyMoney("USD"),
       },
     ]
 
@@ -83,26 +70,17 @@ describe("getWholeSelectStatus", () => {
       {
         orderQuantity: 0,
         selected: true,
-        targetUnitPrice: {
-          asUsd: 0,
-          currency: "USD",
-        },
+        targetUnitPrice: newEmptyMoney("USD"),
       },
       {
         orderQuantity: 0,
         selected: false,
-        targetUnitPrice: {
-          asUsd: 0,
-          currency: "USD",
-        },
+        targetUnitPrice: newEmptyMoney("USD"),
       },
       {
         orderQuantity: 0,
         selected: true,
-        targetUnitPrice: {
-          asUsd: 0,
-          currency: "USD",
-        },
+        targetUnitPrice: newEmptyMoney("USD"),
       },
     ]
 

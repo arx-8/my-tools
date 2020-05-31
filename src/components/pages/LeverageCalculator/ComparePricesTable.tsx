@@ -73,33 +73,37 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
   }
 
   const calcTotalProfitOrLossAsJpy = (comparePrice: number): number => {
-    return orders.reduce((acc, curr) => {
-      return (acc += getMoneyValue(
-        calcProfitOrLossAsJpy(
-          comparePrice,
-          curr.targetUnitPrice,
-          curr.orderQuantity,
-          isLong,
-          usdJpy
-        )
-      ))
-    }, 0)
+    return orders
+      .filter((o) => o.selected)
+      .reduce((acc, curr) => {
+        return (acc += getMoneyValue(
+          calcProfitOrLossAsJpy(
+            comparePrice,
+            curr.targetUnitPrice,
+            curr.orderQuantity,
+            isLong,
+            usdJpy
+          )
+        ))
+      }, 0)
   }
 
   const calcAccountBalanceWithTotalProfitOrLossAsJpy = (
     comparePrice: number
   ): number => {
-    return orders.reduce((acc, curr) => {
-      return (acc += getMoneyValue(
-        calcProfitOrLossAsJpy(
-          comparePrice,
-          curr.targetUnitPrice,
-          curr.orderQuantity,
-          isLong,
-          usdJpy
-        )
-      ))
-    }, accountBalance.asJpy)
+    return orders
+      .filter((o) => o.selected)
+      .reduce((acc, curr) => {
+        return (acc += getMoneyValue(
+          calcProfitOrLossAsJpy(
+            comparePrice,
+            curr.targetUnitPrice,
+            curr.orderQuantity,
+            isLong,
+            usdJpy
+          )
+        ))
+      }, accountBalance.asJpy)
   }
 
   return (
