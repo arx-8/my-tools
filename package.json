@@ -27,6 +27,7 @@
     "react-dom": "16.13.1",
     "react-ga": "2.7.0",
     "react-helmet": "6.0.0",
+    "react-number-format": "4.4.1",
     "react-router-dom": "5.2.0",
     "react-test-renderer": "16.13.1",
     "react-use": "15.1.1",

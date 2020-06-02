@@ -1,119 +1,145 @@
-/** @jsx jsx */
-import { SerializedStyles, jsx } from "@emotion/core"
-import { InputProps, TextField, TextFieldProps } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
-
-type EmptyableNumber = number | ""
+import { TextField } from "@material-ui/core"
+import type { InputProps, TextFieldProps } from "@material-ui/core"
+import React, {
+  KeyboardEventHandler,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
+import NumberFormat from "react-number-format"
+import type { NumberFormatProps } from "react-number-format"
+import type { CastAny } from "src/types/utils"
+import { preventMinus, toNumberSafe } from "src/utils/numberUtils"
 
 type Props = {
-  allowMinus?: boolean
+  allowNegative?: boolean
   /** inputProps.step と同等機能 */
   arrowInputStep?: number
   children?: never
-  exCss?: SerializedStyles
   /**
    * TextFieldProps.onChange との衝突回避のため、このような名前にしている
-   * 固定 disable で onChangeValue={undefined} したいケースもあるが、
+   * 固定 disable で onChangeValue={undefined} にしたいケースもあるが、
    * 定義忘れや TextFieldProps.onChange の誤用を回避するため、必須としている
+   * （onChangeValue={() => {}} で代用すること）
    */
   onChangeValue: (value: number | undefined) => void
   value: number | undefined
 } & TextFieldProps
 
 export const FastNumberField: React.FC<Props> = ({
-  allowMinus,
+  allowNegative,
   arrowInputStep,
-  exCss,
   onChangeValue,
-  onFocus,
   value,
-  ...rest
 }) => {
   // We need to keep and update the state of the cell normally
-  // `Warning: A component is changing an uncontrolled input...` を防ぐため、undefined の代わりに "" を使う
-  const [tempValue, setTempValue] = useState<EmptyableNumber>(value ?? "")
-
-  const onChangeTemp: InputProps["onChange"] = (e) => {
-    if (allowMinus) {
-      setTempValue(castNumberOrEmpty(e.target.value, tempValue))
-    } else {
-      const casted = castNumberOrEmpty(e.target.value, tempValue)
-      setTempValue(casted === "" ? casted : preventMinus(casted))
-    }
-  }
-
-  // We'll only update the external data when the input is blurred
-  const onSubmit = (): void => {
-    onChangeValue(emptyToUndefined(tempValue))
-  }
+  // `Warning: A component is changing an uncontrolled input...` を防ぐため、空値は "" を使う
+  const [tempValue, setTempValue] = useState(value ?? "")
 
   // If the initial-value is changed external, sync it up with our state
   useEffect(() => {
     setTempValue(value ?? "")
   }, [value])
 
+  const onChange: InputProps["onChange"] = (e) => {
+    setTempValue(e.target.value)
+  }
+
+  const onSubmit = (): void => {
+    if (tempValue === "") {
+      onChangeValue(undefined)
+    } else {
+      onChangeValue(Number(tempValue))
+    }
+  }
+
+  const inputComponent: CastAny = useMemo(
+    () =>
+      NumberFormatCustomWithOpt({
+        allowNegative,
+        isNumericString: true,
+        thousandSeparator: true,
+      }),
+    [allowNegative]
+  )
+
+  /**
+   * 独自キー入力イベント
+   */
+  const onKeyDown: KeyboardEventHandler = (e) => {
+    // ↑キー
+    if (e.keyCode === 38) {
+      setTempValue((_prev) => toNumberSafe(_prev) + (arrowInputStep ?? 1))
+    }
+
+    // ↓キー
+    if (e.keyCode === 40) {
+      setTempValue((prev) => {
+        if (allowNegative) {
+          return toNumberSafe(prev) - (arrowInputStep ?? 1)
+        } else {
+          return preventMinus(toNumberSafe(prev) - (arrowInputStep ?? 1))
+        }
+      })
+    }
+
+    // Enterキー
+    if (e.keyCode === 13) {
+      // パフォーマンスチューニング。他のキー入力の submit は間引く。
+      onSubmit()
+    }
+  }
+
   return (
     <TextField
-      {...rest}
-      css={exCss}
+      InputProps={{ inputComponent }}
       onBlur={onSubmit}
-      onChange={onChangeTemp}
-      // onFocus 時に全選択された方が、ほとんどのケースで便利なため
-      onFocus={onFocus ?? ((e) => e.target.select())}
-      onKeyDown={(e) => {
-        // ↑
-        if (e.keyCode === 38) {
-          setTempValue(
-            (prev) => (emptyToUndefined(prev) ?? 0) + (arrowInputStep ?? 1)
-          )
-        }
-
-        // ↓
-        if (e.keyCode === 40) {
-          setTempValue((prev) => {
-            if (allowMinus) {
-              return (emptyToUndefined(prev) ?? 0) - (arrowInputStep ?? 1)
-            } else {
-              return preventMinus(
-                (emptyToUndefined(prev) ?? 0) - (arrowInputStep ?? 1)
-              )
-            }
-          })
-        }
-
-        // Enter
-        if (e.keyCode === 13) {
-          // パフォーマンスチューニング。他のキー入力の submit は間引く。
-          onSubmit()
-        }
-      }}
-      value={tempValue.toLocaleString()}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      value={tempValue}
     />
   )
 }
 
-const emptyToUndefined = (v: EmptyableNumber): number | undefined => {
-  return v === "" ? undefined : v
-}
+type NumberFormatCustomProps = {
+  inputRef: (instance: NumberFormat | null) => void
+  name: string
+  onChange: (changeEventLike: {
+    target: {
+      value: string
+    }
+  }) => void
+} & NumberFormatProps
 
-const castNumberOrEmpty = (
-  v: string,
-  prevValue: EmptyableNumber
-): EmptyableNumber => {
-  // Number("") が 0 になるため、空文字が入力できなくなる問題を防ぐため
-  if (v === "") {
-    return ""
-  }
-
-  // 文字列入力 (isNaN) の場合に、入力値が消えるのは操作感が悪いため、前回入力値を保持する
-  const maybe = Number(v.replace(/,/g, ""))
-  return isNaN(maybe) ? prevValue : maybe
+const NumberFormatCustom: React.FC<NumberFormatCustomProps> = ({
+  inputRef,
+  name,
+  onChange,
+  ...other
+}) => {
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            value: values.value,
+          },
+        })
+      }}
+    />
+  )
 }
 
 /**
- * 負数は 0 にして返す
- * 正数はそのまま返す
+ * react-number-format のオプションと material-ui.TextField の InputProps との適合のため、
+ * 部分適用可能な function としている
  */
-const preventMinus = (num: number): number => {
-  return num < 0 ? 0 : num
-}
+const NumberFormatCustomWithOpt = (
+  options: NumberFormatProps
+): React.FC<NumberFormatCustomProps> => (props) =>
+  NumberFormatCustom({
+    ...options,
+    ...props,
+  })
