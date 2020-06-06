@@ -27,6 +27,7 @@ type Props = {
 export const CommonInputs: React.FC<Props> = () => {
   const {
     accountBalance,
+    allTotalAccountBalanceWithTotalProfitOrLoss,
     allTotalLeverage,
     allTotalProfitOrLoss,
     fetchUsdJpy,
@@ -83,9 +84,16 @@ export const CommonInputs: React.FC<Props> = () => {
               <PriceOrLoss value={allTotalLeverage} />
             </div>
           </LabeledRow>
-          <LabeledRow label="全価格比較合計損益 (JPY)">
+          <LabeledRow label="全合計価格比較損益 (JPY)">
             <div css={[calcCell, tar]}>
               <ProfitOrLoss value={allTotalProfitOrLoss} />
+            </div>
+          </LabeledRow>
+          <LabeledRow label="全合計証拠金残高 (JPY)">
+            <div css={[calcCell, tar]}>
+              <PriceOrLoss
+                value={allTotalAccountBalanceWithTotalProfitOrLoss}
+              />
             </div>
           </LabeledRow>
         </TableBody>
