@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
 import { Radio, TableSortLabel } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -173,23 +174,27 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
 
                       {/* 損益 */}
                       <TableCell css={tar}>
-                        <ProfitOrLoss
-                          value={calcTotalProfitOrLossAsJpy(
-                            p,
-                            orders,
-                            isLong,
-                            usdJpy
-                          )}
-                        />
+                        <div css={calcCell}>
+                          <ProfitOrLoss
+                            value={calcTotalProfitOrLossAsJpy(
+                              p,
+                              orders,
+                              isLong,
+                              usdJpy
+                            )}
+                          />
+                        </div>
                       </TableCell>
 
                       {/* 証拠金残高 */}
                       <TableCell css={tar}>
-                        <PriceOrLoss
-                          value={calcAccountBalanceWithTotalProfitOrLossAsJpy(
-                            p
-                          )}
-                        />
+                        <div css={calcCell}>
+                          <PriceOrLoss
+                            value={calcAccountBalanceWithTotalProfitOrLossAsJpy(
+                              p
+                            )}
+                          />
+                        </div>
                       </TableCell>
 
                       {/* 操作 */}
@@ -236,5 +241,9 @@ const col2 = css`
 `
 
 const col3 = css`
-  width: 112px;
+  width: 128px;
+`
+
+const calcCell = css`
+  background-color: ${grey.A100}!important;
 `
