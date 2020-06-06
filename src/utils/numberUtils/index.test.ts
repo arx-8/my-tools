@@ -1,4 +1,4 @@
-import { calc10PerStep, toLocaleStringFixed } from "."
+import { calc10PerStep, toLocaleStringFixed, toNumberSafe } from "."
 
 describe("calc10PerStep", () => {
   it("can calc", () => {
@@ -40,5 +40,32 @@ describe("toLocaleStringFixed", () => {
     expect(toLocaleStringFixed(-10_000_000.123456789, 4)).toStrictEqual(
       "-10,000,000.1235"
     )
+  })
+})
+
+describe("toNumberSafe", () => {
+  it("can do", () => {
+    // ## Assert ##
+    // other
+    expect(toNumberSafe(undefined)).toStrictEqual(0)
+    expect(toNumberSafe("")).toStrictEqual(0)
+    expect(toNumberSafe(" ")).toStrictEqual(0)
+    expect(toNumberSafe("a")).toStrictEqual(0)
+
+    // +
+    expect(toNumberSafe(0)).toStrictEqual(0)
+    expect(toNumberSafe(0.1)).toStrictEqual(0.1)
+    expect(toNumberSafe(100)).toStrictEqual(100)
+    expect(toNumberSafe("0.0001")).toStrictEqual(0.0001)
+    expect(toNumberSafe("10000")).toStrictEqual(10_000)
+    expect(toNumberSafe("10_000")).toStrictEqual(10_000)
+    expect(toNumberSafe("2,000,000")).toStrictEqual(2_000_000)
+
+    // -
+    expect(toNumberSafe(-0.1)).toStrictEqual(-0.1)
+    expect(toNumberSafe("-0.0001")).toStrictEqual(-0.0001)
+    expect(toNumberSafe("-10000")).toStrictEqual(-10_000)
+    expect(toNumberSafe("-10_000")).toStrictEqual(-10_000)
+    expect(toNumberSafe("-2,000,000")).toStrictEqual(-2_000_000)
   })
 })

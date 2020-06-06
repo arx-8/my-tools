@@ -46,11 +46,15 @@ type Value = {
   accountBalance: JPY
   addRecord: () => void
   /**
+   * 全合計証拠金残高
+   */
+  allTotalAccountBalanceWithTotalProfitOrLoss: number
+  /**
    * 全注文合計レバレッジ
    */
   allTotalLeverage: number
   /**
-   * 全価格比較合計損益
+   * 全合計価格比較損益
    */
   allTotalProfitOrLoss: number
   fetchUsdJpy: () => Promise<void>

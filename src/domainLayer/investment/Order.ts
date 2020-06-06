@@ -3,6 +3,7 @@ import {
   addMoney,
   divideMoney,
   multiplyMoney,
+  newEmptyMoney,
   setMoneyValue,
 } from "src/domainLayer/investment/Money"
 
@@ -18,6 +19,13 @@ export type Order = {
  * 発注数も考慮した平均価格を返す
  */
 export const calcAveragePrice = (orders: Order[]): Money => {
+  if (orders.length === 0) {
+    // 0件選択でこの処理に到達する場合もあるため。未選択 = currency 不明のため、とりあえず JPY で返す。
+    return newEmptyMoney("JPY")
+  }
+
+  const order1st = getHeadOrderStrict(orders)
+
   const sum = orders
     .map((o) => multiplyMoney(o.targetUnitPrice, o.orderQuantity))
     .reduce(
@@ -25,7 +33,7 @@ export const calcAveragePrice = (orders: Order[]): Money => {
         return addMoney(acc, curr)
       },
       // 同 currency の 0 price を基準にする
-      setMoneyValue(getHeadOrderStrict(orders).targetUnitPrice, 0)
+      setMoneyValue(order1st.targetUnitPrice, 0)
     )
 
   return divideMoney(

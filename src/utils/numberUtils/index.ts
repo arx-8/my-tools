@@ -22,3 +22,25 @@ export const toLocaleStringFixed = (v: number, scale = 0): string => {
     minimumFractionDigits: scale,
   })
 }
+
+/**
+ * 数値型に変換できないものは 0 にして返す
+ */
+export const toNumberSafe = (v?: string | number): number => {
+  if (v == null) {
+    return 0
+  }
+  if (typeof v === "number") {
+    return v
+  }
+  const maybeNum = Number(v.replace(/,|_/g, ""))
+  return isNaN(maybeNum) ? 0 : maybeNum
+}
+
+/**
+ * 負数は 0 にして返す
+ * 正数はそのまま返す
+ */
+export const preventMinus = (num: number): number => {
+  return num < 0 ? 0 : num
+}

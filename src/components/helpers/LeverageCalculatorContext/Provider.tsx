@@ -15,6 +15,7 @@ import {
   calcLeverage,
   calcTotalProfitOrLossAsJpy,
   convertCurrency,
+  getMoneyValue,
   multiplyMoney,
   newEmptyMoney,
 } from "src/domainLayer/investment/Money"
@@ -126,7 +127,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
     )
   const allTotalLeverage = calcLeverage(accountBalance, allTotalPrice, usdJpy)
 
-  // 全価格比較合計損益
+  // 全合計価格比較損益
   const allTotalProfitOrLoss = records
     .filter(
       (r) =>
@@ -145,6 +146,10 @@ export const Provider: React.FC<Props> = ({ children }) => {
       )
     }, 0)
 
+  // 全合計証拠金残高
+  const allTotalAccountBalanceWithTotalProfitOrLoss =
+    getMoneyValue(accountBalance) + allTotalProfitOrLoss
+
   return (
     <LeverageCalculatorContext.Provider
       value={{
@@ -160,6 +165,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
             })
           )
         },
+        allTotalAccountBalanceWithTotalProfitOrLoss,
         allTotalLeverage,
         allTotalProfitOrLoss,
         fetchUsdJpy: async () => {
