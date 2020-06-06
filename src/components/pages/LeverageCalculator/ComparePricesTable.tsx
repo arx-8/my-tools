@@ -107,7 +107,11 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                 setRecord((draft) => {
                   // デフォルト値は、入力値の基準になるよう +-0 値（の近似値）にする
                   draft.comparePrices.push(
-                    getMoneyValue(roundMoney(calcAveragePrice(orders)))
+                    getMoneyValue(
+                      roundMoney(
+                        calcAveragePrice(orders.filter((o) => o.selected))
+                      )
+                    )
                   )
                 })
               }
