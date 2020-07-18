@@ -19,13 +19,12 @@ type Props = {
 export const LeverageCalculator: React.FC<Props> = () => {
   return (
     <LeverageCalculatorProvider>
-      {/* eslint-disable-next-line react/jsx-pascal-case */}
-      <_LeverageCalculator />
+      <Subscriber />
     </LeverageCalculatorProvider>
   )
 }
 
-const _LeverageCalculator: React.FC<Props> = () => {
+const Subscriber: React.FC<Props> = () => {
   const { addRecord } = useLeverageCalculator()
 
   return (
