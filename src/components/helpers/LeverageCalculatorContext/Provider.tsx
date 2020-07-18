@@ -44,7 +44,7 @@ const getDefaultRecord = (
       {
         orderQuantity: 1,
         selected: true,
-        targetUnitPrice: newEmptyMoney("JPY"),
+        targetUnitPrice: newEmptyMoney("USD"),
       },
     ],
     ...overwrite,
