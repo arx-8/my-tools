@@ -185,7 +185,14 @@ const tableCss = css`
 `
 
 const rowNum = css`
-  padding: 8px;
+  margin: 8px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  border-radius: 50%;
+  border: solid 1px black;
 `
 
 const actions = css`
