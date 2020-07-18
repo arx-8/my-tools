@@ -37,9 +37,9 @@ export type CalculatorRecord = {
    * 想定目標価格比較選択。
    * comparePrices が Array なので number 型 (= Array index)。
    * 複数の目標は選択できないため、単数。
-   * 価格比較が空配列許可のため、undefinedable
+   * 価格比較が空配列許可だがこの値は存在したままでも問題ないため、no-undefinedable
    */
-  selectedComparePriceIndex: number | undefined
+  selectedComparePriceIndex: number
 }
 
 type Value = {
