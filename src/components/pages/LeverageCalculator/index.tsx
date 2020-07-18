@@ -9,7 +9,7 @@ import {
 } from "src/components/helpers/LeverageCalculatorContext"
 import { CalculatorRecords } from "src/components/pages/LeverageCalculator/CalculatorRecords"
 import { CommonInputs } from "src/components/pages/LeverageCalculator/CommonInputs"
-import { padT2 } from "src/components/styles/styles"
+import { padT, padT2 } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
 
 type Props = {
@@ -32,22 +32,24 @@ const Subscriber: React.FC<Props> = () => {
       <CommonInputs />
 
       <div css={padT2}></div>
-      <ButtonGA
-        gaData={{
-          dataEventAction: "add record",
-          dataEventCategory: "LeverageCalculator",
-          dataOn: "click",
-        }}
-        onClick={addRecord}
-        size="small"
-        variant="contained"
-      >
-        追加
-      </ButtonGA>
-
       <Paper>
         <CalculatorRecords />
       </Paper>
+
+      <div css={padT}>
+        <ButtonGA
+          gaData={{
+            dataEventAction: "add record",
+            dataEventCategory: "LeverageCalculator",
+            dataOn: "click",
+          }}
+          onClick={addRecord}
+          size="small"
+          variant="contained"
+        >
+          追加
+        </ButtonGA>
+      </div>
     </Layout>
   )
 }

@@ -98,29 +98,6 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
         <TableRow>
           <TableCell css={parentCol1}>価格比較</TableCell>
           <TableCell>
-            <ButtonGA
-              gaData={{
-                dataEventAction: "add compare price",
-                dataEventCategory: "LeverageCalculator",
-                dataOn: "click",
-              }}
-              onClick={() =>
-                setRecord((draft) => {
-                  // デフォルト値は、入力値の基準になるよう +-0 値（の近似値）にする
-                  draft.comparePrices.push(
-                    getMoneyValue(
-                      roundMoney(
-                        calcAveragePrice(orders.filter((o) => o.selected))
-                      )
-                    )
-                  )
-                })
-              }
-              size="small"
-              variant="contained"
-            >
-              追加
-            </ButtonGA>
             <Table size="small">
               <TableHead>
                 <TableRow>
@@ -221,6 +198,29 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                 })}
               </TableBody>
             </Table>
+            <ButtonGA
+              gaData={{
+                dataEventAction: "add compare price",
+                dataEventCategory: "LeverageCalculator",
+                dataOn: "click",
+              }}
+              onClick={() =>
+                setRecord((draft) => {
+                  // デフォルト値は、入力値の基準になるよう +-0 値（の近似値）にする
+                  draft.comparePrices.push(
+                    getMoneyValue(
+                      roundMoney(
+                        calcAveragePrice(orders.filter((o) => o.selected))
+                      )
+                    )
+                  )
+                })
+              }
+              size="small"
+              variant="contained"
+            >
+              追加
+            </ButtonGA>
           </TableCell>
         </TableRow>
       </TableBody>

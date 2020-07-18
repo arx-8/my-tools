@@ -28,4 +28,5 @@ const body = css`
     そのため、MuiAppBar absolute + 固定高にしている
   */
   padding-top: ${48 + 16}px;
+  padding-bottom: 32px;
 `

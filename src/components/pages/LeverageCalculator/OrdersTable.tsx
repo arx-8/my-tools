@@ -50,24 +50,6 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
 
   return (
     <div>
-      <ButtonGA
-        gaData={{
-          dataEventAction: "add order",
-          dataEventCategory: "LeverageCalculator",
-          dataOn: "click",
-        }}
-        onClick={() =>
-          setRecord((draft) => {
-            // 近い価格で発注することが多いはずなので、初期値は直近と同じ価格
-            draft.orders.push(draft.orders[draft.orders.length - 1])
-          })
-        }
-        size="small"
-        variant="contained"
-      >
-        追加
-      </ButtonGA>
-
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -173,6 +155,24 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
           })}
         </TableBody>
       </Table>
+
+      <ButtonGA
+        gaData={{
+          dataEventAction: "add order",
+          dataEventCategory: "LeverageCalculator",
+          dataOn: "click",
+        }}
+        onClick={() =>
+          setRecord((draft) => {
+            // 近い価格で発注することが多いはずなので、初期値は直近と同じ価格
+            draft.orders.push(draft.orders[draft.orders.length - 1])
+          })
+        }
+        size="small"
+        variant="contained"
+      >
+        追加
+      </ButtonGA>
     </div>
   )
 }
