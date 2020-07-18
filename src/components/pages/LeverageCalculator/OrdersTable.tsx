@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
 import { Checkbox, TableSortLabel } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
@@ -84,7 +85,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
           {orders.map((o, index) => {
             return (
               // eslint-disable-next-line react/no-array-index-key
-              <TableRow key={index}>
+              <TableRow css={innerTable} key={index}>
                 {/* 選択列 */}
                 <TableCell padding="checkbox">
                   <Checkbox
@@ -176,6 +177,12 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
     </div>
   )
 }
+
+const innerTable = css`
+  & td {
+    border-bottom: 1px solid ${grey["300"]};
+  }
+`
 
 const col1 = css`
   width: 144px;

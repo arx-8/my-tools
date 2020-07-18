@@ -121,7 +121,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
                 {comparePrices.map((p, index) => {
                   return (
                     // eslint-disable-next-line react/no-array-index-key
-                    <TableRow key={index}>
+                    <TableRow css={innerTable} key={index}>
                       {/* 想定目標選択列 */}
                       <TableCell padding="checkbox">
                         <Radio
@@ -230,6 +230,12 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
 
 const parentCol1 = css`
   width: 88px;
+`
+
+const innerTable = css`
+  & td {
+    border-bottom: 1px solid ${grey["300"]};
+  }
 `
 
 const col1 = css`

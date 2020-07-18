@@ -94,7 +94,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
                 </IconButtonGA>
               </div>
 
-              <Table css={tableCss} size="small">
+              <Table size="small">
                 <TableBody>
                   <LabeledRow label="名前">
                     <FastTextField
@@ -176,12 +176,6 @@ export const CalculatorRecords: React.FC<Props> = () => {
 
 const evenRecord = css`
   background: lavender;
-`
-
-const tableCss = css`
-  & td {
-    border-bottom: 1px solid rgba(160, 160, 160, 1);
-  }
 `
 
 const rowNum = css`

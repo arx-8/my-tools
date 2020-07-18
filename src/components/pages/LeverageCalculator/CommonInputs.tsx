@@ -39,7 +39,7 @@ export const CommonInputs: React.FC<Props> = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table css={tableCss} size="small">
+      <Table size="small">
         <TableBody>
           <LabeledRow label="証拠金残高 (JPY)">
             <FastNumberField
@@ -101,12 +101,6 @@ export const CommonInputs: React.FC<Props> = () => {
     </TableContainer>
   )
 }
-
-const tableCss = css`
-  & td {
-    border-bottom: 1px solid rgba(160, 160, 160, 1);
-  }
-`
 
 const col1 = css`
   width: 88px;

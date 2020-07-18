@@ -1,6 +1,7 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/core"
 import { Paper } from "@material-ui/core"
+import { grey } from "@material-ui/core/colors"
 import React from "react"
 import { ButtonGA } from "src/components/atoms/ButtonGA"
 import {
@@ -28,7 +29,7 @@ const Subscriber: React.FC<Props> = () => {
   const { addRecord } = useLeverageCalculator()
 
   return (
-    <Layout>
+    <Layout exCss={root}>
       <CommonInputs />
 
       <div css={padT2}></div>
@@ -53,3 +54,10 @@ const Subscriber: React.FC<Props> = () => {
     </Layout>
   )
 }
+
+const root = css`
+  /* MUI に border-collapse: collapse; があるため、tr には border が効かない */
+  & td {
+    border-bottom: 1px solid ${grey["500"]};
+  }
+`
