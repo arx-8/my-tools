@@ -69,7 +69,10 @@ export const CalculatorRecords: React.FC<Props> = () => {
           <Fragment key={_id}>
             <div css={index > 0 && padT} />
 
-            <TableContainer component={Paper}>
+            <TableContainer
+              component={Paper}
+              css={(index + 1) % 2 === 0 && evenRecord}
+            >
               <div css={actions}>
                 <span css={rowNum}>{index + 1}</span>
                 <IconButtonGA
@@ -170,6 +173,10 @@ export const CalculatorRecords: React.FC<Props> = () => {
     </Fragment>
   )
 }
+
+const evenRecord = css`
+  background: lavender;
+`
 
 const tableCss = css`
   & td {
