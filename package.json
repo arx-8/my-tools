@@ -21,7 +21,7 @@
     "emotion-normalize": "10.1.0",
     "immer": "6.0.9",
     "json-url": "2.6.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "match-sorter": "4.1.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
