@@ -44,11 +44,11 @@ const getDefaultRecord = (
       {
         orderQuantity: 1,
         selected: true,
-        targetUnitPrice: newEmptyMoney("JPY"),
+        targetUnitPrice: newEmptyMoney("USD"),
       },
     ],
     ...overwrite,
-    selectedComparePriceIndex: undefined,
+    selectedComparePriceIndex: 0,
   }
 }
 
@@ -180,6 +180,16 @@ export const Provider: React.FC<Props> = ({ children }) => {
           setRecords(
             records.filter((r) => {
               return r._id !== id
+            })
+          )
+        },
+        resetRecordById: (id) => {
+          setRecords(
+            produce(records, (draft) => {
+              const targetIndex = draft.findIndex((r) => r._id === id)
+              draft[targetIndex] = getDefaultRecord({
+                name: `untitled ${records.length + targetIndex}`,
+              })
             })
           )
         },

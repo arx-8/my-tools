@@ -4,7 +4,6 @@ import { FormControlLabel, Paper, Radio } from "@material-ui/core"
 import { grey, red } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
-import TableContainer from "@material-ui/core/TableContainer"
 import DeleteIcon from "@material-ui/icons/Delete"
 import React, { Fragment } from "react"
 import { FastTextField } from "src/components/atoms/FastTextField"
@@ -38,6 +37,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
     setRecordById,
     usdJpy,
     removeRecordById,
+    resetRecordById,
   } = useLeverageCalculator()
 
   const calcTotalOrderPriceAsJpy = (orders: Order[]): number => {
@@ -69,21 +69,26 @@ export const CalculatorRecords: React.FC<Props> = () => {
           <Fragment key={_id}>
             <div css={index > 0 && padT} />
 
-            <TableContainer component={Paper}>
+            <Paper css={(index + 1) % 2 === 0 && evenRecord} elevation={12}>
               <div css={actions}>
                 <span css={rowNum}>{index + 1}</span>
                 <IconButtonGA
                   aria-label="remove"
                   css={deleteBtn}
-                  disabled={records.length <= 1}
                   gaData={{
                     dataEventAction: "remove record",
                     dataEventCategory: "LeverageCalculator",
                     dataOn: "click",
                   }}
                   onClick={() => {
-                    if (window.confirm("Delete ?")) {
-                      removeRecordById(_id)
+                    if (records.length === 1) {
+                      if (window.confirm("Reset ?")) {
+                        resetRecordById(_id)
+                      }
+                    } else {
+                      if (window.confirm("Delete ?")) {
+                        removeRecordById(_id)
+                      }
                     }
                   }}
                 >
@@ -91,7 +96,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
                 </IconButtonGA>
               </div>
 
-              <Table css={tableCss} size="small">
+              <Table size="small">
                 <TableBody>
                   <LabeledRow label="名前">
                     <FastTextField
@@ -163,7 +168,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
 
               {/* 上の table の cell と同じ幅だとレイアウトの都合が悪いため、分ける */}
               <ComparePricesTable recordIndex={index} />
-            </TableContainer>
+            </Paper>
           </Fragment>
         )
       })}
@@ -171,14 +176,19 @@ export const CalculatorRecords: React.FC<Props> = () => {
   )
 }
 
-const tableCss = css`
-  & td {
-    border-bottom: 1px solid rgba(160, 160, 160, 1);
-  }
+const evenRecord = css`
+  background: lavender;
 `
 
 const rowNum = css`
-  padding: 8px;
+  margin: 8px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  border-radius: 50%;
+  border: solid 1px black;
 `
 
 const actions = css`

@@ -1,18 +1,19 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { SerializedStyles, css, jsx } from "@emotion/core"
 import { Container } from "@material-ui/core"
 import React, { Fragment, ReactNode } from "react"
 import { AppBar } from "src/components/organisms/AppBar"
 
 type OwnProps = {
   children: ReactNode
+  exCss?: SerializedStyles
 }
 
-export const Layout: React.FC<OwnProps> = ({ children }) => {
+export const Layout: React.FC<OwnProps> = ({ children, exCss }) => {
   return (
     <Fragment>
       <AppBar />
-      <Container css={body} maxWidth="xl">
+      <Container css={[body, exCss]} maxWidth="xl">
         {children}
       </Container>
     </Fragment>
@@ -28,4 +29,5 @@ const body = css`
     そのため、MuiAppBar absolute + 固定高にしている
   */
   padding-top: ${48 + 16}px;
+  padding-bottom: 32px;
 `
