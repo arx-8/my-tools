@@ -33,7 +33,7 @@ const Subscriber: React.FC<Props> = () => {
       <CommonInputs />
 
       <div css={padT2}></div>
-      <Paper>
+      <Paper css={records}>
         <CalculatorRecords />
       </Paper>
 
@@ -60,4 +60,8 @@ const root = css`
   & td {
     border-bottom: 1px solid ${grey["500"]};
   }
+`
+
+const records = css`
+  padding: 8px;
 `

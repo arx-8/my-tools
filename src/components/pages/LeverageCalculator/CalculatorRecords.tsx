@@ -4,7 +4,6 @@ import { FormControlLabel, Paper, Radio } from "@material-ui/core"
 import { grey, red } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
-import TableContainer from "@material-ui/core/TableContainer"
 import DeleteIcon from "@material-ui/icons/Delete"
 import React, { Fragment } from "react"
 import { FastTextField } from "src/components/atoms/FastTextField"
@@ -69,10 +68,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
           <Fragment key={_id}>
             <div css={index > 0 && padT} />
 
-            <TableContainer
-              component={Paper}
-              css={(index + 1) % 2 === 0 && evenRecord}
-            >
+            <Paper css={(index + 1) % 2 === 0 && evenRecord} elevation={12}>
               <div css={actions}>
                 <span css={rowNum}>{index + 1}</span>
                 <IconButtonGA
@@ -166,7 +162,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
 
               {/* 上の table の cell と同じ幅だとレイアウトの都合が悪いため、分ける */}
               <ComparePricesTable recordIndex={index} />
-            </TableContainer>
+            </Paper>
           </Fragment>
         )
       })}

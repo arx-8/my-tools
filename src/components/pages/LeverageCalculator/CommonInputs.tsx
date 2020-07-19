@@ -1,12 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import {
-  CircularProgress,
-  Paper,
-  Table,
-  TableBody,
-  TableContainer,
-} from "@material-ui/core"
+import { CircularProgress, Paper, Table, TableBody } from "@material-ui/core"
 import { grey } from "@material-ui/core/colors"
 import TableCell from "@material-ui/core/TableCell"
 import TableRow from "@material-ui/core/TableRow"
@@ -38,7 +32,7 @@ export const CommonInputs: React.FC<Props> = () => {
   } = useLeverageCalculator()
 
   return (
-    <TableContainer component={Paper}>
+    <Paper>
       <Table size="small">
         <TableBody>
           <LabeledRow label="証拠金残高 (JPY)">
@@ -98,7 +92,7 @@ export const CommonInputs: React.FC<Props> = () => {
           </LabeledRow>
         </TableBody>
       </Table>
-    </TableContainer>
+    </Paper>
   )
 }
 
