@@ -37,6 +37,7 @@ export const CalculatorRecords: React.FC<Props> = () => {
     setRecordById,
     usdJpy,
     removeRecordById,
+    resetRecordById,
   } = useLeverageCalculator()
 
   const calcTotalOrderPriceAsJpy = (orders: Order[]): number => {
@@ -74,15 +75,20 @@ export const CalculatorRecords: React.FC<Props> = () => {
                 <IconButtonGA
                   aria-label="remove"
                   css={deleteBtn}
-                  disabled={records.length <= 1}
                   gaData={{
                     dataEventAction: "remove record",
                     dataEventCategory: "LeverageCalculator",
                     dataOn: "click",
                   }}
                   onClick={() => {
-                    if (window.confirm("Delete ?")) {
-                      removeRecordById(_id)
+                    if (records.length === 1) {
+                      if (window.confirm("Reset ?")) {
+                        resetRecordById(_id)
+                      }
+                    } else {
+                      if (window.confirm("Delete ?")) {
+                        removeRecordById(_id)
+                      }
                     }
                   }}
                 >

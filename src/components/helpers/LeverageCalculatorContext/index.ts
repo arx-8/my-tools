@@ -61,6 +61,7 @@ type Value = {
   isFetchingUsdJpy: boolean
   records: CalculatorRecord[]
   removeRecordById: (id: CalculatorRecordId) => void
+  resetRecordById: (id: CalculatorRecordId) => void
   setAccountBalanceValue: (next: number) => void
   setRecordById: (
     id: CalculatorRecordId

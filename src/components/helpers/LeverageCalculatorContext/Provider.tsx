@@ -183,6 +183,16 @@ export const Provider: React.FC<Props> = ({ children }) => {
             })
           )
         },
+        resetRecordById: (id) => {
+          setRecords(
+            produce(records, (draft) => {
+              const targetIndex = draft.findIndex((r) => r._id === id)
+              draft[targetIndex] = getDefaultRecord({
+                name: `untitled ${records.length + targetIndex}`,
+              })
+            })
+          )
+        },
         setAccountBalanceValue: (value) => {
           setAccountBalance(
             produce(accountBalance, (draft) => {
