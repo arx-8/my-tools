@@ -45,11 +45,19 @@ export const DiffResult: React.FC<OwnProps> = ({
             ? removedCss
             : noDiffCss
 
+          // 改行の diff の可視化
+          // 改行の diff は 0 文字で見えない
+          // そのため、空白 1 文字に置換し、それにカラーを付けて可視化する
+          const str =
+            part.value.trim().length > 0
+              ? part.value
+              : part.value.replace(/\n/g, " \n")
+
           return (
             // 他に unique id がないため
             // eslint-disable-next-line react/no-array-index-key
             <span css={diffCss} key={index}>
-              {part.value}
+              {str}
             </span>
           )
         })}
