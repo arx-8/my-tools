@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
 import { green, grey, red } from "@material-ui/core/colors"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { ButtonWithLoading } from "src/components/atoms/ButtonWithLoading"
 import { useQueryParams } from "src/components/helpers/reactRouterUtils"
@@ -99,6 +99,13 @@ export const Diff: React.FC<OwnProps> = () => {
     )
   }
 
+  const diffs = useMemo(() => diff(aText, bText, diffMode, diffOptions), [
+    aText,
+    bText,
+    diffMode,
+    diffOptions,
+  ])
+
   return (
     <Layout>
       <ButtonWithLoading
@@ -147,7 +154,7 @@ export const Diff: React.FC<OwnProps> = () => {
           ]}
         >
           <DiffResult
-            diffs={diff(aText, bText, diffMode, diffOptions)}
+            diffs={diffs}
             isMaximize={isMaximizeDiffResult}
             setMaximize={setIsMaximizeDiffResult}
           />
