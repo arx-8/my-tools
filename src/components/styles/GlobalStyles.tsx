@@ -1,10 +1,10 @@
 import { Global, css } from "@emotion/core"
 import { ThemeProvider, createMuiTheme } from "@material-ui/core"
 import emotionNormalize from "emotion-normalize"
-import React, { ReactNode } from "react"
+import React, { ReactChild } from "react"
 
 type OwnProps = {
-  children: ReactNode
+  children: ReactChild
 }
 
 export const GlobalStyles: React.FC<OwnProps> = ({ children }) => {

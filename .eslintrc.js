@@ -11,17 +11,18 @@ module.exports = {
     "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
     /** @see https://github.com/prettier/eslint-config-prettier#installation */
+    "prettier",
     "prettier/standard",
     "prettier/@typescript-eslint",
     "prettier/react",
-    "plugin:prettier/recommended",
     "react-app",
   ],
   plugins: [
     // CI で warn も検知可能にするため、全て error にする
     "only-error",
-    "typescript-sort-keys",
+    "sort-destructure-keys",
     "sort-keys-fix",
+    "typescript-sort-keys",
   ],
   rules: {
     "import/no-default-export": "error",
@@ -59,17 +60,8 @@ module.exports = {
       },
     ],
     "react/void-dom-elements-no-children": "error",
+    "sort-destructure-keys/sort-destructure-keys": "error",
     "sort-keys-fix/sort-keys-fix": "error",
-
-    // prettier
-    "prettier/prettier": [
-      "error",
-      {
-        arrowParens: "always",
-        semi: false,
-        trailingComma: "es5",
-      },
-    ],
 
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",

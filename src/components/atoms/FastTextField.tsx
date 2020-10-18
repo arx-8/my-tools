@@ -20,9 +20,9 @@ type OwnProps = {
  *    例えば、onBlur のみ値を反映、とすると、Enter submit で値が反映されない
  */
 export const FastTextField: React.FC<OwnProps> = ({
-  value,
   onChangeValue,
   onFocus,
+  value,
   ...rest
 }) => {
   // We need to keep and update the state of the cell normally

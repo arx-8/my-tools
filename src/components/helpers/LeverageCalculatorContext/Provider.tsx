@@ -81,7 +81,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
   }
 
   // usdJpy 自動入力
-  const { isFetching: isFetchingUsdJpy, execFetch: fetchUsdJpy } = useFetch({
+  const { execFetch: fetchUsdJpy, isFetching: isFetchingUsdJpy } = useFetch({
     cacheTime: 1 * 60 * 1_000,
     fetcher: () =>
       fetchLatest({

@@ -17,8 +17,8 @@ type OwnProps = {
 
 export const DiffResult: React.FC<OwnProps> = ({
   diffs,
-  setMaximize,
   isMaximize,
+  setMaximize,
 }) => {
   return (
     <div css={root}>
