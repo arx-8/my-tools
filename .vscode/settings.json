@@ -1,6 +1,9 @@
 {
   "files.eol": "\n",
   "files.encoding": "utf8",
+  "files.associations": {
+    ".env.*": "dotenv",
+  },
 
   // パスが相対的に近い場合に相対パスが優先されてしまうため、絶対パスで統一する
   "typescript.preferences.importModuleSpecifier": "non-relative",
@@ -18,7 +21,6 @@
    * Extensions
    */
   /** dbaeumer.vscode-eslint */
-  "editor.codeActionsOnSaveTimeout": 2000,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
