@@ -60,7 +60,7 @@
     "prettier-plugin-import-sort": "0.0.6",
     "react-scripts": "3.4.3",
     "source-map-explorer": "2.5.0",
-    "typescript": "4.0.3"
+    "typescript": "3.9.7"
   },
   "scripts": {
     "analyze:run": "source-map-explorer 'build/static/js/*.js' --html misc/source-map-explorer.html",
