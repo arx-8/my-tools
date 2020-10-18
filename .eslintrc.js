@@ -11,10 +11,10 @@ module.exports = {
     "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
     /** @see https://github.com/prettier/eslint-config-prettier#installation */
+    "prettier",
     "prettier/standard",
     "prettier/@typescript-eslint",
     "prettier/react",
-    "plugin:prettier/recommended",
     "react-app",
   ],
   plugins: [
@@ -60,16 +60,6 @@ module.exports = {
     ],
     "react/void-dom-elements-no-children": "error",
     "sort-keys-fix/sort-keys-fix": "error",
-
-    // prettier
-    "prettier/prettier": [
-      "error",
-      {
-        arrowParens: "always",
-        semi: false,
-        trailingComma: "es5",
-      },
-    ],
 
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",
