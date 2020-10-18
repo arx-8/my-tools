@@ -12,8 +12,8 @@ type ReturnType<TData extends object> = {
 }
 
 export const useFetch = <TData extends object>({
-  fetcher,
   cacheTime = 1,
+  fetcher,
 }: Props<TData>): ReturnType<TData> => {
   const [isFetching, setIsFetching] = useState(false)
   const [cache, setCache] = useState<TData | undefined>(undefined)

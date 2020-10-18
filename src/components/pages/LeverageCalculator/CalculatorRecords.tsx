@@ -34,10 +34,10 @@ export const CalculatorRecords: React.FC<Props> = () => {
   const {
     accountBalance,
     records,
-    setRecordById,
-    usdJpy,
     removeRecordById,
     resetRecordById,
+    setRecordById,
+    usdJpy,
   } = useLeverageCalculator()
 
   const calcTotalOrderPriceAsJpy = (orders: Order[]): number => {

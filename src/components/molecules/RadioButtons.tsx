@@ -14,10 +14,10 @@ type OwnProps<TValue extends string> = {
 }
 
 export const RadioButtons = <TValue extends string>({
+  exCss,
   onChange,
   selectedValue,
   values,
-  exCss,
 }: OwnProps<TValue>): ReactElement => {
   return (
     <RadioGroup

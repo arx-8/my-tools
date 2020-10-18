@@ -20,8 +20,9 @@ module.exports = {
   plugins: [
     // CI で warn も検知可能にするため、全て error にする
     "only-error",
-    "typescript-sort-keys",
+    "sort-destructure-keys",
     "sort-keys-fix",
+    "typescript-sort-keys",
   ],
   rules: {
     "import/no-default-export": "error",
@@ -59,6 +60,7 @@ module.exports = {
       },
     ],
     "react/void-dom-elements-no-children": "error",
+    "sort-destructure-keys/sort-destructure-keys": "error",
     "sort-keys-fix/sort-keys-fix": "error",
 
     "typescript-sort-keys/interface": "error",
