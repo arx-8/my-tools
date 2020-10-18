@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import { SerializedStyles, css, jsx } from "@emotion/core"
 import { Container } from "@material-ui/core"
-import React, { Fragment, ReactNode } from "react"
+import React, { Fragment, ReactChild } from "react"
 import { AppBar } from "src/components/organisms/AppBar"
 
 type OwnProps = {
-  children: ReactNode
+  children: ReactChild | ReactChild[]
   exCss?: SerializedStyles
 }
 
