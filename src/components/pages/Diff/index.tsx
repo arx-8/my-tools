@@ -38,9 +38,11 @@ export const Diff: React.FC<OwnProps> = () => {
   >()
 
   // compressor と、その loading status
-  const { compress, decompress, isCompressing } = useCompressor<
-    UrlStoreValues
-  >()
+  const {
+    compress,
+    decompress,
+    isCompressing,
+  } = useCompressor<UrlStoreValues>()
   const [compressingStatus] = useActionStatus(isCompressing, 3000)
 
   // decompress 完了までにサンプルが見えると不快なため、ブックマーク遷移の場合は空表示にする
