@@ -10,12 +10,12 @@ import { useFetch } from "src/components/helpers/useFetch"
 import { APP_VER } from "src/constants/app"
 import { fetchLatest } from "src/dataLayer/exchangeRatesApi"
 import {
-  JPY,
   addMoney,
   calcLeverage,
   calcTotalProfitOrLossAsJpy,
   convertCurrency,
   getMoneyValue,
+  JPY,
   multiplyMoney,
   newEmptyMoney,
 } from "src/domainLayer/investment/Money"

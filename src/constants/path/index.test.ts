@@ -1,6 +1,5 @@
 import { CastAny } from "src/types/utils"
 import { CompressedString } from "src/utils/compress"
-
 import { DynamicRoutePath } from "."
 
 describe("DynamicRoutePath", () => {

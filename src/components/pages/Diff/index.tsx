@@ -11,14 +11,14 @@ import { RichTextarea } from "src/components/molecules/RichTextarea"
 import { ChooseOptions } from "src/components/pages/Diff/ChooseOptions"
 import { DiffResult } from "src/components/pages/Diff/DiffResult"
 import {
-  UrlStoreValues,
   toStateValues,
   toUrlStoreValues,
+  UrlStoreValues,
 } from "src/components/pages/Diff/utils"
 import { dispNone, padT2 } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
 import { DynamicRoutePath } from "src/constants/path"
-import { DiffMode, DiffOptions, diff } from "src/utils/diff"
+import { diff, DiffMode, DiffOptions } from "src/utils/diff"
 
 type OwnProps = {
   children?: never

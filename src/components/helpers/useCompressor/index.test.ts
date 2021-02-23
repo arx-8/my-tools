@@ -1,6 +1,5 @@
 import { act, renderHook } from "@testing-library/react-hooks"
 import { UrlStoreValues } from "src/components/pages/Diff/utils"
-
 import { useCompressor } from "."
 
 describe("whole", () => {

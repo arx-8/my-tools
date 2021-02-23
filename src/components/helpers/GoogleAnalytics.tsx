@@ -1,5 +1,4 @@
 import "autotrack/lib/plugins/event-tracker"
-
 import { History } from "history"
 import React, { useEffect } from "react"
 import ReactGA from "react-ga"

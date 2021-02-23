@@ -24,7 +24,7 @@ import {
   multiplyMoney,
   setMoneyCurrency,
 } from "src/domainLayer/investment/Money"
-import { Order, getHeadOrderStrict } from "src/domainLayer/investment/Order"
+import { getHeadOrderStrict, Order } from "src/domainLayer/investment/Order"
 
 type Props = {
   children?: never

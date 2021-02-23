@@ -1,5 +1,4 @@
 import { newEmptyMoney } from "src/domainLayer/investment/Money"
-
 import { getWholeSelectStatus } from "./Order"
 import type { Order } from "./Order"
 

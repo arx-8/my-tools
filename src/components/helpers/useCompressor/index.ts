@@ -1,8 +1,8 @@
 import { useState } from "react"
 import {
+  compress as _compress,
   CompressedString,
   CompressibleObject,
-  compress as _compress,
   decompress as _decompress,
 } from "src/utils/compress"
 import { sleep } from "src/utils/threadUtils"

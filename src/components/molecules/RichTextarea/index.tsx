@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { SerializedStyles, css, jsx } from "@emotion/core"
+import { css, jsx, SerializedStyles } from "@emotion/core"
 import { TextareaAutosize } from "@material-ui/core"
 import zIndex from "@material-ui/core/styles/zIndex"
 import DeleteIcon from "@material-ui/icons/Delete"
