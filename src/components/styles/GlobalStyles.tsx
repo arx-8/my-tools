@@ -1,6 +1,6 @@
 import { css, Global } from "@emotion/core"
 import { createMuiTheme, ThemeProvider } from "@material-ui/core"
-import emotionNormalize from "emotion-normalize"
+import "normalize.css"
 import React, { ReactChild } from "react"
 
 type OwnProps = {
@@ -20,8 +20,6 @@ export const GlobalStyles: React.FC<OwnProps> = ({ children }) => {
  * for emotion
  */
 const globalStyles = css`
-  ${emotionNormalize}
-
   body {
     margin: 0;
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
