@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { InterpolationWithTheme, jsx } from "@emotion/core"
+import { InterpolationWithTheme, jsx } from "@emotion/react"
 import { ButtonProps, CircularProgress } from "@material-ui/core"
 import { green } from "@material-ui/core/colors"
 import CheckCircleIcon from "@material-ui/icons/CheckCircle"

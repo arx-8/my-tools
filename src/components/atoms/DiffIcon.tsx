@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { InterpolationWithTheme, jsx } from "@emotion/core"
+import { InterpolationWithTheme, jsx } from "@emotion/react"
 import React from "react"
 import diffIcon from "src/assets/diffIcon.jpg"
 import { CastAny } from "src/types/utils"

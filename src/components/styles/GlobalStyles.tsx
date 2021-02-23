@@ -1,4 +1,4 @@
-import { css, Global } from "@emotion/core"
+import { css, Global } from "@emotion/react"
 import { createMuiTheme, ThemeProvider } from "@material-ui/core"
 import "normalize.css"
 import React, { ReactChild } from "react"

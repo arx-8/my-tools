@@ -7,7 +7,7 @@
     "npm": ">=6"
   },
   "dependencies": {
-    "@emotion/core": "10.0.35",
+    "@emotion/react": "11.1.5",
     "@material-ui/core": "4.11.3",
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -58,9 +58,9 @@
     "npm-run-all": "4.1.5",
     "prettier": "2.2.1",
     "prettier-plugin-organize-imports": "1.1.1",
-    "react-scripts": "3.4.3",
+    "react-scripts": "4.0.3",
     "source-map-explorer": "2.5.2",
-    "typescript": "3.9.9"
+    "typescript": "4.2.3"
   },
   "scripts": {
     "analyze:run": "source-map-explorer 'build/static/js/*.js' --html misc/source-map-explorer.html",

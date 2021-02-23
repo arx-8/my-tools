@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { DiffIcon } from "src/components/atoms/DiffIcon"
 import { InvestmentIcon } from "src/components/atoms/InvestmentIcon"
 import { MysqlIcon } from "src/components/atoms/MysqlIcon"

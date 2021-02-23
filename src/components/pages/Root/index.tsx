@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import React from "react"
 import logo from "src/assets/logo.svg"
 import { Layout } from "src/components/templates/Layout"

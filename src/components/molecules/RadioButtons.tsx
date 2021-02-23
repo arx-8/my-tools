@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { InterpolationWithTheme, jsx } from "@emotion/core"
+import { InterpolationWithTheme, jsx } from "@emotion/react"
 import { FormControlLabel, RadioGroup } from "@material-ui/core"
 import Radio from "@material-ui/core/Radio"
 import { ReactElement } from "react"

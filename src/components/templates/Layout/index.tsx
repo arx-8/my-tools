@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, SerializedStyles } from "@emotion/core"
+import { css, jsx, SerializedStyles } from "@emotion/react"
 import { Container } from "@material-ui/core"
 import React, { Fragment, ReactChild } from "react"
 import { AppBar } from "src/components/organisms/AppBar"

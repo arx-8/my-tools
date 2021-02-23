@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { TextareaAutosize } from "@material-ui/core"
 import AssignmentIcon from "@material-ui/icons/Assignment"
 import ToggleButton from "@material-ui/lab/ToggleButton"

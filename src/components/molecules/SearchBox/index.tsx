@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from "@emotion/core"
+import { jsx } from "@emotion/react"
 import { createStyles, fade, makeStyles } from "@material-ui/core"
 import InputBase from "@material-ui/core/InputBase"
 import SearchIcon from "@material-ui/icons/Search"

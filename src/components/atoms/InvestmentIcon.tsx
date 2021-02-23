@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, SerializedStyles } from "@emotion/core"
+import { css, jsx, SerializedStyles } from "@emotion/react"
 import React from "react"
 import { ReactComponent as Svg } from "src/assets/investment.svg"
 import { CastAny } from "src/types/utils"

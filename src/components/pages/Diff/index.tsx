@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { green, grey, red } from "@material-ui/core/colors"
 import React, { useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router-dom"
