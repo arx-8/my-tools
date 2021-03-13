@@ -26,6 +26,7 @@ import {
   calcAveragePrice,
   getHeadOrderStrict,
 } from "src/domainLayer/investment/Order"
+import { nonNull } from "src/types/utils"
 import { sortBy } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -50,7 +51,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     isLong,
     orders,
     selectedComparePriceIndex,
-  } = records[recordIndex]
+  } = nonNull(records[recordIndex])
 
   const setRecord = setRecordById(_id)
   const order1st = getHeadOrderStrict(orders)

@@ -34,3 +34,10 @@ export function assertNotNull<T>(x: T): asserts x is NonNullable<T> {
     throw new Error(`Unexpected null / undefined. Should have been never.`)
   }
 }
+
+export const nonNull = <T>(x: T): NonNullable<T> => {
+  if (x == null) {
+    throw new Error(`Unexpected null / undefined. Should have been never.`)
+  }
+  return x as CastAny
+}

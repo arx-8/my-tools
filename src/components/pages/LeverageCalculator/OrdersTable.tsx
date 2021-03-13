@@ -17,6 +17,7 @@ import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 import { useLeverageCalculator } from "src/components/helpers/LeverageCalculatorContext"
 import { getMoneyValue, setMoneyValue } from "src/domainLayer/investment/Money"
 import { getWholeSelectStatus } from "src/domainLayer/investment/Order"
+import { nonNull } from "src/types/utils"
 import { SortDirection } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -32,7 +33,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
   )
 
   const { records, setRecordById } = useLeverageCalculator()
-  const { _id, orders } = records[recordIndex]
+  const { _id, orders } = nonNull(records[recordIndex])
 
   const setRecord = setRecordById(_id)
 
@@ -95,7 +96,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
                     inputProps={{ "aria-labelledby": `${_id}.orders.${index}` }}
                     onChange={(e) => {
                       setRecord((draft) => {
-                        draft.orders[index].selected = e.target.checked
+                        nonNull(draft.orders[index]).selected = e.target.checked
                       })
                     }}
                   />
@@ -109,7 +110,9 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
                     )}
                     onChangeValue={(v) => {
                       setRecord((draft) => {
-                        draft.orders[index].targetUnitPrice = setMoneyValue(
+                        nonNull(
+                          draft.orders[index]
+                        ).targetUnitPrice = setMoneyValue(
                           o.targetUnitPrice,
                           v ?? 0
                         )
@@ -125,7 +128,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
                     arrowInputStep={calc10PerStep(o.orderQuantity)}
                     onChangeValue={(v) => {
                       setRecord((draft) => {
-                        draft.orders[index].orderQuantity = v ?? 0
+                        nonNull(draft.orders[index]).orderQuantity = v ?? 0
                       })
                     }}
                     value={o.orderQuantity}
@@ -167,7 +170,7 @@ export const OrdersTable: React.FC<Props> = ({ recordIndex }) => {
         onClick={() =>
           setRecord((draft) => {
             // 近い価格で発注することが多いはずなので、初期値は直近と同じ価格
-            draft.orders.push(draft.orders[draft.orders.length - 1])
+            draft.orders.push(nonNull(draft.orders[draft.orders.length - 1]))
           })
         }
         size="small"

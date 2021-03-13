@@ -19,7 +19,7 @@ import {
   multiplyMoney,
   newEmptyMoney,
 } from "src/domainLayer/investment/Money"
-import { CastAny } from "src/types/utils"
+import { CastAny, nonNull } from "src/types/utils"
 import { ulid } from "ulid"
 
 type Props = {
@@ -138,7 +138,7 @@ export const Provider: React.FC<Props> = ({ children }) => {
       return (
         acc +
         calcTotalProfitOrLossAsJpy(
-          curr.comparePrices[curr.selectedComparePriceIndex!],
+          nonNull(curr.comparePrices[curr.selectedComparePriceIndex]),
           curr.orders,
           curr.isLong,
           usdJpy
