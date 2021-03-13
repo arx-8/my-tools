@@ -40,7 +40,7 @@ const _checkDiffModeValues: never = null as CheckDiffModeValues
 /**
  * DiffOptions
  */
-export type DiffOptions = {} & DeepNonNullable<BaseOptions>
+export type DiffOptions = DeepNonNullable<BaseOptions>
 
 export type DiffOptionKey = keyof DiffOptions
 

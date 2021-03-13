@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { CircularProgress, Paper, Table, TableBody } from "@material-ui/core"
 import { grey } from "@material-ui/core/colors"
 import TableCell from "@material-ui/core/TableCell"

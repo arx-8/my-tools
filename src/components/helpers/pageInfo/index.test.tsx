@@ -1,6 +1,5 @@
 import difference from "lodash/difference"
 import { StaticRoutePath } from "src/constants/path"
-
 import { pageInfo } from "."
 
 describe("pageInfo", () => {

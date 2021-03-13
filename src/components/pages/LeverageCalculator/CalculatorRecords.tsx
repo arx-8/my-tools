@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { FormControlLabel, Paper, Radio } from "@material-ui/core"
 import { grey, red } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
@@ -24,7 +25,7 @@ import {
   multiplyMoney,
   setMoneyCurrency,
 } from "src/domainLayer/investment/Money"
-import { Order, getHeadOrderStrict } from "src/domainLayer/investment/Order"
+import { getHeadOrderStrict, Order } from "src/domainLayer/investment/Order"
 
 type Props = {
   children?: never

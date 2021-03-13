@@ -23,10 +23,7 @@ type ReactRouterPathKey = keyof typeof _ReactRouterPath
  * ReactRouterPath の値を Brand 型に縛るための型
  * history.push では使えない path の値 (<Route /> でのみ使える)
  */
-export type ReactRouterPathValue = Brand<
-  ValueOf<typeof _ReactRouterPath>,
-  "ReactRouterPathValue"
->
+export type ReactRouterPathValue = ValueOf<typeof _ReactRouterPath>
 export const ReactRouterPath: Record<
   ReactRouterPathKey,
   ReactRouterPathValue

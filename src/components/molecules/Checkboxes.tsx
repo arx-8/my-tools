@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from "@emotion/core"
+import { jsx } from "@emotion/react"
 import { Checkbox, FormControlLabel } from "@material-ui/core"
 import { Fragment, ReactElement } from "react"
 

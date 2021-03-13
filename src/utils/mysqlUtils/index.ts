@@ -57,7 +57,9 @@ export const mysqlTableToJson = (mysqlTableStr: string): string => {
   )
 }
 
-export const csvToObject = <T extends object = Record<string, CastAny>>(
+export const csvToObject = <
+  T extends Record<string, unknown> = Record<string, CastAny>
+>(
   csvStr: string
 ): T => {
   return csvTools.toJSON(csvStr.trim())

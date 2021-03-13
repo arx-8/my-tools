@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { Slide, useScrollTrigger } from "@material-ui/core"
 import MuiAppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"

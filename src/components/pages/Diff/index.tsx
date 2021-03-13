@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { green, grey, red } from "@material-ui/core/colors"
 import React, { useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router-dom"
@@ -11,14 +12,14 @@ import { RichTextarea } from "src/components/molecules/RichTextarea"
 import { ChooseOptions } from "src/components/pages/Diff/ChooseOptions"
 import { DiffResult } from "src/components/pages/Diff/DiffResult"
 import {
-  UrlStoreValues,
   toStateValues,
   toUrlStoreValues,
+  UrlStoreValues,
 } from "src/components/pages/Diff/utils"
 import { dispNone, padT2 } from "src/components/styles/styles"
 import { Layout } from "src/components/templates/Layout"
 import { DynamicRoutePath } from "src/constants/path"
-import { DiffMode, DiffOptions, diff } from "src/utils/diff"
+import { diff, DiffMode, DiffOptions } from "src/utils/diff"
 
 type OwnProps = {
   children?: never
@@ -38,9 +39,11 @@ export const Diff: React.FC<OwnProps> = () => {
   >()
 
   // compressor と、その loading status
-  const { compress, decompress, isCompressing } = useCompressor<
-    UrlStoreValues
-  >()
+  const {
+    compress,
+    decompress,
+    isCompressing,
+  } = useCompressor<UrlStoreValues>()
   const [compressingStatus] = useActionStatus(isCompressing, 3000)
 
   // decompress 完了までにサンプルが見えると不快なため、ブックマーク遷移の場合は空表示にする

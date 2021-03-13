@@ -6,7 +6,7 @@
  */
 declare module "json-url" {
   // declare module "json-url/dist/browser/json-url" {
-  type Codec<TSrc extends object> = {
+  type Codec<TSrc extends Record<string, unknown>> = {
     compress: (obj: TSrc) => Promise<string>
     decompress: (str: string) => Promise<TSrc>
     stats: (
@@ -20,7 +20,9 @@ declare module "json-url" {
 
   type CodecName = "lzw" | "lzma" | "lzstring" | "pack"
 
-  const jsonurl: <TSrc extends object>(codecName: CodecName) => Codec<TSrc>
+  const jsonurl: <TSrc extends Record<string, unknown>>(
+    codecName: CodecName
+  ) => Codec<TSrc>
 
   export default jsonurl
 }

@@ -1,13 +1,13 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { InterpolationWithTheme, jsx } from "@emotion/core"
+import { jsx, SerializedStyles } from "@emotion/react"
 import { FormControlLabel, RadioGroup } from "@material-ui/core"
 import Radio from "@material-ui/core/Radio"
 import { ReactElement } from "react"
-import { CastAny } from "src/types/utils"
 
 type OwnProps<TValue extends string> = {
   children?: never
-  exCss?: InterpolationWithTheme<CastAny>
+  exCss?: SerializedStyles
   onChange: (value: TValue) => void
   selectedValue: TValue
   values: readonly TValue[]

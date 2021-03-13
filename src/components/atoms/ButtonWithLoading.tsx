@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { InterpolationWithTheme, jsx } from "@emotion/core"
+import { jsx, SerializedStyles } from "@emotion/react"
 import { ButtonProps, CircularProgress } from "@material-ui/core"
 import { green } from "@material-ui/core/colors"
 import CheckCircleIcon from "@material-ui/icons/CheckCircle"
@@ -7,7 +8,6 @@ import LinkIcon from "@material-ui/icons/Link"
 import React from "react"
 import { ButtonGA, ButtonGAProps } from "src/components/atoms/ButtonGA"
 import { ActionStatus } from "src/components/helpers/useActionStatus"
-import { CastAny } from "src/types/utils"
 
 // color, size 等を変更したい場合は、props を追加して上書きする
 const iconMap: Record<ActionStatus, ButtonProps["endIcon"]> = {
@@ -19,7 +19,7 @@ const iconMap: Record<ActionStatus, ButtonProps["endIcon"]> = {
 type OwnProps = {
   children: ButtonProps["children"]
   disabled: boolean
-  exCss?: InterpolationWithTheme<CastAny>
+  exCss?: SerializedStyles
   onClick: ButtonProps["onClick"]
   status: ActionStatus
 }

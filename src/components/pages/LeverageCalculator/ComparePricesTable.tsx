@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { Radio, TableSortLabel } from "@material-ui/core"
 import { grey } from "@material-ui/core/colors"
 import Table from "@material-ui/core/Table"
@@ -25,6 +26,7 @@ import {
   calcAveragePrice,
   getHeadOrderStrict,
 } from "src/domainLayer/investment/Order"
+import { nonNull } from "src/types/utils"
 import { sortBy } from "src/utils/arrayUtils"
 import { calc10PerStep } from "src/utils/numberUtils"
 
@@ -49,7 +51,7 @@ export const ComparePricesTable: React.FC<Props> = ({ recordIndex }) => {
     isLong,
     orders,
     selectedComparePriceIndex,
-  } = records[recordIndex]
+  } = nonNull(records[recordIndex])
 
   const setRecord = setRecordById(_id)
   const order1st = getHeadOrderStrict(orders)

@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from "@emotion/core"
+import { jsx } from "@emotion/react"
 import { IconButtonProps } from "@material-ui/core"
 import IconButton from "@material-ui/core/IconButton"
 import React from "react"

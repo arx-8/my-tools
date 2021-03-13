@@ -10,12 +10,8 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
-    /** @see https://github.com/prettier/eslint-config-prettier#installation */
-    "prettier",
-    "prettier/standard",
-    "prettier/@typescript-eslint",
-    "prettier/react",
     "react-app",
+    "prettier",
   ],
   plugins: [
     // CI で warn も検知可能にするため、全て error にする

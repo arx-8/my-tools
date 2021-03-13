@@ -1,5 +1,6 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core"
+import { css, jsx } from "@emotion/react"
 import { green, grey, red } from "@material-ui/core/colors"
 import zIndex from "@material-ui/core/styles/zIndex"
 import FullscreenIcon from "@material-ui/icons/Fullscreen"

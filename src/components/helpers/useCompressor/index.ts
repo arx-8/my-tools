@@ -1,8 +1,8 @@
 import { useState } from "react"
 import {
+  compress as _compress,
   CompressedString,
   CompressibleObject,
-  compress as _compress,
   decompress as _decompress,
 } from "src/utils/compress"
 import { sleep } from "src/utils/threadUtils"
@@ -14,9 +14,9 @@ type ReturnValues<TSrc> = {
   isDecompressing: boolean
 }
 
-export const useCompressor = <TSrc extends CompressibleObject>(): ReturnValues<
-  TSrc
-> => {
+export const useCompressor = <
+  TSrc extends CompressibleObject
+>(): ReturnValues<TSrc> => {
   const [isCompressing, setIsCompressing] = useState(false)
   const [isDecompressing, setIsDecompressing] = useState(false)
 

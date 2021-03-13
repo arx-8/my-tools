@@ -1,12 +1,12 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { InterpolationWithTheme, jsx } from "@emotion/core"
+import { jsx, SerializedStyles } from "@emotion/react"
 import React from "react"
 import diffIcon from "src/assets/diffIcon.jpg"
-import { CastAny } from "src/types/utils"
 
 type OwnProps = {
   children?: never
-  exCss?: InterpolationWithTheme<CastAny>
+  exCss?: SerializedStyles
 }
 
 export const DiffIcon: React.FC<OwnProps> = ({ exCss }) => {

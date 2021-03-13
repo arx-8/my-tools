@@ -1,7 +1,7 @@
 import {
-  Money,
   addMoney,
   divideMoney,
+  Money,
   multiplyMoney,
   newEmptyMoney,
   setMoneyValue,
