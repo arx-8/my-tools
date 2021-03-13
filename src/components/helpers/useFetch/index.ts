@@ -1,17 +1,17 @@
 import { useState } from "react"
 
-type Props<TData extends object> = {
+type Props<TData extends Record<string, unknown>> = {
   cacheTime?: number
   fetcher: () => Promise<TData>
 }
 
-type ReturnType<TData extends object> = {
+type ReturnType<TData extends Record<string, unknown>> = {
   data?: TData
   execFetch: () => Promise<TData | undefined>
   isFetching: boolean
 }
 
-export const useFetch = <TData extends object>({
+export const useFetch = <TData extends Record<string, unknown>>({
   cacheTime = 1,
   fetcher,
 }: Props<TData>): ReturnType<TData> => {

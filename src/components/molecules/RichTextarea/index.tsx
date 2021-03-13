@@ -5,7 +5,7 @@ import { TextareaAutosize } from "@material-ui/core"
 import zIndex from "@material-ui/core/styles/zIndex"
 import DeleteIcon from "@material-ui/icons/Delete"
 import throttle from "lodash/throttle"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { IconButtonGA } from "src/components/atoms/IconButtonGA"
 
 type OwnProps = {
@@ -28,9 +28,10 @@ export const RichTextarea: React.FC<OwnProps> = ({
 }) => {
   const [innerValue, setInnerValue] = useState(initialValue)
 
-  const _onChangeThrottled = useCallback(
-    throttle(onChangeThrottled, throttleWait),
-    []
+  const _onChangeThrottled = useMemo(
+    () => throttle(onChangeThrottled, throttleWait),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [throttleWait]
   )
 
   useEffect(() => {
