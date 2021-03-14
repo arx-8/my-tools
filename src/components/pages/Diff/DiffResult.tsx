@@ -89,11 +89,11 @@ const diffArea = css`
 `
 
 const addedCss = css`
-  background-color: ${red["200"]};
+  background-color: ${green["200"]};
 `
 
 const removedCss = css`
-  background-color: ${green["200"]};
+  background-color: ${red["200"]};
 `
 
 const noDiffCss = css`

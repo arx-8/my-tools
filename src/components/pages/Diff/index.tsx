@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react"
 import { green, grey, red } from "@material-ui/core/colors"
+import OpenInNewIcon from "@material-ui/icons/OpenInNew"
 import React, { useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { ButtonWithLoading } from "src/components/atoms/ButtonWithLoading"
@@ -124,6 +125,17 @@ export const Diff: React.FC<OwnProps> = () => {
         Generate URL
       </ButtonWithLoading>
 
+      <div css={padT2}>
+        <a
+          css={linkWithIcon}
+          href="https://bitly.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <OpenInNewIcon fontSize="small" />
+          link shortener
+        </a>
+      </div>
       <div css={padT2}></div>
       <ChooseOptions
         diffMode={diffMode}
@@ -167,6 +179,11 @@ export const Diff: React.FC<OwnProps> = () => {
   )
 }
 
+const linkWithIcon = css`
+  text-decoration: none;
+  border-bottom: 1px solid;
+`
+
 const main = css`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -180,13 +197,13 @@ const baseDiffText = css`
 `
 
 const diffSrc1 = css`
-  border: 1px solid ${green["700"]};
+  border: 1px solid ${red["700"]};
   /* border-right: 1px solid ${grey["600"]}; */
   border-radius: 4px 0 0 4px;
 `
 
 const diffSrc2 = css`
-  border: 1px solid ${red["700"]};
+  border: 1px solid ${green["700"]};
   /* border-left: 1px solid ${grey["600"]}; */
   border-radius: 0 4px 4px 0;
 
