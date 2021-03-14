@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react"
 import { green, grey, red } from "@material-ui/core/colors"
+import OpenInNewIcon from "@material-ui/icons/OpenInNew"
 import React, { useEffect, useMemo, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { ButtonWithLoading } from "src/components/atoms/ButtonWithLoading"
@@ -124,6 +125,17 @@ export const Diff: React.FC<OwnProps> = () => {
         Generate URL
       </ButtonWithLoading>
 
+      <div css={padT2}>
+        <a
+          css={linkWithIcon}
+          href="https://bitly.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <OpenInNewIcon fontSize="small" />
+          link shortener
+        </a>
+      </div>
       <div css={padT2}></div>
       <ChooseOptions
         diffMode={diffMode}
@@ -166,6 +178,11 @@ export const Diff: React.FC<OwnProps> = () => {
     </Layout>
   )
 }
+
+const linkWithIcon = css`
+  text-decoration: none;
+  border-bottom: 1px solid;
+`
 
 const main = css`
   display: grid;
