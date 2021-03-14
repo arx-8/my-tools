@@ -180,13 +180,13 @@ const baseDiffText = css`
 `
 
 const diffSrc1 = css`
-  border: 1px solid ${green["700"]};
+  border: 1px solid ${red["700"]};
   /* border-right: 1px solid ${grey["600"]}; */
   border-radius: 4px 0 0 4px;
 `
 
 const diffSrc2 = css`
-  border: 1px solid ${red["700"]};
+  border: 1px solid ${green["700"]};
   /* border-left: 1px solid ${grey["600"]}; */
   border-radius: 0 4px 4px 0;
 
